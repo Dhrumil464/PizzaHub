@@ -77,6 +77,7 @@
                 <strong>{{ $message }}</strong>
             </div>
         @endif
+        
         <div id="login-left">
             <div class="logo">
                 <img src="/OnlinePizzaDelivery/img/sample_logo.png" alt="">
