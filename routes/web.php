@@ -4,11 +4,13 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // for direct open with admin index/login page 
-Route::get('/admin', [ UserController::class, 'adminIndex' ])->name('admin.index'); // dir. /  Controller   /  func.
+Route::get('/admin', [ UserController::class, 'adminIndex' ])->name('admin.login'); // dir. /  Controller   /  func.
 
 Route::post('/admin/handleLogin',[ UserController::class , 'handleAdminLogin' ])->name('admin.handleAdminLogin');
 
-Route::get('/admin/dashboard/{loginsuccess}',[ UserController::class , 'dashboard'])->name('admin.dashboard');
+Route::get('/admin/index/{loginsuccess}',[ UserController::class , 'dashboardIndex'])->name('admin.index');  // dashboard / index
+
+Route::get('/admin/dashboard/{page}',[ UserController::class , 'adminDashboard'])->name('admin.dashboard');  // dashboard
 
 Route::post('/admin/logout', [ UserController::class , 'logout' ])->name('admin.logout');
 

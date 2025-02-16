@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <title>Login</title>
-    <link rel = "icon" href ="/OnlinePizzaDelivery/img/logo.jpg" type = "image/x-icon">
+    <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
 
     <style>
         body {
@@ -80,7 +80,7 @@
         
         <div id="login-left">
             <div class="logo">
-                <img src="/OnlinePizzaDelivery/img/sample_logo.png" alt="">
+                <img src="/img/sample_logo.png" alt="">
             </div>
         </div>
         <div id="login-right">

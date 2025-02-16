@@ -72,7 +72,7 @@
             background: #4b5366;
             padding: 16px 25px;
             margin: -20px -25px 10px;
-            border-radius: 3px 3px 0 0;
+            border-radius: 14px;
         }
 
         .table-title h2 {
@@ -165,7 +165,7 @@
         @if ($id == 1)
             <div class="container">
                 <div class="table-wrapper" id="empty">
-                    <div class="table-title">
+                    <div class="table-title" >
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Order <b>Details</b></h2>
@@ -180,7 +180,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover text-center table-sm">
+                        <table class="table table-striped table-hover text-center">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Order Id</th>

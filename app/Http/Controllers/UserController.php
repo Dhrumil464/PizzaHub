@@ -30,9 +30,8 @@ class UserController extends Controller
             {
                 if (password_verify($password, $user->password)) {
                     session(['adminloggedin' => true, 'adminusername' => $username, 'adminuserId' => $user->userType]);
-    
                     // when match logged in so redirect to the dashboard
-                    return redirect()->route('admin.dashboard', ['loginsuccess' => 'true'])->with('success', 'Login successful');
+                    return redirect()->route('admin.index', ['loginsuccess' => 'true']);
                 } else {
                     return back()->with('error', 'Invalid Credentials');
                 }
@@ -46,17 +45,21 @@ class UserController extends Controller
     }
 
 
-    public function dashboard()  // redirection comes here
+    public function dashboardIndex()  // redirection comes here
     {
-        if(request('loginsuccess') == 'true')
-        {
-            return view('welcome');
-        }
-        else {
-            return redirect()->route('admin.index', ['loginsuccess' => 'false'])->with('error', 'Login Now');
-        }
+        return view('admin.index');
+    }
+    
+
+    public function adminDashboard()
+    {
+        return view('admin.dashboard');
     }
 
+    public function home()
+    {
+        return view('admin.home');
+    }
 
     // logout function
     public function adminLogout(Request $request)
