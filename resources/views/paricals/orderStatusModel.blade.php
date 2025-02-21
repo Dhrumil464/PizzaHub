@@ -161,9 +161,9 @@
 <div class="modal fade" id="orderStatus" tabindex="-1" role="dialog" aria-labelledby="orderStatus" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header text-light" style="background: #4b5366;">
                 <h5 class="modal-title" id="orderStatus">Order Status</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
