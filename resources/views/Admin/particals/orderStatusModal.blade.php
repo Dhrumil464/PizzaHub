@@ -9,9 +9,9 @@
 <div class="modal fade" id="orderStatus" tabindex="-1" role="dialog" aria-labelledby="orderStatus" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: rgb(111 202 203);">
+            <div class="modal-header text-light" style="background-color: #4b5366;">
                 <h5 class="modal-title" id="orderStatus">Order Status and Delivery Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

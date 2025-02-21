@@ -10,9 +10,9 @@
      style="width: -webkit-fill-available;">
      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
          <div class="modal-content">
-             <div class="modal-header" style="background-color: rgb(111 202 203);">
+             <div class="modal-header text-light" style="background-color: #4b5366;">
                  <h5 class="modal-title" id="orderItem">Order Items Order Id: $orderid</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
@@ -22,7 +22,7 @@
                      <div class="row">
                          <!-- Shopping cart table -->
                          <div class="table-responsive">
-                             <table class="table text">
+                             <table class="table table-hover">
                                  <thead>
                                      <tr>
                                          <th scope="col" class="border-0 bg-light">

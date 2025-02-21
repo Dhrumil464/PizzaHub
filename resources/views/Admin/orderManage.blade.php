@@ -15,7 +15,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-striped table-hover text-center" id="NoOrder">
+            <table class="table table-striped table-bordered table-hover text-center" id="NoOrder">
                 <thead class="thead-dark">
                     <tr>
                         <th>Order Id</th>

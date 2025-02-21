@@ -62,8 +62,8 @@
                 <div class="card" style="border-radius: 12px;">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover mb-0">
-                                <thead style="background-color: #4b5366;" class="text-light">
+                            <table class="table table-bordered mb-0">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th class="text-center" style="width:7%;">Cat. Id</th>
                                         <th class="text-center">Img</th>

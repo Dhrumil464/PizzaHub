@@ -43,8 +43,8 @@
                 <div class="card" style="border-radius: 12px;">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover mb-0">
-                                <thead style="background-color: #4b5366;" class="text-light">
+                            <table class="table table-bordered mb-0">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th class="text-center" style="width:7%;">Id</th>
                                         <th class="text-center">Img</th>
@@ -106,7 +106,7 @@
             <div class="modal-header text-light" style="background-color: #4b5366;">
                 <h5 class="modal-title" id="updateCat">Category Id: <b> $catId </b>
                 </h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

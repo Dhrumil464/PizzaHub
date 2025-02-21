@@ -36,3 +36,19 @@ menuManage Page
 orderManage Page
 // Particals for orderPage
 orderItemModal Page
+
+21/02/2025
+// user side 
+// particals
+checkoutModal page
+orderItemModal Page
+orderStatusModal Page
+
+// admin side
+categoryManage page
+menuManage Page
+orderManage Page
+
+// particals
+orderItemModal page
+orderStatusModal Page
