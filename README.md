@@ -36,4 +36,3 @@ menuManage Page
 orderManage Page
 // Particals for orderPage
 orderItemModal Page
-orderStatusModal Page
