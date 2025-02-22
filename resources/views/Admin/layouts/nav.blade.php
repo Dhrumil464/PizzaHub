@@ -4,14 +4,14 @@
     </div>
 
     <div class="header__img">
-        <img src="{{ asset('assetsForSideBar/img/profil.jpg') }}" alt="">
+        <img src="{{ asset('/assetsForSideBar/img/profil.jpg') }}" alt="">
     </div>
 </header>
 
 <div class="l-navbar" id="nav-bar">
     <nav class="nav">
         <div>
-            <a href="{{ route('admin.index', ['loginsuccess' => 'false']) }}" class="nav__logo">
+            <a href="{{ route('admin.dashboard', ['page' => 'home']) }}" class="nav__logo">
                 <i class='bx bx-layer nav__logo-icon'></i>
                 <span class="nav__logo-name">Pizza Hub</span>
             </a>
@@ -33,21 +33,21 @@
                     <i class='bx bx-message-square-detail nav__icon'></i>
                     <span class="nav__name">Menu</span>
                 </a>
-                <a href="index.php?page=contactManage" class="nav__link nav-contactManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'contactManage']) }}" class="nav__link nav-contactManage">
                     <i class="fas fa-hands-helping"></i>
                     <span class="nav__name">contact Info</span>
                 </a>
-                <a href="index.php?page=userManage" class="nav__link nav-userManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'userManage']) }}" class="nav__link nav-userManage">
                     <i class='bx bx-user nav__icon'></i>
                     <span class="nav__name">Users</span>
                 </a>
-                <a href="index.php?page=siteManage" class="nav__link nav-siteManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'siteManage']) }}" class="nav__link nav-siteManage">
                     <i class="fas fa-cogs"></i>
                     <span class="nav__name">Site Settings</span>
                 </a>
             </div>
         </div>
-        <a href="partials/_logout.php" class="nav__link">
+        <a href="{{ route('admin.logout') }}" class="nav__link">
             <i class='bx bx-log-out nav__icon'></i>
             <span class="nav__name">Log Out</span>
         </a>

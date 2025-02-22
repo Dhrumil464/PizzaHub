@@ -12,7 +12,7 @@ Route::get('/admin/index/{loginsuccess}',[ UserController::class , 'dashboardInd
 
 Route::get('/admin/dashboard/{page}',[ UserController::class , 'adminDashboard'])->name('admin.dashboard');  // dashboard
 
-Route::post('/admin/logout', [ UserController::class , 'logout' ])->name('admin.logout');
+Route::get('/admin/logout', [ UserController::class , 'adminLogout' ])->name('admin.logout');
 
 
 

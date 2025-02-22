@@ -72,11 +72,11 @@
 
 <body>
     <main id="main" class=" bg-dark">
-        @if ($message = Session::get('success'))
+        {{-- @if ($message = Session::get('success'))
             <div class="alert alert-success alert-block">
                 <strong>{{ $message }}</strong>
             </div>
-        @endif
+        @endif --}}
         
         <div id="login-left">
             <div class="logo">
@@ -113,7 +113,7 @@
 
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Warning!</strong> {{ session('success') }}
+            <strong>Success!</strong> {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
         </div>
     @endif

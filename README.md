@@ -52,3 +52,12 @@ orderManage Page
 // particals
 orderItemModal page
 orderStatusModal Page
+
+22/02/2025
+//admin side
+navbar complete
+contactManage Page
+userManage Page
+siteManage Page
+admin Logout and session
+index and dashboard page fix

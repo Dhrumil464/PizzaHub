@@ -62,15 +62,11 @@ class UserController extends Controller
     }
 
     // logout function
-    public function adminLogout(Request $request)
+    public function adminLogout()
     {
-        // Session::forget(['adminloggedin', 'adminusername', 'adminuserId']);
+        Session()->forget(['adminloggedin', 'adminusername', 'adminuserId']);
 
-        // Invalidate and regenerate session
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('admin.index')->with('success', 'Logged out successfully.');
+        return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
     }
 
 
