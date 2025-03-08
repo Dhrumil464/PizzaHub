@@ -1,6 +1,17 @@
-@php
-    $id = 1;
-@endphp
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
+
+@include('paricals.loginModal')
+@include('paricals.signupModal')
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
     <a class="navbar-brand" href="{{ route('user.index') }}">Pizza Hub</a>
@@ -56,13 +67,13 @@
             </button>
         </a>
 
-        @if ($id)
+        @if ($userloggedin == true)
             <ul class="navbar-nav mr-2">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown">Welcome Admin</a>
+                        data-toggle="dropdown">Welcome {{ session('username') }}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="partials/_logout.php">Logout</a>
+                        <a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -79,6 +90,19 @@
     </div>
 </nav>
 
+@if (session('error'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
+    </div>
+@endif
+
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
+    </div>
+@endif
 
 @yield('content')
 

@@ -17,6 +17,9 @@
         #cont {
             min-height: 626px;
         }
+        .table-responsive::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
 
@@ -39,8 +42,9 @@
                     </div>
                     <div class="col-lg-8">
                         <div class="card wish-list mb-3">
-                            <table class="table text-center">
-                                <thead class="thead-light">
+                            <div class="table-responsive">
+                            <table class="table table-hover text-center">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">No.</th>
                                         <th scope="col">Item Name</th>
@@ -103,6 +107,7 @@
                                     @endif
                                 </tbody>
                             </table>
+                        </div>
                         </div>
                     </div>
                     <div class="col-lg-4">

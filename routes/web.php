@@ -34,3 +34,9 @@ Route::get('/viewCart', [UserController::class, 'viewCart'])->name('user.viewCar
 Route::get('/search', [UserController::class, 'search'])->name('user.search');
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
+
+Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->name('user.handleUserLogin');
+
+Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');
+
+Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');

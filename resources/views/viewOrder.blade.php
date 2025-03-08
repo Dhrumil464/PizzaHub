@@ -1,3 +1,15 @@
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
+
 <!doctype html>
 <html lang="en">
 
@@ -157,12 +169,9 @@
 </head>
 
 <body>
-    @php
-        $id = 1;
-    @endphp
     @extends('layouts.nav')
     @section('content')
-        @if ($id == 1)
+        @if ($userloggedin == true)
             <div class="container">
                 <div class="table-wrapper" id="empty">
                     <div class="table-title" >
