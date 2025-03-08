@@ -1,29 +1,32 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+/********************  Admin Part ***********************/
+
 // for direct open with admin index/login page 
-Route::get('/admin', [ UserController::class, 'adminIndex' ])->name('admin.login'); // dir. /  Controller   /  func.
+Route::get('/admin', [AdminController::class, 'adminIndex'])->name('admin.login'); // dir. /  Controller   /  func.
 
-Route::post('/admin/handleLogin',[ UserController::class , 'handleAdminLogin' ])->name('admin.handleAdminLogin');
+Route::post('/admin/handleLogin', [AdminController::class, 'handleAdminLogin'])->name('admin.handleAdminLogin');
 
-Route::get('/admin/index/{loginsuccess}',[ UserController::class , 'dashboardIndex'])->name('admin.index');  // dashboard / index
+Route::get('/admin/index/{loginsuccess}', [AdminController::class, 'dashboardIndex'])->name('admin.index');  // dashboard / index
 
-Route::get('/admin/dashboard/{page}',[ UserController::class , 'adminDashboard'])->name('admin.dashboard');  // dashboard
+Route::get('/admin/dashboard/{page}', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');  // dashboard
 
-Route::get('/admin/logout', [ UserController::class , 'adminLogout' ])->name('admin.logout');
+Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout'); // admin logout
 
 
 
 
 /********************  Users Part ***********************/
 
-Route::get('/', [UserController::class , 'userIndex'])->name('user.index');
+Route::get('/', [UserController::class, 'userIndex'])->name('user.index');
 
-Route::get('/viewProfile', [UserController::class , 'viewProfile'])->name('user.viewProfile');
+Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 
-Route::get('/viewOrder', [UserController::class , 'viewOrder'])->name('user.viewOrder');
+Route::get('/viewOrder', [UserController::class, 'viewOrder'])->name('user.viewOrder');
 
 Route::get('/viewPizzaList', [UserController::class, 'viewPizzaList'])->name('user.viewPizzaList');
 
