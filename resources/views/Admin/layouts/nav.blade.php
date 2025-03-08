@@ -17,31 +17,31 @@
             </a>
 
             <div class="nav__list">
-                <a href="{{ route('admin.dashboard', ['page' => 'home']) }}" class="nav__link nav-home">
+                <a href="{{ route('admin.dashboard', ['page' => 'home']) }}" class="nav__link nav-home {{ request('page') == 'home' ? 'active' : '' }}">
                     <i class='bx bx-grid-alt nav__icon'></i>
                     <span class="nav__name">Home</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'orderManage']) }}" class="nav-orderManage nav__link ">
+                <a href="{{ route('admin.dashboard', ['page' => 'orderManage']) }}" class="nav__link nav-orderManage {{ request('page') == 'orderManage' ? 'active' : '' }}">
                     <i class='bx bx-bar-chart-alt-2 nav__icon'></i>
                     <span class="nav__name">Orders</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'categoryManage']) }}" class="nav__link nav-categoryManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'categoryManage']) }}" class="nav__link nav-categoryManage {{ request('page') == 'categoryManage' ? 'active' : '' }}">
                     <i class='bx bx-folder nav__icon'></i>
                     <span class="nav__name">Category List</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'menuManage']) }}" class="nav__link nav-menuManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'menuManage']) }}" class="nav__link nav-menuManage {{ request('page') == 'menuManage' ? 'active' : '' }}">
                     <i class='bx bx-message-square-detail nav__icon'></i>
                     <span class="nav__name">Menu</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'contactManage']) }}" class="nav__link nav-contactManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'contactManage']) }}" class="nav__link nav-contactManage {{ request('page') == 'contactManage' ? 'active' : '' }}">
                     <i class="fas fa-hands-helping"></i>
                     <span class="nav__name">contact Info</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'userManage']) }}" class="nav__link nav-userManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'userManage']) }}" class="nav__link nav-userManage {{ request('page') == 'userManage' ? 'active' : '' }}">
                     <i class='bx bx-user nav__icon'></i>
                     <span class="nav__name">Users</span>
                 </a>
-                <a href="{{ route('admin.dashboard', ['page' => 'siteManage']) }}" class="nav__link nav-siteManage">
+                <a href="{{ route('admin.dashboard', ['page' => 'siteManage']) }}" class="nav__link nav-siteManage {{ request('page') == 'siteManage' ? 'active' : '' }}">
                     <i class="fas fa-cogs"></i>
                     <span class="nav__name">Site Settings</span>
                 </a>
