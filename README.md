@@ -62,10 +62,20 @@ siteManage Page
 admin Logout and session
 index and dashboard page fix
 
-5/03/2025
+05/03/2025
 // user side
 login complete with session
 
-8/03/2025
+08/03/2025
 // user side
 signup complete with session store data on db
+
+09/03/2025
+// admin side
+migrations -> category, pizzaitem
+models -> category, pizzaitem
+controller -> categoryController, pizzaitemController
+public -> catimages folder
+admin navbar routes changes
+pages -> categoryManage, dashboard, menuManage
+category insert, update, delete completed

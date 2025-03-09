@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
+use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 
 /********************  Admin Part ***********************/
@@ -13,7 +15,7 @@ Route::post('/admin/handleLogin', [AdminController::class, 'handleAdminLogin'])-
 
 Route::get('/admin/index/{loginsuccess}', [AdminController::class, 'dashboardIndex'])->name('admin.index');  // dashboard / index
 
-Route::get('/admin/dashboard/{page}', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');  // dashboard
+Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');  // dashboard
 
 Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout'); // admin logout
 
@@ -43,3 +45,15 @@ Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->nam
 Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');
 
 Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');
+
+
+/*************************   categories routes   *************************/
+Route::get('/admin/dashboard/manageCategory', [CategoryController::class, 'index'])->name('admin.manageCategory');
+
+Route::post('/addCategory', [CategoryController::class, 'addCategory'])->name('category.addCategory');
+
+Route::put('/updateImage/{catid}', [CategoryController::class, 'updateImage'])->name('category.updateImage');
+
+Route::put('/updateCategory/{catid}', [CategoryController::class, 'updateCategory'])->name('category.updateCategory');
+
+Route::get('/destroyCategory/{catid}', [CategoryController::class, 'destroyCategory'])->name('category.destroyCategory');
