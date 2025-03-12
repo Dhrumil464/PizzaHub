@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Validator;
+use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
@@ -37,8 +38,8 @@ class CategoryController extends Controller
             'catname' => $request->catname,
             'catimage' => $imageName ?? null,
             'catdesc' => $request->catdesc,
-            'catcreatedate' => now(),
-            'catupdatedate' => now(),
+            'catcreatedate' => Carbon::now('Asia/Kolkata'),
+            'catupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);
 
         return back()->with('success', 'Category added successfully!');
@@ -81,6 +82,7 @@ class CategoryController extends Controller
 
         $category->catname = $request->catnamee;
         $category->catdesc = $request->catdesce;
+        $category->catupdatedate = Carbon::now('Asia/Kolkata');
 
         $category->save();
         return back()->with('success', 'Category updated successfully!');

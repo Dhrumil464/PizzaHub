@@ -1,3 +1,4 @@
+<link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
 <body id="body-pd" style="background: #80808045;">
     @extends('admin.layouts.nav')
     @section('content')
@@ -53,6 +54,8 @@
                     <!-- FORM Panel -->
 
                     <!-- Table Panel -->
+
+                    @if (count($categories) > 0)
                     <div class="col-md-8 mb-3" id="side">
                         <div class="card" style="border-radius: 12px;">
                             <div class="card-body">
@@ -101,6 +104,15 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                        <div class="col-md-8">
+                            <div class="card pt-3 pl-4 pr-4" style="border-radius: 12px;">
+                                <div class="card-body">
+                                    <h2 class="text-center alert alert-danger">No Category Found</h2>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <!-- Table Panel -->
                 </div>
             </div>
