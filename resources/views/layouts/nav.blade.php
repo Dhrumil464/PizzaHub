@@ -10,6 +10,10 @@
     @endphp
 @endif
 
+@php
+    use Carbon\Carbon;
+@endphp
+
 @include('paricals.loginModal')
 @include('paricals.signupModal')
 
@@ -108,6 +112,6 @@
 
 
 <div class="footer py-3 container-fluid bg-dark text-light">
-    <p class="text-center py-2 mb-0">Copyright © 2021 Designed by <a href="https://github.com/darshankparmar"
+    <p class="text-center py-2 mb-0">Copyright © {{ Date('Y') }} Designed by <a href="https://github.com/Dhrumil464/pizzahub"
             target="_blank" rel="noopener noreferrer">@pizzahub</a></p>
 </div>

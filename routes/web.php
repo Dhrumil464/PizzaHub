@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PizzaItemController;
 use App\Http\Controllers\UserController;
 use App\Models\Categories;
+use App\Models\PizzaItems;
 use Illuminate\Support\Facades\Route;
 
 /********************  Admin Part ***********************/
@@ -57,3 +59,16 @@ Route::put('/updateImage/{catid}', [CategoryController::class, 'updateImage'])->
 Route::put('/updateCategory/{catid}', [CategoryController::class, 'updateCategory'])->name('category.updateCategory');
 
 Route::get('/destroyCategory/{catid}', [CategoryController::class, 'destroyCategory'])->name('category.destroyCategory');
+
+
+
+/*************************   pizza items routes   ************************/
+Route::get('/admin/dashboard/managePizzaItems', [PizzaItemController::class, 'index'])->name('admin.managePizzaItems');
+
+Route::post('/addPizzaItem', [PizzaItemController::class, 'addPizzaItem'])->name('pizzaitem.addPizzaItem');
+
+Route::put('/updatePizzaImage/{pizzaid}', [PizzaItemController::class, 'updatePizzaImage'])->name('pizzaitem.updatePizzaImage');
+
+Route::put('/updatePizzaItem/{pizzaid}', [PizzaItemController::class, 'updatePizzaItem'])->name('pizzaitem.updatePizzaItem');
+
+Route::get('/destroyPizzaItem/{pizzaid}', [PizzaItemController::class, 'destroyPizzaItem'])->name('pizzaitem.destroyPizzaItem');

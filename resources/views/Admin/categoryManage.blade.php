@@ -1,4 +1,5 @@
 <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
+
 <body id="body-pd" style="background: #80808045;">
     @extends('admin.layouts.nav')
     @section('content')
@@ -12,7 +13,7 @@
                             <div class="card" style="border-radius: 15px;">
                                 <div class="card-header text-light"
                                     style="background: #4b5366;border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                    Create New Category
+                                    Add New Category
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
@@ -24,15 +25,14 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label">Category Desc: </label>
-                                        <input type="text" class="form-control" name="catdesc"
-                                            value="{{ old('catdesc') }}">
+                                        <label class="control-label">Description: </label>
+                                        <textarea type="text" class="form-control" name="catdesc">{{ old('catdesc') }}</textarea>
                                         @error('catdesc')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="image" class="control-label">Image</label>
+                                        <label for="image" class="control-label">Image: </label>
                                         <input type="file" name="catimage" id="image" class="form-control">
                                         @error('catimage')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -54,56 +54,56 @@
                     <!-- FORM Panel -->
 
                     <!-- Table Panel -->
-
                     @if (count($categories) > 0)
-                    <div class="col-md-8 mb-3" id="side">
-                        <div class="card" style="border-radius: 12px;">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th class="text-center" style="width:7%;">Id</th>
-                                                <th class="text-center">Img</th>
-                                                <th class="text-center" style="width:58%;">Category Detail</th>
-                                                <th class="text-center" style="width:18%;">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($categories as $cat)
+                        <div class="col-md-8 mb-3" id="side">
+                            <div class="card" style="border-radius: 12px;">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0">
+                                            <thead class="thead-dark">
                                                 <tr>
-                                                    <td class="text-center"><b>{{ $cat->catid }}</b></td>
-                                                    <td><img src="/catimages/{{ $cat->catimage }}"
-                                                            alt="image for this Category" width="120px" height="120px">
-                                                    </td>
-                                                    <td>
-                                                        <p>Name : <b>{{ $cat->catname }}</b></p>
-                                                        <p>Description : <b class="truncate">{{ $cat->catdesc }}</b></p>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="row mx-auto" style="width: 90px;">
-                                                            <button class="btn btn-sm btn-primary" type="button"
-                                                                data-toggle="modal"
-                                                                data-target="#updateCat{{ $cat->catid }}"
-                                                                style="width: 40px; height: 40px; border-radius: 8px;">
-                                                                <i class="fas fa-edit"></i></button>
-                                                            <form
-                                                                action="{{ route('category.destroyCategory', ['catid' => $cat->catid]) }}"
-                                                                method="get">
-                                                                <button name="removeCategory" class="btn btn-sm btn-danger"
-                                                                    style="width: 40px; height: 40px; border-radius: 8px; margin-left: 7px;"><i
-                                                                        class="fas fa-trash"></i></button>
-                                                            </form>
-                                                        </div>
-                                                    </td>
+                                                    <th class="text-center" style="width:7%;">Cat.Id</th>
+                                                    <th class="text-center">Img</th>
+                                                    <th class="text-center" style="width:58%;">Category Detail</th>
+                                                    <th class="text-center" style="width:18%;">Action</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($categories as $cat)
+                                                    <tr>
+                                                        <td class="text-center"><b>{{ $cat->catid }}</b></td>
+                                                        <td><img src="/catimages/{{ $cat->catimage }}"
+                                                                alt="image for this Category" width="120px" height="120px">
+                                                        </td>
+                                                        <td>
+                                                            <p>Name : <b>{{ $cat->catname }}</b></p>
+                                                            <p>Description : <b class="truncate">{{ $cat->catdesc }}</b></p>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="row mx-auto" style="width: 90px;">
+                                                                <button class="btn btn-sm btn-primary" type="button"
+                                                                    data-toggle="modal"
+                                                                    data-target="#updateCat{{ $cat->catid }}"
+                                                                    style="width: 40px; height: 40px; border-radius: 8px;">
+                                                                    <i class="fas fa-edit"></i></button>
+                                                                <form
+                                                                    action="{{ route('category.destroyCategory', ['catid' => $cat->catid]) }}"
+                                                                    method="get">
+                                                                    <button name="removeCategory"
+                                                                        class="btn btn-sm btn-danger"
+                                                                        style="width: 40px; height: 40px; border-radius: 8px; margin-left: 7px;"><i
+                                                                            class="fas fa-trash"></i></button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @else
                         <div class="col-md-8">
                             <div class="card pt-3 pl-4 pr-4" style="border-radius: 12px;">
@@ -118,15 +118,15 @@
             </div>
         </div>
 
+        <!-- Modal -->
         @foreach ($categories as $cat)
-            <!-- Modal -->
             <div class="modal fade" id="updateCat{{ $cat->catid }}" tabindex="-1" role="dialog"
                 aria-labelledby="updateCat{{ $cat->catid }}" aria-hidden="true" style="width: -webkit-fill-available;">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-light" style="background-color: #4b5366;">
-                            <h5 class="modal-title" id="updateCat{{ $cat->catid }}">Category Id: <b> {{ $cat->catid }}
-                                </b>
+                            <h5 class="modal-title" id="updateCat{{ $cat->catid }}">Category Id: 
+                                <b> {{ $cat->catid }} </b>
                             </h5>
                             <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -140,7 +140,7 @@
                                 <div class="text-left my-2 row" style="border-bottom: 2px solid #dee2e6;">
                                     <div class="form-group col-md-8">
                                         <b><label for="image">Image</label></b>
-                                        <input type="file" name="catimage" id="catimagee" class="form-control"
+                                        <input type="file" name="catimagee" id="catimage" class="form-control"
                                             onchange="document.getElementById('itemPhoto').src = window.URL.createObjectURL(this.files[0])"
                                             required>
                                         @error('catimagee')
@@ -160,7 +160,7 @@
                                 @csrf
                                 @method('put')
                                 <div class="text-left my-2">
-                                    <b><label for="name">Name</label></b>
+                                    <b><label for="name">Category Name</label></b>
                                     <input class="form-control" id="name" name="catnamee"
                                         value="{{ $cat->catname }}" type="text" required>
                                     @error('catnamee')

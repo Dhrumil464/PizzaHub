@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('pizza_items', function (Blueprint $table) {
             $table->id('pizzaid');
-            $table->string('pizzaname');
+            $table->text('pizzaname');
             $table->decimal('pizzaprice', 8, 2);
             $table->string('pizzaimage');
-            $table->integer('pizzasize');
-            $table->string('pizzatype')->default('veg');
             $table->text('pizzadesc')->nullable();
-            $table->unsignedBigInteger('catid');
+            $table->foreignId('catid');
+            $table->decimal('discount', 8, 2)->nullable()->default(0);
             $table->timestamp('pizzacreatedate')->useCurrent();
             $table->timestamp('pizzaupdatedate')->useCurrent();
 

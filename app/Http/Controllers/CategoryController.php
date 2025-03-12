@@ -57,9 +57,9 @@ class CategoryController extends Controller
 
         $category = Categories::where('catid', $catid)->first();
 
-        if (isset($request->catimage)) {
-            $imageName = time() . '.' . $request->catimage->extension();
-            $request->catimage->move(public_path('catimages'), $imageName);
+        if (isset($request->catimagee)) {
+            $imageName = time() . '.' . $request->catimagee->extension();
+            $request->catimagee->move(public_path('catimages'), $imageName);
             $category->catimage = $imageName;
         }
 

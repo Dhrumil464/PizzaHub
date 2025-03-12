@@ -69,7 +69,7 @@
                         <i class='bx bx-folder nav__icon'></i>
                         <span class="nav__name">Pizza Category List</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.managePizzaItems') }}"
                         class="nav__link nav-menuManage {{ request('page') == 'menuManage' ? 'active' : '' }}">
                         <i class='bx bx-message-square-detail nav__icon'></i>
                         <span class="nav__name">Pizza Item List</span>

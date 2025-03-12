@@ -79,3 +79,9 @@ public -> catimages folder
 admin navbar routes changes
 pages -> categoryManage, dashboard, menuManage
 category insert, update, delete completed
+
+10/03/2025
+// admin side
+pages -> menuManage Page, categoryManage Page
+controller -> pizzaitemController, ctegoryController
+pizza_item migration changes
