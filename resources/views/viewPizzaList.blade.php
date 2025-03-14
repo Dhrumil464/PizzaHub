@@ -1,3 +1,14 @@
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
 <!doctype html>
 <html lang="en">
 
@@ -12,7 +23,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <title id="title">Category</title>
-    <link rel = "icon" href ="img/logo.jpg" type = "image/x-icon">
+    <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
         .jumbotron {
             padding: 2rem 1rem;
@@ -52,353 +63,61 @@
             </a>
         </div>
 
-        {{-- $id = $_GET['catid'];
-    $sql = "SELECT * FROM `categories` WHERE categorieId = $id";
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($result)) {
-        $catname = $row['categorieName'];
-        $catdesc = $row['categorieDesc'];
-    } --}}
+        @php
+            $catid = request('catid');
+            $category = App\Models\Categories::where('catid', $catid)->first();
+            $noResult = true;
+        @endphp
 
         <!-- Pizza container starts here -->
         <div class="container my-3 mb-5" id="cont">
-            <div class="col-lg-2 text-center bg-light my-3"
-                style="margin:auto;border-top: 2px groove black;border-bottom: 2px groove black;">
-                <h2 class="text-center"><span id="catTitle">Items</span></h2>
+            <div class="col-lg-3 text-center bg-light my-3"
+                style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
+                <h2 class="text-center"><span id="catTitle">{{ $category->catname }} | Items</span></h2>
             </div>
 
             <div class="row d-flex justify-content-start">
-                {{-- $id = $_GET['catid'];
-                    $sql = "SELECT * FROM `pizza` WHERE pizzaCategorieId = $id";
-                    $result = mysqli_query($conn, $sql);
-                    $noResult = true;
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $noResult = false;
-                        $pizzaId = $row['pizzaId'];
-                        $pizzaName = $row['pizzaName'];
-                        $pizzaPrice = $row['pizzaPrice'];
-                        $pizzaDesc = $row['pizzaDesc']; --}}
-                        
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-1.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 1;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
+                @foreach ($pizzaItems as $item)
+                    {{ $noResult = false }}
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                        <div class="card">
+                            <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top" alt="image for this pizza">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $item->pizzaname }}</h5>
+                                <h6 style="color: #ff0000">Rs.{{ $item->pizzaprice }}/-</h6>
+                                <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                <div class="row justify-content-center">
+
+                                    @if ($userloggedin)
+                                        {{-- loggedin user --}}
+                                        {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
                                         $quaresult = mysqli_query($conn, $quaSql);
                                         $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
+                                        @php $quaExistRows = 1 @endphp
+                                        @if ($quaExistRows == 1)
+                                            <form action="partials/_manageCart.php" method="POST">
+                                                <input type="hidden" name="itemId" value="$pizzaId">
+                                                <button type="submit" name="addToCart"
+                                                    class="btn btn-primary myBtnSize">Add to Cart</button>
+                                            @else
+                                                <a href="{{ route('user.viewCart') }}"><button
+                                                        class="btn btn-primary myBtnSize">Go to Cart</button></a>
+                                        @endif
+                                    @else
+                                        <button class="btn btn-primary myBtnSize" data-toggle="modal"
+                                            data-target="#loginModal">Add to Cart</button>
                                     @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
+                                    </form>
+                                    <a href="{{ route('user.viewPizza', ['catid' => $item->catid,'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
+                                            class="btn btn-primary myBtnSize">QuickView</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-2.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-3.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-4.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add
-                                                to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}" class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-1.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-2.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-3.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add to
-                                                Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick
-                                        View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-4.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">$pizzaName</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29)...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="$pizzaId">
-                                            <button type="submit" name="addToCart" class="btn btn-primary myBtnSize">Add
-                                                to Cart</button>
-                                        @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary myBtnSize">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                        data-target="#loginModal">Add to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}" class="mx-2"><button
-                                        class="btn btn-primary myBtnSize">Quick View</button></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @if ($noResult == 1)
+                @if ($noResult)
                     <div class="jumbotron jumbotron-fluid">
                         <div class="container">
                             <p class="display-4">Sorry In this category No items available.</p>
@@ -408,7 +127,6 @@
                 @endif
             </div>
         </div>
-
     @endsection
 
     <!-- Optional JavaScript -->
@@ -422,24 +140,22 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Custom jQuery Script -->
     <script>
         // document.getElementById("title").innerHTML = "<?php echo '$catname'; ?>";
-        document.getElementById("title").innerHTML += "<?php echo ' | $catname'; ?>";
+        document.getElementById("title").innerHTML += " | {{ $category->catname }}"
         $(document).ready(function() {
-            $("#catTitle").append('<?php echo ' $catname' ?>');
             function updateClass() {
                 var element = $(".myBtnSize");
 
                 if ($(window).width() >= 768 && $(window).width() <= 1200) {
                     element.addClass("btn-sm my-1");
-                }else if ($(window).width() >= 575 && $(window).width() <= 767) {
+                } else if ($(window).width() >= 575 && $(window).width() <= 767) {
                     element.removeClass("my-1");
                     element.addClass("btn-sm");
-                }else {
+                } else {
                     element.removeClass("btn-sm my-1");
                 }
             }

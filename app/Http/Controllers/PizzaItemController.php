@@ -110,4 +110,12 @@ class PizzaItemController extends Controller
         $pizzaItem->delete();
         return back()->withSuccess('Pizza Item Removed Successfully!');
     }
+
+    /******************************   User side   ******************************/
+
+    public function viewPizzaList($catid)
+    {
+        $pizzaItems = PizzaItems::where('catid', $catid)->get();
+        return view('viewPizzaList', ['pizzaItems' => $pizzaItems]);
+    }
 }

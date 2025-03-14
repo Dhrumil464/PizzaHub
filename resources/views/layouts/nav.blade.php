@@ -35,11 +35,11 @@
                     Top Categories
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                    <a class="dropdown-item" href="">' .
                         $row['categorieName'] . '</a>
-                    <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                    <a class="dropdown-item" href="">' .
                         $row['categorieName'] . '</a>
-                    <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                    <a class="dropdown-item" href="">' .
                         $row['categorieName'] . '</a>
                 </div>
             </li>
@@ -82,8 +82,8 @@
                 </li>
             </ul>
             <div class="text-center image-size-small position-relative">
-                <a href="{{ route('user.viewProfile') }}"><img src="img/profilepic.jpg" class="rounded-circle"
-                        onError="this.src = \'img/profilepic.jpg\'" style="width:40px; height:40px"></a>
+                <a href="{{ route('user.viewProfile') }}"><img src="/img/profilepic.jpg" class="rounded-circle"
+                        onError="this.src = \'/img/profilepic.jpg\'" style="width:40px; height:40px"></a>
             </div>
         @else
             <button type="button" class="btn btn-success mx-2" data-toggle="modal"

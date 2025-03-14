@@ -26,15 +26,15 @@ Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admi
 
 /********************  Users Part ***********************/
 
-Route::get('/', [UserController::class, 'userIndex'])->name('user.index');
+// Route::get('/', [UserController::class, 'userIndex'])->name('user.index');
 
 Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 
 Route::get('/viewOrder', [UserController::class, 'viewOrder'])->name('user.viewOrder');
 
-Route::get('/viewPizzaList', [UserController::class, 'viewPizzaList'])->name('user.viewPizzaList');
+// Route::get('/viewPizzaList', [UserController::class, 'viewPizzaList'])->name('user.viewPizzaList');
 
-Route::get('/viewPizza', [UserController::class, 'viewPizza'])->name('user.viewPizza');
+Route::get('/viewPizza/{catid}/{pizzaid}', [UserController::class, 'viewPizza'])->name('user.viewPizza');
 
 Route::get('/viewCart', [UserController::class, 'viewCart'])->name('user.viewCart');
 
@@ -60,7 +60,7 @@ Route::put('/updateCategory/{catid}', [CategoryController::class, 'updateCategor
 
 Route::get('/destroyCategory/{catid}', [CategoryController::class, 'destroyCategory'])->name('category.destroyCategory');
 
-
+Route::get('/', [CategoryController::class, 'userIndex'])->name('user.index');
 
 /*************************   pizza items routes   ************************/
 Route::get('/admin/dashboard/managePizzaItems', [PizzaItemController::class, 'index'])->name('admin.managePizzaItems');
@@ -72,3 +72,5 @@ Route::put('/updatePizzaImage/{pizzaid}', [PizzaItemController::class, 'updatePi
 Route::put('/updatePizzaItem/{pizzaid}', [PizzaItemController::class, 'updatePizzaItem'])->name('pizzaitem.updatePizzaItem');
 
 Route::get('/destroyPizzaItem/{pizzaid}', [PizzaItemController::class, 'destroyPizzaItem'])->name('pizzaitem.destroyPizzaItem');
+
+Route::get('/viewPizzaList/{catid}', [PizzaItemController::class, 'viewPizzaList'])->name('user.viewPizzaList');

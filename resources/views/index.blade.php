@@ -16,14 +16,16 @@
     <title>Home</title>
     <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
-        .card{
+        .card {
             width: 100%;
         }
+
         @media screen and (max-width: 575px) {
-            .bcard{
+            .bcard {
                 display: flex;
                 justify-content: center;
             }
+
             .card {
                 width: 70%;
             }
@@ -40,95 +42,21 @@
                 style="margin:auto;border-top: 2px groove black;border-bottom: 2px groove black;">
                 <h2 class="text-center">Menu</h2>
             </div>
+
             <div class="row d-flex justify-content-start">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-1.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
+                @foreach ($categories as $cat)
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                        <div class="card">
+                            <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                                </h5>
+                                <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}... </p>
+                                <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}" class="btn btn-primary">View All</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-2.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-3.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-4.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-1.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-2.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-3.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-4.jpg" class="card-img-top" alt="image for this category">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">' . $cat . '</a></h5>
-                            <p class="card-text">' . substr($desc, 0, 30). '... </p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     @endsection('content')

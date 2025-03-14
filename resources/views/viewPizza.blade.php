@@ -1,3 +1,14 @@
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
 <!doctype html>
 <html lang="en">
 
@@ -12,13 +23,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <title id=title>Pizza</title>
-    <link rel = "icon" href ="img/logo.jpg" type = "image/x-icon">
+    <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
         #cont {
             min-height: 578px;
         }
 
-        .col-md-4 img{
+        .col-md-4 img {
             /* mix-blend-mode: multiply; */
         }
     </style>
@@ -29,39 +40,35 @@
     @section('content')
         <div class="container my-4" id="cont">
             <div class="row jumbotron">
-                {{-- $pizzaId = $_GET['pizzaid'];
-                $sql = "SELECT * FROM `pizza` WHERE pizzaId = $pizzaId";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($result);
-                $pizzaName = $row['pizzaName'];
-                $pizzaPrice = $row['pizzaPrice'];
-                $pizzaDesc = $row['pizzaDesc'];
-                $pizzaCategorieId = $row['pizzaCategorieId']; --}}
+                @php
+                    $catid = request('catid');
+                    $pizzaid = request('pizzaid');
+                    $category = App\Models\Categories::where('catid',$catid)->first();
+                    $pizzaItem = App\Models\PizzaItems::where('pizzaid',$pizzaid)->first();
+                @endphp
                 <script>
-                    document.getElementById("title").innerHTML = "$pizzaName";
+                    document.getElementById("title").innerHTML += " | {{ $pizzaItem->pizzaname }}"
                 </script>
                 <div class="col-md-4">
-                    <img src="img/pizza-1.jpg" width="249px" height="262px">
+                    <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}" width="249px" height="262px">
                 </div>
                 <div class="col-md-8 my-4">
-                    <h3>$pizzaName</h3>
-                    <h5 style="color: #ff0000">Rs.$pizzaPrice/-</h5>
-                    <p class="mb-0">$pizzaDesc</p>
+                    <h3>{{ $pizzaItem->pizzaname }}</h3>
+                    <h5 style="color: #ff0000">Rs.{{ $pizzaItem->pizzaprice }}/-</h5>
+                    <p class="mb-0">{{ substr($pizzaItem->pizzadesc, 0, 29) }}...</p>
 
-                    @php
-                        $id = 1;
-                        $quaExistRows = 1;
-                    @endphp
-                    @if ($id == 1)
-                        {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
+                    @if ($userloggedin)
+                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
                     $quaresult = mysqli_query($conn, $quaSql);
                     $quaExistRows = mysqli_num_rows($quaresult); --}}
-                        @if ($quaExistRows == 0)
+                    @php $quaExistRows = 1 @endphp
+                        @if ($quaExistRows == 1)
                             <form action="partials/_manageCart.php" method="POST">
                                 <input type="hidden" name="itemId" value="$pizzaId">
                                 <button type="submit" name="addToCart" class="btn btn-primary my-2">Add to Cart</button>
                             @else
-                                <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary my-2">Go to Cart</button></a>
+                                <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary my-2">Go to
+                                        Cart</button></a>
                         @endif
                     @else
                         <button class="btn btn-primary my-2" data-toggle="modal" data-target="#loginModal">Add to
@@ -70,7 +77,7 @@
                     </form>
                     <h6 class="my-1"> View </h6>
                     <div class="mx-4">
-                        <a href="{{ route('user.viewPizzaList') }}" class="active text-dark">
+                        <a href="{{ route('user.viewPizzaList', ['catid' => $catid]) }}" class="active text-dark">
                             <i class="fas fa-qrcode"></i>
                             <span>All Pizza</span>
                         </a>

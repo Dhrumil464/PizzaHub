@@ -94,4 +94,12 @@ class CategoryController extends Controller
         $category->delete();
         return back()->withSuccess('Category Removed Successfully!');
     }
+
+    /******************************   User side   ******************************/
+
+    public function userIndex()
+    {
+        $categories = Categories::get();
+        return view('index', ['categories' => $categories]);
+    }
 }

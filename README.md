@@ -83,5 +83,11 @@ category insert, update, delete completed
 10/03/2025
 // admin side
 pages -> menuManage Page, categoryManage Page
-controller -> pizzaitemController, ctegoryController
+controller -> pizzaitemController, cetgoryController
 pizza_item migration changes
+
+14/03/2025
+// user side
+pages -> viewPizzaList, viewPizza, indexPage
+user side navbar
+controller -> pizzaitemController, cetgoryController
