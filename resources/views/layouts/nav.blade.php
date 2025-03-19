@@ -35,12 +35,12 @@
                     Top Categories
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="">' .
-                        $row['categorieName'] . '</a>
-                    <a class="dropdown-item" href="">' .
-                        $row['categorieName'] . '</a>
-                    <a class="dropdown-item" href="">' .
-                        $row['categorieName'] . '</a>
+                    @php
+                        $categories = App\Models\Categories::get();
+                    @endphp
+                    @foreach ($categories as $cat)
+                        <a class="dropdown-item" href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                    @endforeach
                 </div>
             </li>
             <li class="nav-item">
@@ -112,6 +112,6 @@
 
 
 <div class="footer py-3 container-fluid bg-dark text-light">
-    <p class="text-center py-2 mb-0">Copyright © {{ Date('Y') }} Designed by <a href="https://github.com/Dhrumil464/pizzahub"
-            target="_blank" rel="noopener noreferrer">@pizzahub</a></p>
+    <p class="text-center py-2 mb-0">Copyright © {{ Date('Y') }} Designed by <a
+            href="https://github.com/Dhrumil464/pizzahub" target="_blank" rel="noopener noreferrer">@pizzahub</a></p>
 </div>

@@ -54,11 +54,11 @@
                         Top Categories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                        <a class="dropdown-item" href="">' .
                             $row['categorieName'] . '</a>
-                        <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                        <a class="dropdown-item" href="">' .
                             $row['categorieName'] . '</a>
-                        <a class="dropdown-item" href="{{ route('user.viewPizzaList') }}">' .
+                        <a class="dropdown-item" href="">' .
                             $row['categorieName'] . '</a>
                     </div>
                 </li>

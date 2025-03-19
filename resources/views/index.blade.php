@@ -13,6 +13,21 @@
     <link rel="stylesheet"
         href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
         crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/icofont/icofont.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <title>Home</title>
     <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
@@ -37,6 +52,73 @@
     @extends('layouts.nav')
 
     @section('content')
+        <div class="container-fluid p-0">
+            <section id="hero">
+                <div class="hero-container">
+                    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+                        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+                        <div class="carousel-inner" role="listbox">
+                            <!-- Slide 1 -->
+                            <div class="carousel-item active">
+                                <div class="carousel-background"><img src="assets/img/slide/slide-1.jpg" alt="">
+                                </div>
+                                <div class="carousel-container">
+                                    <div class="carousel-content">
+                                        <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Pizza Hub</span>
+                                        </h2>
+                                        <a href="{{ route('user.index') }}"
+                                            class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
+                                            Started</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="carousel-item">
+                                <div class="carousel-background"><img src="assets/img/slide/slide-2.jpg" alt="">
+                                </div>
+                                <div class="carousel-container">
+                                    <div class="carousel-content">
+                                        <h2 class="animate__animated animate__fadeInDown mb-0">Our Mission</h2>
+                                        <p class="animate__animated animate__fadeInUp">To be number one</p>
+                                        <a href="{{ route('user.index') }}"
+                                            class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
+                                            Started</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Slide 3 -->
+                            <div class="carousel-item">
+                                <div class="carousel-background"><img src="assets/img/slide/slide-3.jpg" alt="">
+                                </div>
+                                <div class="carousel-container">
+                                    <div class="carousel-content">
+                                        <h2 class="animate__animated animate__fadeInDown mb-0">Parmar Darshan Kiritbhai</h2>
+                                        <p>CE084 <a href="https://github.com/darshankparmar"
+                                                target="_blank">@darshankparmar</a>
+                                        </p>
+                                        <a href="{{ route('user.index') }}"
+                                            class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
+                                            Started</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon icofont-thin-double-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+
+                        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon icofont-thin-double-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+
+                    </div>
+                </div>
+            </section>
+            <!-- End Hero -->
+        </div>
         <div class="container my-3 mb-5">
             <div class="col-lg-2 text-center bg-light my-3"
                 style="margin:auto;border-top: 2px groove black;border-bottom: 2px groove black;">
@@ -49,10 +131,12 @@
                         <div class="card">
                             <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category">
                             <div class="card-body">
-                                <h5 class="card-title"><a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                                <h5 class="card-title"><a
+                                        href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
                                 </h5>
                                 <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}... </p>
-                                <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}" class="btn btn-primary">View All</a>
+                                <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
+                                    class="btn btn-primary">View All</a>
                             </div>
                         </div>
                     </div>
@@ -70,6 +154,16 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/vendor/jquery-sticky/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('assets/vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/counterup/counterup.min.js') }}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 
 </html>
