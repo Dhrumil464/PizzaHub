@@ -42,6 +42,8 @@ Route::get('/search', [UserController::class, 'search'])->name('user.search');
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
 
+Route::get('/contact', [UserController::class, 'contact'])->name('user.contact');
+
 Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->name('user.handleUserLogin');
 
 Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');

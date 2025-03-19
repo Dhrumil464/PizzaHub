@@ -50,6 +50,11 @@ class UserController extends Controller
         return view('about');
     }
 
+    public function contact()
+    {
+        return view('contact');
+    }
+
     public function handleUserLogin(REQUEST $request) // when clicked on the admin login submit
     {
         $request->validate([
