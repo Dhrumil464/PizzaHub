@@ -60,12 +60,16 @@
                         <div class="carousel-inner" role="listbox">
                             <!-- Slide 1 -->
                             <div class="carousel-item active">
-                                <div class="carousel-background"><img src="assets/img/slide/slide-1.jpg" alt="">
+                                <div class="carousel-background">
+                                    <img src="https://i.pinimg.com/736x/8b/31/d3/8b31d3394ed2f41f88628f4e3d0078ad.jpg"
+                                        alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
                                 </div>
                                 <div class="carousel-container">
                                     <div class="carousel-content">
-                                        <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Pizza Hub</span>
-                                        </h2>
+                                        <h2 class="animate__animated animate__fadeInDown mb-0">Welcome to <span>Pizza Hub!
+                                                🍕🔥</span></h2>
+                                        <p class="animate__animated animate__fadeInUp">Where every slice is made with love
+                                            and the freshest ingredients. Dive into cheesy goodness today!"</p>
                                         <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
@@ -74,12 +78,16 @@
                             </div>
                             <!-- Slide 2 -->
                             <div class="carousel-item">
-                                <div class="carousel-background"><img src="assets/img/slide/slide-2.jpg" alt="">
+                                <div class="carousel-background">
+                                    <img src="https://i.pinimg.com/736x/48/b5/d2/48b5d236bac9c2d3415a7ba3159280e5.jpg"
+                                        alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
                                 </div>
                                 <div class="carousel-container">
                                     <div class="carousel-content">
-                                        <h2 class="animate__animated animate__fadeInDown mb-0">Our Mission</h2>
-                                        <p class="animate__animated animate__fadeInUp">To be number one</p>
+                                        <h2 class="animate__animated animate__fadeInDown mb-0">Hot, Fresh & Delicious! 🍕
+                                        </h2>
+                                        <p class="animate__animated animate__fadeInUp">Enjoy the taste of perfection with
+                                            our handcrafted pizzas, made with love and the freshest ingredients!</p>
                                         <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
@@ -92,10 +100,10 @@
                                 </div>
                                 <div class="carousel-container">
                                     <div class="carousel-content">
-                                        <h2 class="animate__animated animate__fadeInDown mb-0">Parmar Darshan Kiritbhai</h2>
-                                        <p>CE084 <a href="https://github.com/darshankparmar"
-                                                target="_blank">@darshankparmar</a>
-                                        </p>
+                                        <h2 class="animate__animated animate__fadeInDown mb-0">Order Now & Savor the Flavor!
+                                            🚀</h2>
+                                        <p class="animate__animated animate__fadeInUp">Craving pizza? Get it delivered hot
+                                            and fresh straight to your door in just a few clicks!</p>
                                         <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
@@ -129,7 +137,8 @@
                 @foreach ($categories as $cat)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
                         <div class="card">
-                            <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category">
+                            <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category"
+                                height="250px">
                             <div class="card-body">
                                 <h5 class="card-title"><a
                                         href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>

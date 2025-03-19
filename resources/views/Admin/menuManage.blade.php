@@ -108,7 +108,7 @@
                                                             <p>PizzaName : <b>{{ $item->pizzaname }}</b></p>
                                                             <p>Description : <b class="truncate">{{ $item->pizzadesc }}</b>
                                                             </p>
-                                                            <p>Price : <b>$ {{ $item->pizzaprice }} /-</b></p>
+                                                            <p>Price : <b>Rs. {{ $item->pizzaprice }} /-</b></p>
                                                             <p>Discount : <b>{{ $item->discount }} %</b></p>
                                                         </td>
                                                         <td class="text-center">

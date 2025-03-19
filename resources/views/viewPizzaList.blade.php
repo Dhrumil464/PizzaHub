@@ -83,7 +83,7 @@
                         <div class="card">
                             <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top" alt="image for this pizza">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $item->pizzaname }}</h5>
+                                <h5 class="card-title">{{ substr($item->pizzaname,0,18) }}...</h5>
                                 <h6 style="color: #ff0000">Rs.{{ $item->pizzaprice }}/-</h6>
                                 <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
                                 <div class="row justify-content-center">
