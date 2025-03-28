@@ -171,7 +171,7 @@
                                                         <b><label for="email">Email:</label></b>
                                                         <input type="email" class="form-control" id="email"
                                                             name="email" placeholder="Enter Your Email" required
-                                                            value="$email">
+                                                            value="email">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -184,7 +184,7 @@
                                                             <input type="tel" class="form-control" id="phone"
                                                                 name="phone" aria-describedby="basic-addon"
                                                                 placeholder="Enter Your Phone Number" required
-                                                                pattern="[0-9]{10}" value="$phone">
+                                                                pattern="[0-9]{10}" value="phoneno">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,7 +208,7 @@
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group  mt-3">
-                                                        <textarea class="form-control" id="message" name="message" rows="2" required minlength="6"
+                                                        <textarea class="form-control" id="message" name="message" rows="2" required
                                                             placeholder="How May We Help You ?"></textarea>
                                                     </div>
                                                 </div>
@@ -249,10 +249,9 @@
                                 <div class="col-lg-4 bg-image" style="background-image:url(img/contact.jpg)">
                                     <div class="detail-box p-4">
                                         <h5 class="text-white font-weight-light mb-3">ADDRESS</h5>
-                                        <p class="text-white op-7">$address</p>
+                                        <p class="text-white op-7">address</p>
                                         <h5 class="text-white font-weight-light mb-3 mt-4">CALL US</h5>
-                                        <p class="text-white op-7">' .$contact1 .'
-                                            <br> ' .$contact2 .'
+                                        <p class="text-white op-7">contact1 <br> contact2
                                         </p>
                                         <div class="round-social light">
                                             <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=' .$email .'"
@@ -304,12 +303,12 @@
                                 $datetime = $row['datetime'];
                                 $count++; --}}
                                 @php
-                                    $count = 1;
+                                    $count = 0;
                                 @endphp
                                 <tr>
-                                    <td>' .$contactId. '</td>
-                                    <td>' .$message. '</td>
-                                    <td>' .$datetime. '</td>
+                                    <td>contactId</td>
+                                    <td>message</td>
+                                    <td>datetime</td>
                                 </tr>
                                 <script>
                                     document.getElementById("totalMessage").innerHTML = "0";
@@ -357,10 +356,10 @@
                         $datetime = $row['time'];
                         $count++; --}}
                                 <tr>
-                                    <td>' .$contactId. '</td>
-                                    <td>' .$orderId. '</td>
-                                    <td>' .$message. '</td>
-                                    <td>' .$datetime. '</td>
+                                    <td>contactId</td>
+                                    <td>orderId</td>
+                                    <td>message</td>
+                                    <td>datetime</td>
                                 </tr>
                                 @php
                                     $count = 1;

@@ -76,3 +76,11 @@ Route::put('/updatePizzaItem/{pizzaid}', [PizzaItemController::class, 'updatePiz
 Route::get('/destroyPizzaItem/{pizzaid}', [PizzaItemController::class, 'destroyPizzaItem'])->name('pizzaitem.destroyPizzaItem');
 
 Route::get('/viewPizzaList/{catid}', [PizzaItemController::class, 'viewPizzaList'])->name('user.viewPizzaList');
+
+
+
+/*************************   other routes   ************************/
+Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
+Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
+Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
+Route::get('/admin/dashboard/userManage', [AdminController::class, 'userManage'])->name('admin.userManage');

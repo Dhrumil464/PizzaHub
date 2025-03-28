@@ -96,7 +96,8 @@
                             </div>
                             <!-- Slide 3 -->
                             <div class="carousel-item">
-                                <div class="carousel-background"><img src="assets/img/slide/slide-3.jpg" alt="">
+                                <div class="carousel-background"><img src="/assetsForSideBar/img/pizzabg2.jpeg"
+                                        alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
                                 </div>
                                 <div class="carousel-container">
                                     <div class="carousel-content">
@@ -140,7 +141,8 @@
                             <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category"
                                 height="250px">
                             <div class="card-body">
-                                <h5 class="card-title"><a
+                                <h5 class="card-title">
+                                    <a class="text-dark"
                                         href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
                                 </h5>
                                 <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}... </p>

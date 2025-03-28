@@ -169,7 +169,7 @@
                                 </div>
                                 <div class="text-left my-2">
                                     <b><label for="desc">Description</label></b>
-                                    <textarea class="form-control" id="desc" name="catdesce" rows="2" required>{{ $cat->catdesc }}</textarea>
+                                    <textarea class="form-control" id="desc" name="catdesce" rows="2">{{ $cat->catdesc }}</textarea>
                                     @error('catdesce')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                     @enderror

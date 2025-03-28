@@ -174,7 +174,7 @@
         @if ($userloggedin == true)
             <div class="container">
                 <div class="table-wrapper" id="empty">
-                    <div class="table-title" >
+                    <div class="table-title">
                         <div class="row">
                             <div class="col-sm-4">
                                 <h2>Order <b>Details</b></h2>
@@ -225,14 +225,14 @@
                             $counter++; --}}
 
                                 <tr>
-                                    <td>' . $orderId . '</td>
-                                    <td>' . substr($address, 0, 20) . '...</td>
-                                    <td>' . $phoneNo . '</td>
-                                    <td>' . $amount . '</td>
-                                    <td>' . $paymentMode . '</td>
-                                    <td>' . $orderDate . '</td>
-                                    <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
-                                                class="material-icons">&#xE5C8;</i></a></td>
+                                    <td>1</td>
+                                    <td>{{ substr("Navsari", 0, 20)}}</td>
+                                    <td>12345</td>
+                                    <td>Rs.188/-</td>
+                                    <td>Cash on Delivery</td>
+                                    <td>03/03/25 19:45</td>
+                                    <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view">
+                                            <i class="material-icons">&#xE5C8;</i></a></td>
                                     <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
                                             title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
 

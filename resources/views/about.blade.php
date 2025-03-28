@@ -153,7 +153,7 @@
                         </div>
                         <div class="carousel-container">
                             <div class="carousel-content">
-                                <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Pizza Hub</span>
+                                <h2 class="animate__animated animate__fadeInDown mb-0">Welcome to <span>Pizza Hub</span>
                                 </h2>
                                 <a href="{{ route('user.index') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
@@ -163,12 +163,11 @@
                     </div>
                     <!-- Slide 2 -->
                     <div class="carousel-item">
-                        <div class="carousel-background"><img src="assets/img/slide/slide-2.jpg" alt="">
-                        </div>
+                        <img src="https://i.pinimg.com/736x/48/b5/d2/48b5d236bac9c2d3415a7ba3159280e5.jpg"
+                                        alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
                         <div class="carousel-container">
                             <div class="carousel-content">
                                 <h2 class="animate__animated animate__fadeInDown mb-0">Our Mission</h2>
-                                <p class="animate__animated animate__fadeInUp">To be number one</p>
                                 <a href="{{ route('user.index') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                     Started</a>
@@ -181,10 +180,7 @@
                         </div>
                         <div class="carousel-container">
                             <div class="carousel-content">
-                                <h2 class="animate__animated animate__fadeInDown mb-0">Parmar Darshan Kiritbhai</h2>
-                                <p>CE084 <a href="https://github.com/darshankparmar"
-                                        target="_blank">@darshankparmar</a>
-                                </p>
+                                <h2 class="animate__animated animate__fadeInDown mb-0">Fastest Pizza Delivery</h2>
                                 <a href="{{ route('user.index') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                     Started</a>

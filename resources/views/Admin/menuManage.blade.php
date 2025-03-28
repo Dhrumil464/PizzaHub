@@ -102,7 +102,7 @@
                                                         <td class="text-center"><b>{{ $item->catid }}</b></td>
                                                         <td class="text-center">
                                                             <img src="/pizzaimages/{{ $item->pizzaimage }}"
-                                                                alt="image for this item" width="100px" height="120px">
+                                                                alt="image for this item" width="120px" height="120px">
                                                         </td>
                                                         <td>
                                                             <p>PizzaName : <b>{{ $item->pizzaname }}</b></p>
@@ -215,7 +215,7 @@
                                 </div>
                                 <div class="text-left my-2">
                                     <b><label for="desc">Description</label></b>
-                                    <textarea class="form-control" id="desc" name="pizzadesce" rows="2" required minlength="6">{{ $item->pizzadesc }}</textarea>
+                                    <textarea class="form-control" id="desc" name="pizzadesce" rows="2">{{ $item->pizzadesc }}</textarea>
                                 </div>
                                 <button type="submit" class="btn btn-success">Update</button>
                             </form>

@@ -59,7 +59,7 @@
                         <i class='bx bx-grid-alt nav__icon'></i>
                         <span class="nav__name">Home</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.manageOrders') }}"
                         class="nav__link nav-orderManage {{ request('page') == 'orderManage' ? 'active' : '' }}">
                         <i class='bx bx-bar-chart-alt-2 nav__icon'></i>
                         <span class="nav__name">Orders</span>
@@ -74,17 +74,17 @@
                         <i class='bx bx-message-square-detail nav__icon'></i>
                         <span class="nav__name">Pizza Item List</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.contactManage') }}"
                         class="nav__link nav-contactManage {{ request('page') == 'contactManage' ? 'active' : '' }}">
                         <i class="fas fa-hands-helping"></i>
                         <span class="nav__name">Contact Info</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.userManage') }}"
                         class="nav__link nav-userManage {{ request('page') == 'userManage' ? 'active' : '' }}">
                         <i class='bx bx-user nav__icon'></i>
                         <span class="nav__name">Users</span>
                     </a>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('admin.siteManage') }}"
                         class="nav__link nav-siteManage {{ request('page') == 'siteManage' ? 'active' : '' }}">
                         <i class="fas fa-cogs"></i>
                         <span class="nav__name">Site Settings</span>

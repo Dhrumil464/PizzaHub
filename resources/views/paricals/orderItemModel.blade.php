@@ -4,8 +4,7 @@ while($itemModalRow = mysqli_fetch_assoc($itemModalResult)){
 $orderid = $itemModalRow['orderId']; --}}
 
 <!-- Modal -->
-<div class="modal fade" id="orderItem" tabindex="-1" role="dialog" aria-labelledby="orderItem"
-    aria-hidden="true">
+<div class="modal fade" id="orderItem" tabindex="-1" role="dialog" aria-labelledby="orderItem" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header text-light" style="background: #4b5366;">
@@ -15,7 +14,6 @@ $orderid = $itemModalRow['orderId']; --}}
                 </button>
             </div>
             <div class="modal-body">
-
                 <div class="container">
                     <div class="row">
                         <!-- Shopping cart table -->
@@ -54,13 +52,32 @@ $orderid = $itemModalRow['orderId']; --}}
                                                     class="img-fluid rounded shadow-sm">
                                                 <div class="ml-3 d-inline-block align-middle">
                                                     <h5 class="mb-0">
-                                                        <a href="#" class="text-dark d-inline-block align-middle">' .$pizzaName.'</a>
+                                                        <a href="#"class="text-dark d-inline-block align-middle">Pizza
+                                                            1</a>
                                                     </h5>
-                                                    <span class="text-muted font-weight-normal font-italic d-block">Rs.'.$pizzaPrice.'/-</span>
+                                                    <span
+                                                        class="text-muted font-weight-normal font-italic d-block">Rs.99/-</span>
                                                 </div>
                                             </div>
                                         </th>
-                                        <td class="align-middle text-center"><strong>' .$itemQuantity .'</strong></td>
+                                        <td class="align-middle text-center"><strong>2</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="p-2">
+                                                <img src="img/pizza-5.jpg" alt="" width="70"
+                                                    class="img-fluid rounded shadow-sm">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <h5 class="mb-0">
+                                                        <a href="#"
+                                                            class="text-dark d-inline-block align-middle">Pizza 2</a>
+                                                    </h5>
+                                                    <span
+                                                        class="text-muted font-weight-normal font-italic d-block">Rs.99/-</span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td class="align-middle text-center"><strong>2</strong></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -18,7 +18,6 @@
         body {
             width: 100%;
             height: calc(100%);
-            /*background: #007bff;*/
         }
 
         main#main {
@@ -42,7 +41,9 @@
             left: 0;
             width: 60%;
             height: calc(100%);
-            background: #00000061;
+            background: url("/assetsForSideBar/img/bg-side1.avif");
+            background-size: 100% 150%;
+            filter: contrast(1.4);
             display: flex;
             align-items: center;
         }

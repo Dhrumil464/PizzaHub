@@ -70,4 +70,27 @@ class AdminController extends Controller
         return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
     }
 
+
+
+    // others
+
+    public function manageOrders()
+    {
+        return view('admin.orderManage');
+    }
+
+    public function contactManage()
+    {
+        return view('admin.contactManage');
+    }
+    
+    public function siteManage()
+    {
+        return view('admin.siteManage');
+    }
+    
+    public function userManage()
+    {
+        return view('admin.userManage');
+    }
 }
