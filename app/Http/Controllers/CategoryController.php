@@ -19,16 +19,22 @@ class CategoryController extends Controller
     public function addCategory(Request $request)
     {
         $request->validate([
-            'catname' => 'required|string|unique:categories,catname',
+            'catname' => 'required|string|unique:categories,catname|max:50',
             'catimage' => 'required|image|mimes:jpeg,png,jpg|max:10000',
-            'catdesc' => 'nullable|string'
+            'catdesc' => 'nullable|string|max:60',
+            'cattype' => 'required|integer|max:2',
         ], [
             'catname.required' => 'The name field is required.',
             'catname.string' => 'The name must be a string.',
             'catname.unique' => 'Category already exists.',
+            'catname.max' => 'The name must be less than 50 characters.',
             'catimage.required' => 'The image field is required.',
             'catimage.mimes' => 'The image must be type of jpeg, jpg or png.',
             'catimage.max' => 'The image size less then 10000.',
+            'catdesc.string' => 'The description must be a string.',
+            'catdesc.max' => 'The description must be less than 60 characters.',
+            'cattype.required' => 'The type field is required.',
+            'cattype.integer' => 'The type must be a integer.',
         ]);
 
         $imageName = time() . '.' . $request->catimage->extension();
@@ -38,6 +44,7 @@ class CategoryController extends Controller
             'catname' => $request->catname,
             'catimage' => $imageName ?? null,
             'catdesc' => $request->catdesc,
+            'cattype' => $request->cattype,
             'catcreatedate' => Carbon::now('Asia/Kolkata'),
             'catupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);
@@ -70,12 +77,15 @@ class CategoryController extends Controller
     public function updateCategory(Request $request, $catid)
     {
         $request->validate([
-            'catnamee' => 'required|string  ',
-            'catdesce' => 'nullable|string'
+            'catnamee' => 'required|string|max:50',
+            'catdesce' => 'nullable|string|max:60',
         ], [
             'catname.required' => 'The name field is required.',
             'catname.string' => 'The name must be a string.',
             'catname.unique' => 'Category already exists.',
+            'catname.max' => 'The name must be less than 50 characters.',
+            'catdesc.text' => 'The description must be a text.',
+            'catdesc.max' => 'The description must be less than 60 characters.',
         ]);
 
         $category = Categories::where('catid', $catid)->first();

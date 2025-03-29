@@ -71,9 +71,9 @@
 
         <!-- Pizza container starts here -->
         <div class="container my-3 mb-5" id="cont">
-            <div class="col-lg-3 text-center bg-light my-3"
+            <div class="col-lg-8 text-center bg-light mb-4"
                 style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
-                <h2 class="text-center"><span id="catTitle">{{ $category->catname }} | Items</span></h2>
+                <h2 class="text-center"><span id="catTitle">{{ $category->catname }} | ITEMS</span></h2>
             </div>
 
             <div class="row d-flex justify-content-start">
@@ -81,13 +81,31 @@
                     {{ $noResult = false }}
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
                         <div class="card">
+                            @if ($item->discount > 0)
+                                <div class="position-absolute"
+                                    style="top: 10px; right: -5px; font-size: 14px; border-radius: 5px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 10px;transform: rotate(10deg); font-weight: bold;">
+                                    {{ $item->discount }}% OFF
+                                </div>
+                            @endif
                             <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top" alt="image for this pizza">
                             <div class="card-body">
-                                <h5 class="card-title">{{ substr($item->pizzaname,0,18) }}...</h5>
-                                <h6 style="color: #ff0000">Rs.{{ $item->pizzaprice }}/-</h6>
+                                <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
+
+                                @if ($item->discount > 0)
+                                    @php
+                                        $discountedPrice =
+                                            $item->pizzaprice - ($item->pizzaprice * $item->discount) / 100;
+                                    @endphp
+                                    <h6 style="color: #ff0000">
+                                        <del>Rs.{{ $item->pizzaprice }}/-</del>
+                                        <span style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                    </h6>
+                                @else
+                                    <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
+                                @endif
+
                                 <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
                                 <div class="row justify-content-center">
-
                                     @if ($userloggedin)
                                         {{-- loggedin user --}}
                                         {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
@@ -108,7 +126,8 @@
                                             data-target="#loginModal">Add to Cart</button>
                                     @endif
                                     </form>
-                                    <a href="{{ route('user.viewPizza', ['catid' => $item->catid,'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
+                                    <a
+                                        href="{{ route('user.viewPizza', ['catid' => $item->catid, 'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
                                             class="btn btn-primary myBtnSize">QuickView</button>
                                     </a>
                                 </div>
@@ -116,7 +135,8 @@
                         </div>
                     </div>
                 @endforeach
-
+            </div>
+            <div class="row d-flex justify-content-center">
                 @if ($noResult)
                     <div class="jumbotron jumbotron-fluid">
                         <div class="container">

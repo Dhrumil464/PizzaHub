@@ -99,14 +99,14 @@
     </div>
 
     @if (session('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show alertmsg" role="alert">
             <strong>Warning!</strong> {{ session('error') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
         </div>
     @endif
 
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show alertmsg" role="alert">
             <strong>Success!</strong> {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
         </div>
@@ -129,3 +129,10 @@
 
     </html>
 @endif
+
+<script>
+    // Automatically close alerts after 3 seconds (3000ms)
+    setTimeout(function() {
+        $(".alertmsg").fadeOut("slow");
+    }, 2000);
+</script>

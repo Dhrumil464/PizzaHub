@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id('catid');
-            $table->string('catname');
-            $table->string('catimage');
-            $table->text('catdesc')->nullable();
+            $table->string('catname', 30);
+            $table->string('catimage',100);
+            $table->string('catdesc',60)->nullable();
+            $table->integer('cattype')->unsigned();
             $table->timestamp('catcreatedate')->useCurrent();
             $table->timestamp('catupdatedate')->useCurrent();
         });

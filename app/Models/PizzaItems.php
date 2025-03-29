@@ -12,7 +12,7 @@ class PizzaItems extends Model
     protected $table = 'pizza_items';
     protected $primaryKey = 'pizzaid';
 
-    protected $fillable = ['pizzaname', 'pizzaprice', 'pizzaimage', 'pizzadesc', 'catid', 'dicount', 'pizzacreatedate', 'pizzaupdatedate'];
-    
+    protected $fillable = ['pizzaname', 'pizzaprice', 'pizzaimage', 'pizzadesc', 'catid', 'discount', 'pizzacreatedate', 'pizzaupdatedate'];
+
     public $timestamps = false;
 }

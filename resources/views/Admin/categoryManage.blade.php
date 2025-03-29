@@ -32,6 +32,26 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label class="control-label">Type: </label>
+                                        <select name="cattype" id="" class="form-control">
+                                            <option value="">Select Type</option>
+                                            @if(old('cattype') == 1)
+                                                <option value="1" selected>Veg Pizza</option>
+                                            @else
+                                                <option value="1">Veg Pizza</option>
+                                            @endif
+                                            @if(old('cattype') == 2)
+                                                <option value="2" selected>Non-Veg Pizza</option>
+                                            @else
+                                                <option value="2">Non-Veg Pizza</option>
+                                            @endif
+                                            
+                                        </select>
+                                        @error('cattype')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label for="image" class="control-label">Image: </label>
                                         <input type="file" name="catimage" id="image" class="form-control">
                                         @error('catimage')

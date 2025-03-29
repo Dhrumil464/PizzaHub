@@ -13,7 +13,7 @@ class Categories extends Model
     protected $table = 'categories';
     protected $primaryKey = 'catid';
 
-    protected $fillable = ['catname', 'catimage', 'catdesc', 'catcreatedate', 'catupdatedate'];
-    
+    protected $fillable = ['catname', 'catimage', 'catdesc', 'cattype', 'catcreatedate', 'catupdatedate'];
+
     public $timestamps = false;
 }

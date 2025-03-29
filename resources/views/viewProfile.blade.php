@@ -134,36 +134,35 @@
 
         /* new */
 
-        .jumbotron{
+        .jumbotron {
             width: 28%;
             margin: 0 auto;
             border-radius: 30px;
         }
-        
-        .content-panel{
+
+        .content-panel {
             margin: 0 auto;
         }
 
-        .pimg{
+        .pimg {
             margin-left: 15px;
         }
 
         @media screen and (max-width: 992px) {
-            .acontainer{
+            .acontainer {
                 flex-direction: column;
             }
 
-            .jumbotron{
+            .jumbotron {
                 width: 78%;
             }
 
-            .content-panel{
+            .content-panel {
                 width: 80%;
                 margin-top: 30px;
                 margin-bottom: 80px;
             }
         }
-        
     </style>
 
 </head>
@@ -199,44 +198,44 @@
                             </form>
 
                             <ul class="meta list list-unstyled" style="text-align:center;">
-                                <li class="username my-2"><a href="viewProfile.php">@<?php echo '$username'; ?></a></li>
-                                <li class="name"><?php echo '$firstName' . ' ' . '$lastName'; ?>
-                                    <label class="label label-info">(<?php echo '$userType'; ?>)</label>
+                                <li class="username my-2"><a href="viewProfile.php">@dhrumil123</a></li>
+                                <li class="name"><?php echo 'Dhrumil Mandaviya'; ?>
+                                    <label class="label label-info"></label>
                                 </li>
-                                <li class="email">$email</li>
+                                <li class="email">dhrumil@gmail.com</li>
                                 <li class="my-2"><a href="partials/_logout.php"><button class="btn btn-secondary"
                                             style="font-size: 15px;padding: 3px 8px; ">Logout</button></a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="content-panel d-flex justify-content-center" >
+                    <div class="content-panel d-flex justify-content-center">
                         <div class="border p-3"
                             style="border: 2px solid rgba(0, 0, 0, 0.1);background-color: aliceblue; border-radius: 30px;">
-                            <h2 class="title text-center">Profile<span
-                                    class="pro-label label label-warning">{{ '$userType' }}</span></h2>
+                            <h2 class="title text-center">Your Profile<span class="pro-label label label-warning"></span>
+                            </h2>
 
                             <form action="partials/_manageProfile.php" method="post">
                                 <div class="form-group">
                                     <b><label for="username">Username:</label></b>
-                                    <input class="form-control" id="username" name="username" type="text" disabled
-                                        value="$username">
+                                    <input class="form-control" id="username" name="username" type="text"
+                                        placeholder="Enter Your username" value="dhrumil123">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <b><label for="firstName">First Name:</label></b>
                                         <input type="text" class="form-control" id="firstName" name="firstName"
-                                            placeholder="First Name" required value="$firstName">
+                                            placeholder="First Name" required value="Dhrumil">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <b><label for="lastName">Last Name:</label></b>
                                         <input type="text" class="form-control" id="lastName" name="lastName"
-                                            placeholder="Last name" required value="$lastName">
+                                            placeholder="Last name" required value="Mandaviya">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <b><label for="email">Email:</label></b>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Enter Your Email" required value="$email">
+                                        placeholder="" required value="dhrumil@gmail.com" readonly>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group  col-md-6">
@@ -247,14 +246,14 @@
                                             </div>
                                             <input type="tel" class="form-control" id="phone" name="phone"
                                                 placeholder="Enter Your Phone Number" required pattern="[0-9]{10}"
-                                                maxlength="10" value="<?php echo '$phone'; ?>">
+                                                maxlength="10" value="12345">
                                         </div>
                                     </div>
                                     <div class="form-group  col-md-6">
                                         <b><label for="password">Password:</label></b>
                                         <input class="form-control" id="password" name="password"
                                             placeholder="Enter Password" type="password" required minlength="4"
-                                            maxlength="21" data-toggle="password">
+                                            maxlength="21" data-toggle="password" value="XXXXX">
                                     </div>
                                 </div>
                                 <button type="submit" name="updateProfileDetail" class="btn btn-primary">Update</button>

@@ -19,21 +19,21 @@ class PizzaItemController extends Controller
     {
         $request->validate([
             'pizzaname' => 'required|string|unique:pizza_items,pizzaname',
+            'pizzaprice' => 'required|numeric',
             'pizzaimage' => 'required|image|mimes:jpeg,png,jpg|max:10000',
             'pizzadesc' => 'nullable|string',
             'catid' => 'required',
-            'pizzaprice' => 'required|numeric',
-            'discount' => 'nullable|numeric'
+            'discount' => 'nullable|numeric',
         ], [
             'pizzaname.required' => 'The name field is required.',
             'pizzaname.string' => 'The name must be a string.',
             'pizzaname.unique' => 'Item already exists.',
+            'pizzaprice.required' => 'The price field is required.',
+            'pizzaprice.numeric' => 'The price must be a number.',
             'pizzaimage.required' => 'The image field is required.',
             'pizzaimage.mimes' => 'The image must be type of jpeg, jpg or png.',
             'pizzaimage.max' => 'The image size less then 10000.',
             'catid.required' => 'The category field is required.',
-            'pizzaprice.required' => 'The price field is required.',
-            'pizzaprice.numeric' => 'The price must be a number.',
             'discount.numeric' => 'The discount must be a number.',
         ]);
 
@@ -81,13 +81,11 @@ class PizzaItemController extends Controller
         $request->validate([
             'pizzanamee' => 'required|string',
             'pizzadesce' => 'nullable|string',
-            'catide' => 'required',
             'pizzapricee' => 'required|numeric'
         ], [
             'pizzanamee.required' => 'The name field is required.',
             'pizzanamee.string' => 'The name must be a string.',
             'pizzanamee.unique' => 'Item already exists.',
-            'catid.required' => 'The category field is required.',
             'pizzaprice.required' => 'The price field is required.',
         ]);
 
@@ -96,7 +94,6 @@ class PizzaItemController extends Controller
         $pizzaItem->pizzaname = $request->pizzanamee;
         $pizzaItem->pizzadesc = $request->pizzadesce;
         $pizzaItem->pizzaprice = $request->pizzapricee;
-        $pizzaItem->catid = $request->catide;
         $pizzaItem->discount = $request->discounte;
         $pizzaItem->pizzaupdatedate = Carbon::now('Asia/Kolkata');
 

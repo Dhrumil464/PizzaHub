@@ -45,7 +45,7 @@
             @endif --}}
 
             @if (request('loginsuccess') && request('loginsuccess') == 'true')
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="width:100%">
+                <div class="alert alert-success alert-dismissible fade show alertmsg" role="alert" style="width:100%;margin-top: 65px;">
                     <strong>Success!</strong> You are logged in
                     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
                 </div>
@@ -54,7 +54,7 @@
             @php
                 $page = request('page') ? request('page') : 'home';
             @endphp
-            {{ view('admin.'.$page) }}
+            {{ view('admin.' . $page) }}
 
 
             <!-- Optional JavaScript -->

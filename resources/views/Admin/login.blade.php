@@ -78,7 +78,7 @@
                 <strong>{{ $message }}</strong>
             </div>
         @endif --}}
-        
+
         <div id="login-left">
             <div class="logo">
                 <img src="/img/sample_logo.png" alt="">
@@ -91,14 +91,20 @@
                         @csrf
                         <div class="form-group">
                             <label for="username" class="control-label"><b>Username</b></label>
-                            <input type="text" id="username" name="username" class="form-control">
+                            <input type="text" id="username" name="username" class="form-control" value="{{ old('username') }}">
+                            @error('username')
+                                <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label"><b>Password</b></label>
-                            <input type="password" id="password" name="password" class="form-control">
+                            <input type="password" id="password" name="password" class="form-control" value="{{ old('password') }}">
+                            @error('password')
+                                <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <center><button type="submit"
-                                class="btn-sm btn-block btn-wave col-md-4 btn-primary">Login</button></center>
+                                class="btn-sm btn-block btn-wave col-md-12 btn-primary">Login</button></center>
                     </form>
                 </div>
             </div>
@@ -106,14 +112,14 @@
     </main>
 
     @if (session('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-warning alert-dismissible fade show alertmsg" role="alert">
             <strong>Warning!</strong> {{ session('error') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
         </div>
     @endif
 
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show alertmsg" role="alert">
             <strong>Success!</strong> {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
         </div>
@@ -121,6 +127,14 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script>
+        // Automatically close alerts after 3 seconds (3000ms)
+        setTimeout(function() {
+            $(".alertmsg").fadeOut("slow");
+        }, 2000);
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

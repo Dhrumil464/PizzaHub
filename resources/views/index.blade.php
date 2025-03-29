@@ -129,9 +129,9 @@
             <!-- End Hero -->
         </div>
         <div class="container my-3 mb-5">
-            <div class="col-lg-2 text-center bg-light my-3"
-                style="margin:auto;border-top: 2px groove black;border-bottom: 2px groove black;">
-                <h2 class="text-center">Menu</h2>
+            <div class="col-lg-12 text-center bg-light mt-3 mb-4"
+                style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
+                <h2 class="text-center">Pizza Categories</h2>
             </div>
 
             <div class="row d-flex justify-content-start">
@@ -145,7 +145,7 @@
                                     <a class="text-dark"
                                         href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
                                 </h5>
-                                <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}... </p>
+                                <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}...</p>
                                 <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
                                     class="btn btn-primary">View All</a>
                             </div>

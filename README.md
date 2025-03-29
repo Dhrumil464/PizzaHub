@@ -91,3 +91,36 @@ pizza_item migration changes
 pages -> viewPizzaList, viewPizza, indexPage
 user side navbar
 controller -> pizzaitemController, cetgoryController
+
+29/03/25
+//user side
+// changes based on validation
+navbar
+signup
+index
+viewPizzaList
+viewProfile
+
+//admin side
+// changes based on validation
+navbar
+index
+login
+menuManage
+categoryManage
+
+// migrations
+users_admins
+categories
+pizza_items
+
+// controller
+Admin
+User
+PizzaItem
+Category
+
+// Models
+UsersAdmin
+PizzaItems
+Categories

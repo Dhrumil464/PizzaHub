@@ -14,37 +14,36 @@
                     <div class="form-group">
                         <b><label for="username">Username</label></b>
                         <input class="form-control" id="username" name="username"
-                            placeholder="Choose a unique Username" type="text" minlength="3" maxlength="11" required>
-                        @if ($errors->has('username'))
-                            <span class="text-danger">{{ $errors->first('username') }}</span>
-                        @endif
+                            placeholder="Username" type="text" value="{{ old('username') }}">
+                        @error('username')
+                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <b><label for="firstName">First Name:</label></b>
                             <input type="text" class="form-control" id="firstName" name="firstName"
-                                placeholder="First Name" required>
-                            @if ($errors->has('firstname'))
-                                <span class="text-danger">{{ $errors->first('firstname') }}</span>
-                            @endif
-
+                                placeholder="First Name" value="{{ old('firstName') }}">
+                            @error('firstName')
+                                <span class="alert alert-danger px-0 py-0 rounded-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <b><label for="lastName">Last name:</label></b>
                             <input type="text" class="form-control" id="lastName" name="lastName"
-                                placeholder="Last name" required>
-                            @if ($errors->has('lastname'))
-                                <span class="text-danger">{{ $errors->first('lastname') }}</span>
-                            @endif
+                                placeholder="Last name" value="{{ old('lastName') }}">
+                            @error('lastName')
+                                <span class="alert alert-danger px-0 py-0 rounded-sm">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group">
                         <b><label for="email">Email:</label></b>
                         <input type="email" class="form-control" id="email" name="email"
-                            placeholder="Enter Your Email" required>
-                        @if ($errors->has('email'))
-                            <span class="text-danger">{{ $errors->first('email') }}</span>
-                        @endif
+                            placeholder="Enter Your Email" value="{{ old('email') }}">
+                        @error('email')
+                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <b><label for="phone">Phone No:</label></b>
@@ -53,27 +52,27 @@
                                 <span class="input-group-text" id="basic-addon">+91</span>
                             </div>
                             <input type="tel" class="form-control" id="phone" name="phoneNo"
-                                placeholder="Enter Your Phone Number" pattern="[0-9]{10}" maxlength="10" required>
-                            @if ($errors->has('phoneNo'))
-                                <span class="text-danger">{{ $errors->first('phoneNo') }}</span>
-                            @endif
+                                placeholder="Enter Your Phone Number" value="{{ old('phoneNo') }}">
                         </div>
+                        @error('phoneNo')
+                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="text-left my-2">
                         <b><label for="password">Password:</label></b>
                         <input class="form-control" id="password" name="password" placeholder="Enter Password"
-                            type="password" data-toggle="password" minlength="4" maxlength="21" required>
-                        @if ($errors->has('password'))
-                            <span class="text-danger">{{ $errors->first('password') }}</span>
-                        @endif
+                            type="password" data-toggle="password" value="{{ old('password') }}">
+                        @error('password')
+                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="text-left my-2">
-                        <b><label for="password1">Renter Password:</label></b>
+                        <b><label for="password1">Re-Enter Password:</label></b>
                         <input class="form-control" id="cpassword" name="cpassword" placeholder="Renter Password"
-                            type="password" data-toggle="password" minlength="4" maxlength="21" required>
-                        @if ($errors->has('cpassword'))
-                            <span class="text-danger">{{ $errors->first('cpassword') }}</span>
-                        @endif
+                            type="password" data-toggle="password" value="{{ old('cpassword') }}">
+                        @error('cpassword')
+                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </form>

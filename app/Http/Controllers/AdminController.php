@@ -6,6 +6,8 @@ use App\Models\UsersAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Session\Session;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AdminController extends Controller
 {
     /********************  Admin Controller *********************/
@@ -27,21 +29,19 @@ class AdminController extends Controller
 
         $user = UsersAdmin::where('username', $username)->first();
         if ($user) {
-            if($user->userType == 1)
-            {
+            if ($user->usertype == 1) {
                 if (password_verify($password, $user->password)) {
-                    session(['adminloggedin' => true, 'adminusername' => $username, 'adminuserId' => $user->userType]);
+                    session(['adminloggedin' => true, 'adminusername' => $username, 'adminuserId' => $user->usertype]);
                     // when match logged in so redirect to the dashboard
                     return redirect()->route('admin.index', ['loginsuccess' => 'true']);
                 } else {
-                    return back()->with('error', 'Invalid Credentials');
+                    return back()->with('error', 'Invalid Credentials!');
                 }
-            }else{
-                return back()->with('error', 'Invalid Credentials');
+            } else {
+                return back()->with('error', 'Invalid Credentials!');
             }
-            
         } else {
-            return back()->with('error', 'Invalid Credentials');
+            return back()->with('error', 'Invalid Credentials!');
         }
     }
 
@@ -50,7 +50,7 @@ class AdminController extends Controller
     {
         return view('admin.index');
     }
-    
+
 
     public function adminDashboard()
     {
@@ -83,12 +83,12 @@ class AdminController extends Controller
     {
         return view('admin.contactManage');
     }
-    
+
     public function siteManage()
     {
         return view('admin.siteManage');
     }
-    
+
     public function userManage()
     {
         return view('admin.userManage');

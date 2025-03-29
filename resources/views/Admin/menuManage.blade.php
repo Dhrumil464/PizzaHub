@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Price: </label>
-                                        <input type="number" class="form-control" name="pizzaprice" min="1"
+                                        <input type="number" class="form-control" name="pizzaprice"
                                             value="{{ old('pizzaprice') }}">
                                         @error('pizzaprice')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -46,8 +46,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Discount (%): </label>
-                                        <input type="number" class="form-control" name="discount"
-                                            value="{{ old('discount') }}">
+                                        <input class="form-control" id="discount" name="discount"
+                                            value="{{ old('discount') }}" type="number">
                                         @error('discount')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                         @enderror
@@ -118,7 +118,9 @@
                                                                     data-target="#updateItem{{ $item->pizzaid }}"
                                                                     style="width: 40px; height: 40px; border-radius: 8px;">
                                                                     <i class="fas fa-edit"></i></button>
-                                                                <form action="{{ route('pizzaitem.destroyPizzaItem', ['pizzaid' => $item->pizzaid]) }}" method="get">
+                                                                <form
+                                                                    action="{{ route('pizzaitem.destroyPizzaItem', ['pizzaid' => $item->pizzaid]) }}"
+                                                                    method="get">
                                                                     <button name="removeCategory"
                                                                         class="btn btn-sm btn-danger"
                                                                         style="width: 40px; height: 40px; border-radius: 8px; margin-left: 7px;"><i
@@ -185,33 +187,40 @@
                                     </div>
                                 </div>
                             </form>
-                            <form action="{{ route('pizzaitem.updatePizzaItem', ['pizzaid' => $item->pizzaid]) }}" method="post">
+                            <form action="{{ route('pizzaitem.updatePizzaItem', ['pizzaid' => $item->pizzaid]) }}"
+                                method="post">
                                 @csrf
                                 @method('put')
                                 <div class="text-left my-2">
                                     <b><label for="name">Name</label></b>
-                                    <input class="form-control" id="name" name="pizzanamee" value="{{ $item->pizzaname }}"
-                                        type="text" required>
-                                    @error('pizzaimagee')
+                                    <input class="form-control" id="name" name="pizzanamee"
+                                        value="{{ $item->pizzaname }}" type="text">
+                                    @error('pizzanamee')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="text-left my-2 row">
                                     <div class="form-group col-md-6">
                                         <b><label for="price">Price</label></b>
-                                        <input class="form-control" id="price" name="pizzapricee" value="{{ $item->pizzaprice }}"
-                                            type="number" required>
+                                        <input class="form-control" id="price" name="pizzapricee"
+                                            value="{{ $item->pizzaprice }}" type="number">
+                                        @error('pizzapricee')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-6">
                                         <b><label for="discount">Discount (%)</label></b>
                                         <input class="form-control" id="discount" name="discounte"
-                                            value="{{ $item->discount }}" type="number" required>
+                                            value="{{ $item->discount }}" type="number">
+                                        @error('discounte')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="text-left my-2">
                                     <b><label for="catId">Category Id</label></b>
-                                        <input class="form-control" id="catId" name="catide"
-                                            value="{{ $item->catid }}" type="number" required>
+                                    <input class="form-control" id="catId" name="catide"
+                                        value="{{ $item->catid }}" type="number" disabled>
                                 </div>
                                 <div class="text-left my-2">
                                     <b><label for="desc">Description</label></b>
