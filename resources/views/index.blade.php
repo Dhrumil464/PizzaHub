@@ -45,6 +45,38 @@
                 width: 70%;
             }
         }
+
+        /* loader code */
+        .pizza-loader {
+            width: 50px;
+            height: 50px;
+            background: url('/img/card-1.jpg') no-repeat center center;
+            background-size: cover;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            display: none;
+            /* Initially hidden */
+        }
+
+        @keyframes zoomRotate {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(15) rotate(180deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(30) rotate(360deg);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -156,6 +188,7 @@
                     </div>
                 </form>
             </div>
+            {{-- loader code --}}
             <div id="pizzaLoader" class="pizza-loader"></div>
             <div class="row d-flex justify-content-start" id="catData">
                 @foreach ($categories as $cat)
@@ -189,46 +222,54 @@
             let categoryId = radio.value;
             console.log("Selected Category ID:", categoryId);
 
+            // Show loader animation
+            let loader = document.getElementById('pizzaLoader');
+            loader.style.display = 'block';
+            loader.style.animation = 'zoomRotate 1s infinite ease-in-out';
 
-            // Make an AJAX request to fetch the new category data
-            $.ajax({
-                url: "{{ route('user.index') }}", // Your existing route
-                method: "GET",
-                data: {
-                    category_id: categoryId // This is what your controller expects
-                },
-                success: function(response) {
-                    if (response.message) {
+            // Wait for animation to complete before fetching data
+            setTimeout(() => {
+                loader.style.display = 'none'; // Hide loader after animation
+                // Make an AJAX request to fetch the new category data
+                $.ajax({
+                    url: "{{ route('user.index') }}", // Your existing route
+                    method: "GET",
+                    data: {
+                        category_id: categoryId // This is what your controller expects
+                    },
+                    success: function(response) {
+                        if (response.message) {
+                            $("#catData").html(
+                                `<div class="col-12 text-center"><p class="alert alert-warning">${response.message}</p></div>`
+                            );
+                            return;
+                        }
+
+                        // Extract just the category data portion from the response
+                        let parser = new DOMParser();
+                        let htmlDoc = parser.parseFromString(response, 'text/html');
+                        let newCatData = htmlDoc.getElementById('catData');
+
+                        if (newCatData) {
+                            $("#catData").html(newCatData.innerHTML);
+                        } else {
+                            // Fallback if we can't find the exact element
+                            $("#catData").html(response);
+                        }
+
+                        // Update the URL with the selected category for bookmarking/sharing
+                        let url = new URL(window.location);
+                        url.searchParams.set('pizzaCat', categoryId);
+                        window.history.pushState({}, '', url);
+                    },
+                    error: function(xhr) {
+                        console.log("Error fetching categories:", xhr);
                         $("#catData").html(
-                            `<div class="col-12 text-center"><p class="alert alert-warning">${response.message}</p></div>`
+                            `<div class="col-12 text-center"><p class="alert alert-danger">Error loading categories. Please try again.</p></div>`
                         );
-                        return;
                     }
-
-                    // Extract just the category data portion from the response
-                    let parser = new DOMParser();
-                    let htmlDoc = parser.parseFromString(response, 'text/html');
-                    let newCatData = htmlDoc.getElementById('catData');
-
-                    if (newCatData) {
-                        $("#catData").html(newCatData.innerHTML);
-                    } else {
-                        // Fallback if we can't find the exact element
-                        $("#catData").html(response);
-                    }
-
-                    // Update the URL with the selected category for bookmarking/sharing
-                    let url = new URL(window.location);
-                    url.searchParams.set('pizzaCat', categoryId);
-                    window.history.pushState({}, '', url);
-                },
-                error: function(xhr) {
-                    console.log("Error fetching categories:", xhr);
-                    $("#catData").html(
-                        `<div class="col-12 text-center"><p class="alert alert-danger">Error loading categories. Please try again.</p></div>`
-                    );
-                }
-            });
+                });
+            }, 800); // Adjust the timeout as needed
         }
 
         $(document).ready(function() {
