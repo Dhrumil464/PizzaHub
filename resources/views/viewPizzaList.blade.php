@@ -83,7 +83,7 @@
                         <div class="card">
                             @if ($item->discount > 0)
                                 <div class="position-absolute"
-                                    style="top: 10px; right: -5px; font-size: 14px; border-radius: 5px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 10px;transform: rotate(10deg); font-weight: bold;">
+                                    style="top: 10px; right: -15px; font-size: 14px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 20px;transform: rotate(10deg); font-weight: bold; clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0% 100%, 15% 50%, 0% 0%)">
                                     {{ $item->discount }}% OFF
                                 </div>
                             @endif

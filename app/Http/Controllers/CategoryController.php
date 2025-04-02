@@ -107,9 +107,22 @@ class CategoryController extends Controller
 
     /******************************   User side   ******************************/
 
-    public function userIndex()
+    // public function userIndex()
+    // {
+    //     $categories = Categories::get();
+    //     return view('index', ['categories' => $categories]);
+    // }
+
+    public function userIndex(Request $request)
     {
-        $categories = Categories::get();
-        return view('index', ['categories' => $categories]);
+        $categoryId = $request->category_id;
+
+        if ($categoryId == 0) {
+            $categories = Categories::get(); // Show all categories
+        } else {
+            $categories = Categories::where('cattype', $categoryId)->get(); // Filter based on selected category
+        }
+
+        return view('index', ['categories' => $categories])->render();
     }
 }

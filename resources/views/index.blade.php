@@ -129,18 +129,40 @@
             <!-- End Hero -->
         </div>
         <div class="container my-3 mb-5">
+            {{-- radio buttons --}}
             <div class="col-lg-12 text-center bg-light mt-3 mb-4"
                 style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
                 <h2 class="text-center">Pizza Categories</h2>
+                <form method="GET">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pizzaCat" id="option1" value="0"
+                            onchange="handleRadioChange(this)">
+                        <label class="form-check-label" for="option1">All</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pizzaCat" id="option2" value="1"
+                            onchange="handleRadioChange(this)">
+                        <label class="form-check-label" for="option2">Veg Pizza</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pizzaCat" id="option3" value="2"
+                            onchange="handleRadioChange(this)">
+                        <label class="form-check-label" for="option3">Non-Veg Pizza</label>
+                    </div>
+                </form>
             </div>
-
-            <div class="row d-flex justify-content-start">
+            <div class="row d-flex justify-content-start" id="catData">
                 @foreach ($categories as $cat)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
                         <div class="card">
                             <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category"
                                 height="250px">
                             <div class="card-body">
+                                @if ($cat->cattype == 1)
+                                    <img src="/img/veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
+                                @elseif ($cat->cattype == 2)
+                                    <img src="/img/non-veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
+                                @endif
                                 <h5 class="card-title">
                                     <a class="text-dark"
                                         href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
@@ -155,6 +177,28 @@
             </div>
         </div>
     @endsection('content')
+
+    <script>
+        function handleRadioChange(radio) {
+            let categoryId = radio.value;
+            console.log("Selected Category ID:", categoryId);
+
+            $.ajax({
+                url: "{{ route('user.index') }}", // Route to fetch filtered categories
+                method: "GET",
+                data: {
+                    category_id: categoryId
+                },
+                success: function(response) {
+                    $("#catData").html(response); // Replace the category data dynamically
+                },
+                error: function(xhr) {
+                    console.log("Error fetching categories:", xhr);
+                }
+            });
+        }
+    </script>
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

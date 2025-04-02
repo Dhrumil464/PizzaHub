@@ -98,6 +98,11 @@
                                                         <td>
                                                             <p>Name : <b>{{ $cat->catname }}</b></p>
                                                             <p>Description : <b class="truncate">{{ $cat->catdesc }}</b></p>
+                                                            @if ($cat->cattype == 1)
+                                                                <p>Type : <img src="/img/veg-mark.jpg" alt="" height="30px"></p>
+                                                            @elseif ($cat->cattype == 2)
+                                                                <p>Type : <img src="/img/non-veg-mark.jpg" alt="" height="30px"></p>
+                                                            @endif
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="row mx-auto" style="width: 90px;">

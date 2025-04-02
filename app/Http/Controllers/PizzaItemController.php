@@ -69,7 +69,7 @@ class PizzaItemController extends Controller
         if (isset($request->pizzaimagee)) {
             $imageName = time() . '.' . $request->pizzaimagee->extension();
             $request->pizzaimagee->move(public_path('pizzaimages'), $imageName);
-            $pizzaItem->pizzaimagee = $imageName;
+            $pizzaItem->pizzaimage = $imageName;
         }
 
         $pizzaItem->save();
