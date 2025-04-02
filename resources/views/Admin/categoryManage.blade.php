@@ -35,17 +35,17 @@
                                         <label class="control-label">Type: </label>
                                         <select name="cattype" id="" class="form-control">
                                             <option value="">Select Type</option>
-                                            @if(old('cattype') == 1)
+                                            @if (old('cattype') == 1)
                                                 <option value="1" selected>Veg Pizza</option>
                                             @else
                                                 <option value="1">Veg Pizza</option>
                                             @endif
-                                            @if(old('cattype') == 2)
+                                            @if (old('cattype') == 2)
                                                 <option value="2" selected>Non-Veg Pizza</option>
                                             @else
                                                 <option value="2">Non-Veg Pizza</option>
                                             @endif
-                                            
+
                                         </select>
                                         @error('cattype')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -58,12 +58,16 @@
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div class=" form-control">
+                                        <input type="checkbox" name="iscombo" id="iscombo" value="1">
+                                        <label for="iscombo" class="control-label">Check if category is combo!</label>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-md btn-primary"> Add
-                                                Category
+                                            <button type="submit" class="btn btn-md btn-primary">
+                                                Add Category
                                             </button>
                                         </div>
                                     </div>
@@ -97,11 +101,13 @@
                                                         </td>
                                                         <td>
                                                             <p>Name : <b>{{ $cat->catname }}</b></p>
-                                                            <p>Description : <b class="truncate">{{ $cat->catdesc }}</b></p>
+                                                            <p>Description : <b class="truncate">{{ $cat->catdesc }}</b>
+                                                            </p>
                                                             @if ($cat->cattype == 1)
-                                                                <p>Type : <img src="/img/veg-mark.jpg" alt="" height="30px"></p>
+                                                                <p>Type : <img src="/img/veg-mark.jpg" height="30px"></p>
                                                             @elseif ($cat->cattype == 2)
-                                                                <p>Type : <img src="/img/non-veg-mark.jpg" alt="" height="30px"></p>
+                                                                <p>Type : <img src="/img/non-veg-mark.jpg" height="30px">
+                                                                </p>
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
@@ -146,11 +152,12 @@
         <!-- Modal -->
         @foreach ($categories as $cat)
             <div class="modal fade" id="updateCat{{ $cat->catid }}" tabindex="-1" role="dialog"
-                aria-labelledby="updateCat{{ $cat->catid }}" aria-hidden="true" style="width: -webkit-fill-available;">
+                aria-labelledby="updateCat{{ $cat->catid }}" aria-hidden="true"
+                style="width: -webkit-fill-available;">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-light" style="background-color: #4b5366;">
-                            <h5 class="modal-title" id="updateCat{{ $cat->catid }}">Category Id: 
+                            <h5 class="modal-title" id="updateCat{{ $cat->catid }}">Category Id:
                                 <b> {{ $cat->catid }} </b>
                             </h5>
                             <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">

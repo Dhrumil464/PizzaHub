@@ -70,7 +70,7 @@
                                                 🍕🔥</span></h2>
                                         <p class="animate__animated animate__fadeInUp">Where every slice is made with love
                                             and the freshest ingredients. Dive into cheesy goodness today!"</p>
-                                        <a href="{{ route('user.index') }}"
+                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -88,7 +88,7 @@
                                         </h2>
                                         <p class="animate__animated animate__fadeInUp">Enjoy the taste of perfection with
                                             our handcrafted pizzas, made with love and the freshest ingredients!</p>
-                                        <a href="{{ route('user.index') }}"
+                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -105,7 +105,7 @@
                                             🚀</h2>
                                         <p class="animate__animated animate__fadeInUp">Craving pizza? Get it delivered hot
                                             and fresh straight to your door in just a few clicks!</p>
-                                        <a href="{{ route('user.index') }}"
+                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -136,21 +136,27 @@
                 <form method="GET">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pizzaCat" id="option1" value="0"
-                            onchange="handleRadioChange(this)">
-                        <label class="form-check-label" for="option1">All</label>
+                            onchange="handleRadioChange(this)" checked>
+                        <label class="form-check-label" for="option1" @style('font-size: 20px;')>All</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pizzaCat" id="option2" value="1"
                             onchange="handleRadioChange(this)">
-                        <label class="form-check-label" for="option2">Veg Pizza</label>
+                        <label class="form-check-label" for="option2" @style('font-size: 20px;')>Veg Pizza</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pizzaCat" id="option3" value="2"
                             onchange="handleRadioChange(this)">
-                        <label class="form-check-label" for="option3">Non-Veg Pizza</label>
+                        <label class="form-check-label" for="option3" @style('font-size: 20px;')>Non-Veg Pizza</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="pizzaCat" id="option4" value="3"
+                            onchange="handleRadioChange(this)">
+                        <label class="form-check-label" for="option4" @style('font-size: 20px;')>Comobos</label>
                     </div>
                 </form>
             </div>
+            <div id="pizzaLoader" class="pizza-loader"></div>
             <div class="row d-flex justify-content-start" id="catData">
                 @foreach ($categories as $cat)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
@@ -183,20 +189,61 @@
             let categoryId = radio.value;
             console.log("Selected Category ID:", categoryId);
 
+
+            // Make an AJAX request to fetch the new category data
             $.ajax({
-                url: "{{ route('user.index') }}", // Route to fetch filtered categories
+                url: "{{ route('user.index') }}", // Your existing route
                 method: "GET",
                 data: {
-                    category_id: categoryId
+                    category_id: categoryId // This is what your controller expects
                 },
                 success: function(response) {
-                    $("#catData").html(response); // Replace the category data dynamically
+                    if (response.message) {
+                        $("#catData").html(
+                            `<div class="col-12 text-center"><p class="alert alert-warning">${response.message}</p></div>`
+                        );
+                        return;
+                    }
+
+                    // Extract just the category data portion from the response
+                    let parser = new DOMParser();
+                    let htmlDoc = parser.parseFromString(response, 'text/html');
+                    let newCatData = htmlDoc.getElementById('catData');
+
+                    if (newCatData) {
+                        $("#catData").html(newCatData.innerHTML);
+                    } else {
+                        // Fallback if we can't find the exact element
+                        $("#catData").html(response);
+                    }
+
+                    // Update the URL with the selected category for bookmarking/sharing
+                    let url = new URL(window.location);
+                    url.searchParams.set('pizzaCat', categoryId);
+                    window.history.pushState({}, '', url);
                 },
                 error: function(xhr) {
                     console.log("Error fetching categories:", xhr);
+                    $("#catData").html(
+                        `<div class="col-12 text-center"><p class="alert alert-danger">Error loading categories. Please try again.</p></div>`
+                    );
                 }
             });
         }
+
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('pizzaCat');
+
+            if (category) {
+                $(`input[name="pizzaCat"][value="${category}"]`).prop('checked', true);
+                handleRadioChange($(`input[name="pizzaCat"][value="${category}"]`)[0]);
+            } else {
+                // Default to showing all categories
+                $('#option1').prop('checked', true);
+                handleRadioChange($('#option1')[0]);
+            }
+        });
     </script>
 
 

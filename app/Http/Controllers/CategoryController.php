@@ -40,11 +40,19 @@ class CategoryController extends Controller
         $imageName = time() . '.' . $request->catimage->extension();
         $request->catimage->move(public_path('catimages'), $imageName);
 
+        // Check if the request has 'iscombo' and set it to 0 if not present
+        if (!$request->has('iscombo')) {
+            $iscombo = 0;
+        } else {
+            $iscombo = $request->iscombo;
+        }
+
         $category = Categories::create([
             'catname' => $request->catname,
             'catimage' => $imageName ?? null,
             'catdesc' => $request->catdesc,
             'cattype' => $request->cattype,
+            'iscombo' => $iscombo,
             'catcreatedate' => Carbon::now('Asia/Kolkata'),
             'catupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);
@@ -116,13 +124,22 @@ class CategoryController extends Controller
     public function userIndex(Request $request)
     {
         $categoryId = $request->category_id;
+        $categories = collect();
 
         if ($categoryId == 0) {
             $categories = Categories::get(); // Show all categories
+        } elseif ($categoryId == 3) {
+            $categories = Categories::where('iscombo', 1)->get();
         } else {
-            $categories = Categories::where('cattype', $categoryId)->get(); // Filter based on selected category
+            $categories = Categories::where('cattype', $categoryId)->where('iscombo', 0)->get(); // Filter based on selected category
         }
 
-        return view('index', ['categories' => $categories])->render();
+        if ($categories->isEmpty()) {
+            return response()->json([
+                'message' => 'No categories found for the selected filter.'
+            ]);
+        }
+
+        return view('index', ['categories' => $categories]);
     }
 }

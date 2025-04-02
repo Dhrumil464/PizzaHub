@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('catimage',100);
             $table->string('catdesc',60)->nullable();
             $table->integer('cattype')->unsigned();
+            $table->integer('iscombo')->unsigned()->nullable();
             $table->timestamp('catcreatedate')->useCurrent();
             $table->timestamp('catupdatedate')->useCurrent();
         });
