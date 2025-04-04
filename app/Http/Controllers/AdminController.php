@@ -88,9 +88,4 @@ class AdminController extends Controller
     {
         return view('admin.siteManage');
     }
-
-    public function userManage()
-    {
-        return view('admin.userManage');
-    }
 }

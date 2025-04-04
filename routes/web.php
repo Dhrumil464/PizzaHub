@@ -78,8 +78,15 @@ Route::get('/viewPizza/{catid}/{pizzaid}', [PizzaItemController::class, 'viewPiz
 Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
 Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
-Route::get('/admin/dashboard/userManage', [AdminController::class, 'userManage'])->name('admin.userManage');
 
+/*************************   Profile Manage routes   ************************/
+Route::get('/admin/dashboard/userManage', [UserController::class, 'userManageView'])->name('admin.userManageView');
+
+Route::post('/admin/dashboard/userManage/addUser', [UserController::class, 'userManageAdd'])->name('admin.userManageAdd');
+
+Route::put('/admin/dashboard/userManage/updateUser/{userid}', [UserController::class, 'userManageUpdate'])->name('admin.userManageUpdate');
+
+Route::get('/admin/dashboard/userManage/removeUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
 
 
 /*************************   cart routes   ************************/

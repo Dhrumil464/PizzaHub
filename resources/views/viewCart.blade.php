@@ -210,12 +210,6 @@
     </script>
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
     <script>
-        function check(input) {
-            if (input.value < 1) {
-                input.value = 1;
-            }
-        }
-
         function updateQuantity(cartItemId) {
             const form = document.getElementById('frm' + cartItemId);
             if (!form) {

@@ -74,33 +74,12 @@ class CartController extends Controller
         return back()->with('success', 'Cart cleared successfully!');
     }
 
-    public function updateCart(Request $request, $cartitemid)
-    {
-        if (session('userloggedin') && session('userloggedin') == true) {
-            $userId = session('userId');
-        } else {
-            return back()->with('error', 'Please log in to update items in cart.');
-        }
-
-        $cartItem = PizzaCart::where('userid', $userId)->where('cartitemid', $cartitemid)->first();
-        if ($cartItem) {
-            $cartItem->quantity = $request->input('quantity');
-            $cartItem->save();
-            return back()->with('success', 'Cart updated successfully!');
-        } else {
-            return back()->with('error', 'Item not found in cart!');
-        }
-    }
-
     public function updateQuantity(Request $request)
     {
         $cartItem = PizzaCart::find($request->cartitemid);
 
         $cartItem->quantity = $request->quantity;
         $cartItem->save();
-
-
-        // return back()->with('success',$cartItem);
 
         $itemTotal = $cartItem->pizza->price * $cartItem->quantity;
         $discount = $cartItem->pizza->discount;

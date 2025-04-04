@@ -21,7 +21,7 @@
                 <div class="card col-lg-12">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered col-md-12 text-center">
+                            <table class="table table-bordered table-hover text-center ">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>UserId</th>
@@ -35,61 +35,56 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- $sql = 'SELECT * FROM users';
-                        $result = mysqli_query($conn, $sql);
-                        
-                        while ($row = mysqli_fetch_assoc($result))
-                            $Id = $row['id'];
-                            $username = $row['username'];
-                            $firstName = $row['firstName'];
-                            $lastName = $row['lastName'];
-                            $email = $row['email'];
-                            $phone = $row['phone'];
-                            $userType = $row['userType']; --}}
-                                    @php
-                                        $userType = 1;
-                                        $Id = 1;
-                                    @endphp
-                                    @if ($userType == 0)
+                                    @foreach ($users as $user)
                                         @php
-                                            $userType = 'user';
+                                            $usertype = $user->usertype;
                                         @endphp
-                                    @else
-                                        @php
-                                            $userType = 'Admin';
-                                        @endphp
-                                    @endif
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td><img src="/img/profilePic.jpg" alt="image for this user"
-                                                onError="this.src =\'/img/profilePic.jpg\'" width="90px" height="100px">
-                                        </td>
-                                        <td>admin</td>
-                                        <td>
-                                            <p>First Name : <b>firstName</b></p>
-                                            <p>Last Name : <b>lastName</b></p>
-                                        </td>
-                                        <td>exm@gmail.com</td>
-                                        <td>12345</td>
-                                        <td>{{ $userType }}</td>
-                                        <td class="text-center">
-                                            <div class="row mx-auto" style="width:112px">
-                                                <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                                    data-target="#editUser" type="button">Edit</button>
-                                                @if ($Id == 1)
-                                                    <button class="btn btn-sm btn-danger" disabled
-                                                        style="margin-left:9px;">Delete</button>
-                                                @else
-                                                    <form action="partials/_userManage.php" method="POST">
-                                                        <button name="removeUser" class="btn btn-sm btn-danger"
+                                        @if ($usertype == 0)
+                                            @php
+                                                $userType = 'User';
+                                            @endphp
+                                        @else
+                                            @php
+                                                $userType = 'Admin';
+                                            @endphp
+                                        @endif
+                                        <tr>
+                                            <td>1</td>
+                                            <td><img src="/img/profilePic.jpg" alt="image for this user"
+                                                    onError="this.src =\'/img/profilePic.jpg\'" width="90px"
+                                                    height="100px">
+                                            </td>
+                                            <td>{{ $user->username }}</td>
+                                            <td>
+                                                <p>First Name : <b>{{ $user->firstname }}</b></p>
+                                                <p>Last Name : <b>{{ $user->lastname }}</b></p>
+                                            </td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $user->phoneno }}</td>
+                                            <td>{{ $userType }}</td>
+                                            <td class="text-center">
+                                                <div class="row mx-auto" style="width:112px">
+                                                    @if ($usertype == 1)
+                                                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                                            data-target="#editUser{{ $user->userid }}"
+                                                            type="button">Edit</button>
+                                                        <button class="btn btn-sm btn-danger" disabled
                                                             style="margin-left:9px;">Delete</button>
-                                                        <input type="hidden" name="Id" value="$id">
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                    @else
+                                                        <form
+                                                            action="{{ route('admin.userManageDestroy', ['userid' => $user->userid]) }}"
+                                                            method="get">
+                                                            <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                                                data-target="#editUser{{ $user->userid }}" type="button"
+                                                                disabled>Edit</button>
+                                                            <button class="btn btn-sm btn-danger"
+                                                                style="margin-left:5px;">Delete</button>
+                                                        </form>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -109,58 +104,83 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="partials/_userManage.php" method="post">
+                        <form action="{{ route('admin.userManageAdd') }}" method="post">
+                            @csrf
                             <div class="form-group">
                                 <b><label for="username">Username</label></b>
                                 <input class="form-control" id="username" name="username"
-                                    placeholder="Choose a unique Username" type="text" required>
+                                    placeholder="Choose a unique Username" type="text">
+                                @error('username')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <b><label for="firstName">First Name:</label></b>
                                     <input type="text" class="form-control" id="firstName" name="firstName"
-                                        placeholder="First Name" required>
+                                        placeholder="First Name">
+                                    @error('firstName')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <b><label for="lastName">Last name:</label></b>
                                     <input type="text" class="form-control" id="lastName" name="lastName"
-                                        placeholder="Last name" required>
+                                        placeholder="Last Name">
+                                    @error('lastName')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group">
                                 <b><label for="email">Email:</label></b>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Enter Your Email" required>
+                                    placeholder="Enter Your Email">
+                                @error('email')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group row my-0">
-                                <div class="form-group col-md-6 my-0">
+                                <div class="form-group col-md-6">
                                     <b><label for="phone">Phone No:</label></b>
-                                    <div class="input-group mb-3">
+                                    <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon">+91</span>
                                         </div>
-                                        <input type="tel" class="form-control" id="phone" name="phone"
-                                            placeholder="Enter Phone No" required pattern="[0-9]{10}" maxlength="10">
+                                        <input type="tel" class="form-control" id="phone" name="phoneNo"
+                                            placeholder="Enter Phone No">
                                     </div>
+                                    @error('phoneNo')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="form-group col-md-6 my-0">
+                                <div class="form-group col-md-6">
                                     <b><label for="userType">Type:</label></b>
-                                    <select name="userType" id="userType" class="custom-select browser-default"
-                                        required>
+                                    <select name="userType" id="userType" class="custom-select browser-default">
+                                        <option value="">Select Type</option>
                                         <option value="0">User</option>
                                         <option value="1">Admin</option>
                                     </select>
+                                    @error('userType')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="form-group">
                                 <b><label for="password">Password:</label></b>
                                 <input class="form-control" id="password" name="password" placeholder="Enter Password"
-                                    type="password" required data-toggle="password">
+                                    type="password" data-toggle="password">
+                                @error('password')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <b><label for="password1">Renter Password:</label></b>
                                 <input class="form-control" id="cpassword" name="cpassword"
-                                    placeholder="Renter Password" type="password" required data-toggle="password">
+                                    placeholder="Renter Password" type="password" data-toggle="password">
+                                @error('cpassword')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                             <button type="submit" name="createUser" class="btn btn-success">Submit</button>
                         </form>
@@ -169,107 +189,103 @@
             </div>
         </div>
 
-        {{-- $usersql = "SELECT * FROM `users`";
-    $userResult = mysqli_query($conn, $usersql);
-    while($userRow = mysqli_fetch_assoc($userResult))
-        $Id = $userRow['id'];
-        $name = $userRow['username'];
-        $firstName = $userRow['firstName'];
-        $lastName = $userRow['lastName'];
-        $email = $userRow['email'];
-        $phone = $userRow['phone'];
-        $userType = $userRow['userType']; --}}
-        <!-- editUser Modal -->
-        <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="editUser"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-light" style="background-color: #4b5366;">
-                        <h5 class="modal-title" id="editUser">User Id: <b>Id</b></h5>
-                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="text-left my-2 row" style="border-bottom: 2px solid #dee2e6;">
-                            <div class="form-group col-md-8">
-                                <form action="partials/_userManage.php" method="post" enctype="multipart/form-data">
-                                    <b><label for="image">Profile Picture</label></b>
-                                    <input type="file" name="userimage" id="userimage" accept=".jpg"
-                                        class="form-control" required style="border:none;">
-                                    <small id="Info" class="form-text text-muted mx-3">Please .jpg file
-                                        upload.</small>
-                                    <input type="hidden" id="userId" name="userId" value="$Id">
-                                    <button type="submit" class="btn btn-success mt-3" name="updateProfilePhoto">Update
-                                        Img</button>
-                                </form>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <img src="/img/person-1.jpg" alt="Profile Photo" width="100" height="100"
-                                    onError="this.src ='/img/profilePic.jpg'">
-                                <form action="partials/_userManage.php" method="post">
-                                    <input type="hidden" id="userId" name="userId" value="$Id">
-                                    <button type="submit" class="btn btn-success mt-2" name="removeProfilePhoto">Remove
-                                        Img</button>
-                                </form>
-                            </div>
+        @foreach ($users as $user)
+            <div class="modal fade" id="editUser{{ $user->userid }}" tabindex="-1" role="dialog"
+                aria-labelledby="editUser{{ $user->userid }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-light" style="background-color: #4b5366;">
+                            <h5 class="modal-title" id="editUser{{ $user->userid }}">User Id: <b>{{ $user->userid }}</b>
+                            </h5>
+                            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <div class="modal-body">
 
-                        <form action="partials/_userManage.php" method="post">
-                            <div class="form-group">
-                                <b><label for="username">Username</label></b>
-                                <input class="form-control" id="username" name="username" value="name"
-                                    type="text" disabled>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <b><label for="firstName">First Name:</label></b>
-                                    <input type="text" class="form-control" id="firstName" name="firstName"
-                                        value="firstName" required>
+                            <div class="text-left my-2 row" style="border-bottom: 2px solid #dee2e6;">
+                                <div class="form-group col-md-8">
+                                    <form action="partials/_userManage.php" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <b><label for="image">Profile Picture</label></b>
+                                        <input type="file" name="userimage" id="userimage" accept=".jpg"
+                                            class="form-control" required style="border:none;">
+                                        <small id="Info" class="form-text text-muted mx-3">Please .jpg file
+                                            upload.</small>
+                                        <input type="hidden" id="userId" name="userId" value="$Id">
+                                        <button type="submit" class="btn btn-success mt-3"
+                                            name="updateProfilePhoto">Update
+                                            Img</button>
+                                    </form>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <b><label for="lastName">Last name:</label></b>
-                                    <input type="text" class="form-control" id="lastName" name="lastName"
-                                        value="lastName" required>
+                                <div class="form-group col-md-4">
+                                    <img src="/img/person-1.jpg" alt="Profile Photo" width="100" height="100"
+                                        onError="this.src ='/img/profilePic.jpg'">
+                                    <form action="partials/_userManage.php" method="post">
+                                        <input type="hidden" id="userId" name="userId" value="$Id">
+                                        <button type="submit" class="btn btn-success mt-2"
+                                            name="removeProfilePhoto">Remove
+                                            Img</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <b><label for="email">Email:</label></b>
-                                <input type="email" class="form-control" id="email" name="email" value="email"
-                                    required>
-                            </div>
-                            <div class="form-group row my-0">
-                                <div class="form-group col-md-6 my-0">
-                                    <b><label for="phone">Phone No:</label></b>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon">+91</span>
-                                        </div>
-                                        <input type="tel" class="form-control" id="phone" name="phone"
-                                            value="phone" required pattern="[0-9]{10}" maxlength="10">
+
+                            <form action="partials/_userManage.php" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <b><label for="username">Username</label></b>
+                                    <input class="form-control" id="username" name="username" value="name"
+                                        type="text" disabled>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <b><label for="firstName">First Name:</label></b>
+                                        <input type="text" class="form-control" id="firstName" name="firstName"
+                                            value="firstName" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <b><label for="lastName">Last name:</label></b>
+                                        <input type="text" class="form-control" id="lastName" name="lastName"
+                                            value="lastName" required>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6 my-0">
-                                    <b><label for="userType">Type:</label></b>
-                                    <select name="userType" id="userType" class="custom-select browser-default"
-                                        required>
-                                        @if ($userType == 1)
-                                            <option value="0">User</option>
-                                            <option value="1" selected>Admin</option>
-                                        @else
-                                            <option value="0" selected>User</option>
-                                            <option value="1">Admin</option>
-                                        @endif
-                                    </select>
+                                <div class="form-group">
+                                    <b><label for="email">Email:</label></b>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="email" required>
                                 </div>
-                            </div>
-                            <input type="hidden" id="userId" name="userId" value="$Id">
-                            <button type="submit" name="editUser" class="btn btn-success">Update</button>
-                        </form>
+                                <div class="form-group row my-0">
+                                    <div class="form-group col-md-6 my-0">
+                                        <b><label for="phone">Phone No:</label></b>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon">+91</span>
+                                            </div>
+                                            <input type="tel" class="form-control" id="phone" name="phone"
+                                                value="phone" required pattern="[0-9]{10}" maxlength="10">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6 my-0">
+                                        <b><label for="userType">Type:</label></b>
+                                        <select name="userType" id="userType" class="custom-select browser-default"
+                                            required>
+                                            @if ($userType == 1)
+                                                <option value="0">User</option>
+                                                <option value="1" selected>Admin</option>
+                                            @else
+                                                <option value="0" selected>User</option>
+                                                <option value="1">Admin</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="userId" name="userId" value="$Id">
+                                <button type="submit" name="editUser" class="btn btn-success">Update</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     @endsection
 </body>

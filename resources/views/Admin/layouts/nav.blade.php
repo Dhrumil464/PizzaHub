@@ -79,7 +79,7 @@
                         <i class="fas fa-hands-helping"></i>
                         <span class="nav__name">Contact Info</span>
                     </a>
-                    <a href="{{ route('admin.userManage') }}"
+                    <a href="{{ route('admin.userManageView') }}"
                         class="nav__link nav-userManage {{ request('page') == 'userManage' ? 'active' : '' }}">
                         <i class='bx bx-user nav__icon'></i>
                         <span class="nav__name">Users</span>
