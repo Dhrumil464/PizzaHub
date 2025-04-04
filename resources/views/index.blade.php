@@ -51,6 +51,7 @@
             width: 50px;
             height: 50px;
             background: url('/img/pizza-loader.png') no-repeat center center;
+
             background-size: cover;
             position: fixed;
             top: 50%;
@@ -67,8 +68,18 @@
                 opacity: 0.5;
             }
 
+<<<<<<< HEAD
             100% {
                 transform: translate(-50%, -50%) scale(35) rotate(360deg);
+=======
+            50% {
+                transform: scale(15) rotate(180deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(30) rotate(360deg);
+>>>>>>> b0c9422f2e24afadaccf3d2139147e172e7a4e09
                 opacity: 1;
             }
         }
