@@ -43,7 +43,7 @@
                                         <tr>
                                             <th scope="col">No.</th>
                                             <th scope="col">Item Name</th>
-                                            <th scope="col" colspan="2">Item Price</th>
+                                            <th scope="col">Item Price</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Total Price</th>
                                             <th scope="col">
@@ -56,6 +56,10 @@
                                             </th>
                                         </tr>
                                     </thead>
+                                    @php
+                                        $totalFinalPrice = 0;
+                                        $discountedTotalPrice = 0;
+                                    @endphp
                                     <tbody>
                                         @foreach ($cartItems as $item)
                                             @php
@@ -66,40 +70,46 @@
                                                 $pizzaId = $pizzaItem->pizzaid;
                                                 $pizzaName = $pizzaItem->pizzaname;
                                                 $pizzaPrice = $pizzaItem->pizzaprice;
-                                                $itemTotalPrice = $pizzaPrice * $item->quantity;
+                                                $discount = $pizzaItem->discount;
+                                                $quantity = $item->quantity;
+                                                $itemTotalPrice = $pizzaPrice * $quantity;
+                                                $discountedPrice =
+                                                    $itemTotalPrice - ($itemTotalPrice * $discount) / 100;
+
+                                                $totalFinalPrice += $itemTotalPrice;
+                                                $discountedTotalPrice += $discountedPrice;
                                             @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $pizzaItem->pizzaname }}</td>
-                                                <td>{{ $pizzaItem->pizzaprice }}</td>
+                                                <td>{{ $pizzaName }}</td>
+                                                <td>{{ number_format($pizzaPrice, 2) }}</td>
                                                 <td>
-                                                    <form id="frm' . $pizzaId . ">
-                                                        <input type="hidden" name="pizzaId" value="">
-                                                        <input type="number" name="quantity" value="{{ $item->quantity }}"
-                                                            class="text-center" onchange="updateCart({{ $item->quantity }})"
-                                                            onkeyup="return false" style="width:60px" min=1
-                                                            oninput="check(this)" onClick="this.select();">
+                                                    <form id="frm{{ $item->cartitemid }}">
+                                                        <input type="hidden" name="cartitemid"
+                                                            value="{{ $item->cartitemid }}">
+                                                        <input type="number" name="quantity" value="{{ $quantity }}"
+                                                            class="text-center"
+                                                            onchange="console.log('cartItemId:', {{ $item->cartitemid }}); updateQuantity({{ $item->cartitemid }})"
+                                                            style="width:60px" min=1 max=8 onClick="this.select();">
                                                     </form>
                                                 </td>
                                                 <td>
                                                     @if ($pizzaItem->discount > 0)
-                                                        @php
-                                                            $discountedPrice =
-                                                                $pizzaItem->pizzaprice -
-                                                                ($pizzaItem->pizzaprice * $pizzaItem->discount) / 100;
-                                                        @endphp
                                                         <h6 style="color: #ff0000">
-                                                            <del>Rs.{{ $pizzaItem->pizzaprice }}/-</del>
+                                                            <del>Rs.{{ number_format($itemTotalPrice, 2) }}/-</del><br>
                                                             <span
-                                                                style="color: green;">Rs.{{ number_format($itemTotalPrice, 2) }}/-</span>
+                                                                style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
                                                         </h6>
                                                     @else
-                                                        <h6 style="color: green">Rs.{{ $itemTotalPrice }}/-</h6>
+                                                        <h6 style="color: green">
+                                                            Rs.{{ number_format($itemTotalPrice, 2) }}/-
+                                                        </h6>
                                                     @endif
                                                 </td>
-                                                <td>{{ $itemTotalPrice }}</td>
                                                 <td>
-                                                    <form action="{{ route('cart.remove', ['cartitemid' => $item->cartitemid]) }}" method="POST">
+                                                    <form
+                                                        action="{{ route('cart.remove', ['cartitemid' => $item->cartitemid]) }}"
+                                                        method="POST">
                                                         @csrf
                                                         <button name="removeItem"
                                                             class="btn btn-sm btn-outline-danger">Remove</button>
@@ -125,10 +135,15 @@
                                 <ul class="list-group list-group-flush">
                                     <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 bg-light">
-                                        Total Price<span>{{ 99 }}</span></li>
+                                        Total Price<span>Rs.{{ number_format($totalFinalPrice, 2) }}/-</span></li>
                                     <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0  bg-light">
-                                        Shipping<span>Rs. 0</span></li>
+                                        Shipping<span>Rs.{{ number_format(0, 2) }}/-</span></li>
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0  bg-light">
+                                        Total
+                                        Discount<span>Rs.{{ number_format($totalFinalPrice - $discountedTotalPrice, 2) }}/-</span>
+                                    </li>
                                     <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3 bg-light">
                                         <div>
@@ -137,7 +152,7 @@
                                                 <p class="mb-0">(including Tax & Charge)</p>
                                             </strong>
                                         </div>
-                                        <span><strong>Rs.99</strong></span>
+                                        <span><strong>Rs.{{ number_format($discountedTotalPrice, 2) }}/-</strong></span>
                                     </li>
                                 </ul>
                                 <div class="form-check">
@@ -169,8 +184,8 @@
                                 <div class="collapse" id="collapseExample">
                                     <div class="mt-3">
                                         <div class="md-form md-outline mb-0">
-                                            <input type="text" id="discount-code"
-                                                class="form-control font-weight-light" placeholder="Enter discount code">
+                                            <input type="text" id="discount-code" class="form-control font-weight-light"
+                                                placeholder="Enter discount code">
                                         </div>
                                     </div>
                                 </div>
@@ -196,20 +211,31 @@
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
     <script>
         function check(input) {
-            if (input.value <= 0) {
+            if (input.value < 1) {
                 input.value = 1;
             }
         }
 
-        function updateCart(id) {
-            $.ajax({
-                url: 'partials/_manageCart.php',
-                type: 'POST',
-                data: $("#frm" + id).serialize(),
-                success: function(res) {
-                    location.reload();
-                }
-            })
+        function updateQuantity(cartItemId) {
+            const form = document.getElementById('frm' + cartItemId);
+            if (!form) {
+                console.error("Form not found for cartItemId:", form);
+                return;
+            }
+            const formData = new FormData(form);
+
+            fetch("{{ route('cart.updateQuantity') }}", {
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("success", data);
+                })
+                .catch(error => console.error('Error:', error));
         }
     </script>
 </body>

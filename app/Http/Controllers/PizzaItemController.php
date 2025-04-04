@@ -115,4 +115,9 @@ class PizzaItemController extends Controller
         $pizzaItems = PizzaItems::where('catid', $catid)->get();
         return view('viewPizzaList', ['pizzaItems' => $pizzaItems]);
     }
+
+    public function viewPizza()
+    {
+        return view('viewPizza');
+    }
 }

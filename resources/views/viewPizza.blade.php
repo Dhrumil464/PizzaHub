@@ -68,7 +68,7 @@
                                 @csrf
                                 <button type="submit" name="addToCart" class="btn btn-primary my-2">Add to Cart</button>
                             @else
-                                <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary my-2">Go to
+                                <a href="{{ route('user.showCart') }}"><button class="btn btn-primary my-2">Go to
                                         Cart</button></a>
                         @endif
                     @else

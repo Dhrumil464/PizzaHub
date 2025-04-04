@@ -115,12 +115,6 @@ class CategoryController extends Controller
 
     /******************************   User side   ******************************/
 
-    // public function userIndex()
-    // {
-    //     $categories = Categories::get();
-    //     return view('index', ['categories' => $categories]);
-    // }
-
     public function userIndex(Request $request)
     {
         $categoryId = $request->category_id;

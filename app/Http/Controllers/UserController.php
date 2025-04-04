@@ -9,11 +9,6 @@ use Illuminate\Contracts\Session\Session;
 class UserController extends Controller
 {
     /********************  User Controller *********************/
-    
-    public function userIndex()
-    {
-        return view('index');
-    }
 
     public function viewProfile()
     {
@@ -23,16 +18,6 @@ class UserController extends Controller
     public function viewOrder()
     {
         return view('viewOrder');
-    }
-
-    public function viewPizzaList()
-    {
-        return view('viewPizzaList');
-    }
-
-    public function viewPizza()
-    {
-        return view('viewPizza');
     }
 
     public function viewCart()

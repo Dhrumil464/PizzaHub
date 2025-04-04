@@ -14,10 +14,10 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }else {
+        } else {
             return back()->with('error', 'Please log in to view your cart.');
         }
-        
+
         $cartItems = PizzaCart::where('userid', $userId)->get();
         return view('viewcart', compact('cartItems'));
     }
@@ -26,7 +26,7 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }else{
+        } else {
             return back()->with('error', 'Please log in to add items to cart.');
         }
         $pizzaid = request('pizzaid');
@@ -49,8 +49,7 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }
-        else{
+        } else {
             return back()->with('error', 'Please log in to remove items from cart.');
         }
 
@@ -67,7 +66,7 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }else{
+        } else {
             return back()->with('error', 'Please log in to clear the cart.');
         }
 
@@ -79,7 +78,7 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }else{
+        } else {
             return back()->with('error', 'Please log in to update items in cart.');
         }
 
@@ -93,11 +92,32 @@ class CartController extends Controller
         }
     }
 
+    public function updateQuantity(Request $request)
+    {
+        $cartItem = PizzaCart::find($request->cartitemid);
+
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+
+
+        // return back()->with('success',$cartItem);
+
+        $itemTotal = $cartItem->pizza->price * $cartItem->quantity;
+        $discount = $cartItem->pizza->discount;
+        $finalPrice = $itemTotal - ($itemTotal * $discount / 100);
+
+        return response()->json([
+            'itemTotal' => number_format($itemTotal, 2),
+            'finalPrice' => number_format($finalPrice, 2),
+            'hasDiscount' => $discount > 0,
+        ]);
+    }
+
     public function checkout()
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-        }else{
+        } else {
             return back()->with('error', 'Please log in to proceed to checkout.');
         }
 
