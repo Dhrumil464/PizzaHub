@@ -43,8 +43,8 @@
                 @php
                     $catid = request('catid');
                     $pizzaid = request('pizzaid');
-                    $category = App\Models\Categories::where('catid',$catid)->first();
-                    $pizzaItem = App\Models\PizzaItems::where('pizzaid',$pizzaid)->first();
+                    $category = App\Models\Categories::where('catid', $catid)->first();
+                    $pizzaItem = App\Models\PizzaItems::where('pizzaid', $pizzaid)->first();
                 @endphp
                 <script>
                     document.getElementById("title").innerHTML += " | {{ $pizzaItem->pizzaname }}"
@@ -58,13 +58,14 @@
                     <p class="mb-0">{{ substr($pizzaItem->pizzadesc, 0, 29) }}...</p>
 
                     @if ($userloggedin)
-                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                    $quaresult = mysqli_query($conn, $quaSql);
-                    $quaExistRows = mysqli_num_rows($quaresult); --}}
-                    @php $quaExistRows = 1 @endphp
-                        @if ($quaExistRows == 1)
-                            <form action="partials/_manageCart.php" method="POST">
-                                <input type="hidden" name="itemId" value="$pizzaId">
+                        @php
+                            $quaExistRows = App\Models\PizzaCart::where('pizzaId', $pizzaItem->pizzaid)
+                                ->where('userId', $userId)
+                                ->count();
+                        @endphp
+                        @if ($quaExistRows == 0)
+                            <form action="{{ route('cart.add', ['pizzaid' => $pizzaItem->pizzaid]) }}" method="POST">
+                                @csrf
                                 <button type="submit" name="addToCart" class="btn btn-primary my-2">Add to Cart</button>
                             @else
                                 <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary my-2">Go to

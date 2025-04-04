@@ -69,7 +69,7 @@ class UserController extends Controller
         if ($user) {
             if ($user->usertype == 0 || $user->usertype == 1) {
                 if (password_verify($password, $user->password)) {
-                    session(['userloggedin' => true, 'username' => $user->username, 'userId' => $user->usertype]);
+                    session(['userloggedin' => true, 'username' => $user->username, 'usertype' => $user->usertype , 'userId' => $user->userid]);
                     return back()->with('success', 'Logged in successfully!');
                 } else {
                     return back()->with('error', 'Invalid Credentials!');
@@ -84,7 +84,7 @@ class UserController extends Controller
 
     public function userLogout()
     {
-        Session()->forget(['userloggedin', 'username', 'userId']);
+        Session()->forget(['userloggedin', 'username', 'usertype', 'userId']);
 
         return redirect()->route('user.index')->with('success', 'Logged out successfully.');
     }

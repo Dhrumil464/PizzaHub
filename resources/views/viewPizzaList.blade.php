@@ -107,14 +107,15 @@
                                 <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
                                 <div class="row justify-content-center">
                                     @if ($userloggedin)
-                                        {{-- loggedin user --}}
-                                        {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                        $quaresult = mysqli_query($conn, $quaSql);
-                                        $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                        @php $quaExistRows = 1 @endphp
-                                        @if ($quaExistRows == 1)
-                                            <form action="partials/_manageCart.php" method="POST">
-                                                <input type="hidden" name="itemId" value="$pizzaId">
+                                        @php
+                                            $quaExistRows = App\Models\PizzaCart::where('pizzaId', $item->pizzaid)
+                                                ->where('userId', $userId)
+                                                ->count();
+                                        @endphp
+                                        @if ($quaExistRows == 0)
+                                            <form action="{{ route('cart.add', ['pizzaid' => $item->pizzaid]) }}"
+                                                method="POST">
+                                                @csrf
                                                 <button type="submit" name="addToCart"
                                                     class="btn btn-primary myBtnSize">Add to Cart</button>
                                             @else

@@ -1,12 +1,12 @@
 @if (session('userloggedin') && session('userloggedin') == true)
     @php
         $userloggedin = true;
-        $userId = session('userId');
+        $usertype = session('usertype');
     @endphp
 @else
     @php
         $userloggedin = false;
-        $userId = 0;
+        $usertype = 0;
     @endphp
 @endif
 
@@ -39,7 +39,8 @@
                         $categories = App\Models\Categories::get();
                     @endphp
                     @foreach ($categories as $cat)
-                        <a class="dropdown-item" href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                        <a class="dropdown-item"
+                            href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
                     @endforeach
                 </div>
             </li>
@@ -112,7 +113,8 @@
 
 <div class="footer py-3 container-fluid bg-dark text-light">
     <p class="text-center py-2 mb-0">Copyright © {{ Date('Y') }} Designed by <a
-            href="https://github.com/Dhrumil464/pizzahub" target="_blank" rel="noopener noreferrer" style="color:#1bbca3;">@pizzahub</a></p>
+            href="https://github.com/Dhrumil464/pizzahub" target="_blank" rel="noopener noreferrer"
+            style="color:#1bbca3;">@pizzahub</a></p>
 </div>
 
 <script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PizzaItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 use App\Models\Categories;
 use App\Models\PizzaItems;
 use Illuminate\Support\Facades\Route;
@@ -84,3 +85,6 @@ Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrde
 Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
 Route::get('/admin/dashboard/userManage', [AdminController::class, 'userManage'])->name('admin.userManage');
+
+Route::post('/addToCart/{pizzaid}', [CartController::class, 'addToCart'])->name('cart.add');
+// Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');

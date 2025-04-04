@@ -140,6 +140,11 @@ class CategoryController extends Controller
             ]);
         }
 
+        // if ($categories->isEmpty()) {
+        //     $categories = "No categories found for the selected filter.";
+        //     return view('index', ['message' => $categories]);
+        // }
+
         return view('index', ['categories' => $categories]);
     }
 }

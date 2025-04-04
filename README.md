@@ -124,3 +124,12 @@ Category
 UsersAdmin
 PizzaItems
 Categories
+
+02/04/25
+user side home page categories filter
+
+loader added in categories filter
+
+item add to cart complete
+
+after exam given changes

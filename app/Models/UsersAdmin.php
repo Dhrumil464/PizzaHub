@@ -10,7 +10,7 @@ class UsersAdmin extends Model
     use HasFactory;
 
     protected $table = 'users_admins';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'userid';
 
     protected $fillable = ['username', 'firstname', 'lastname', 'email', 'phoneNo', 'userType', 'password'];
     
