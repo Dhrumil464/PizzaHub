@@ -94,7 +94,7 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <a href="{{ route('user.viewCart') }}">
+            <a href="{{ route('user.showCart') }}">
                 <button type="button" class="btn btn-secondary mx-2" title="MyCart">
                     <svg xmlns="img/cart.svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
                         viewBox="0 0 16 16">

@@ -10,35 +10,102 @@ use Carbon\Carbon;
 
 class CartController extends Controller
 {
-    public function addToCart()
+    public function showCart()
     {
-        // $request->validate([
-        //     'pizzaid' => 'required|exists:pizza_items,id',
-        //     'quantity' => 'required|integer|min:1',
-        //     'size' => 'nullable|integer|min:1',
-        // ]);
-
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
+        }else {
+            return back()->with('error', 'Please log in to view your cart.');
+        }
+        
+        $cartItems = PizzaCart::where('userid', $userId)->get();
+        return view('viewcart', compact('cartItems'));
+    }
+
+    public function addToCart()
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }else{
+            return back()->with('error', 'Please log in to add items to cart.');
         }
         $pizzaid = request('pizzaid');
-
         $cartItem = PizzaCart::where('userid', $userId)->where('pizzaid', $pizzaid)->first();
 
         if ($cartItem) {
-            // If item exists, update quantity
             return back()->with('error', 'Item already added!');
         } else {
-            // If item does not exist, create a new cart entry
             PizzaCart::create([
                 'userid' => $userId,
                 'pizzaid' => $pizzaid,
                 'quantity' => 1,
-                'size' => 9, // Default size
                 'itemadddate' => Carbon::now('Asia/Kolkata'),
             ]);
         }
-
         return back()->with('success', 'Item added to cart successfully!');
+    }
+
+    public function removeFromCart($cartitemid)
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }
+        else{
+            return back()->with('error', 'Please log in to remove items from cart.');
+        }
+
+        $cartItem = PizzaCart::where('userid', $userId)->where('cartitemid', $cartitemid)->first();
+        if ($cartItem) {
+            $cartItem->delete();
+            return back()->with('success', 'Item removed from cart successfully!');
+        } else {
+            return back()->with('error', 'Item not found in cart!');
+        }
+    }
+
+    public function clearCart()
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }else{
+            return back()->with('error', 'Please log in to clear the cart.');
+        }
+
+        PizzaCart::where('userid', $userId)->delete();
+        return back()->with('success', 'Cart cleared successfully!');
+    }
+
+    public function updateCart(Request $request, $cartitemid)
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }else{
+            return back()->with('error', 'Please log in to update items in cart.');
+        }
+
+        $cartItem = PizzaCart::where('userid', $userId)->where('cartitemid', $cartitemid)->first();
+        if ($cartItem) {
+            $cartItem->quantity = $request->input('quantity');
+            $cartItem->save();
+            return back()->with('success', 'Cart updated successfully!');
+        } else {
+            return back()->with('error', 'Item not found in cart!');
+        }
+    }
+
+    public function checkout()
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }else{
+            return back()->with('error', 'Please log in to proceed to checkout.');
+        }
+
+        $cartItems = PizzaCart::where('userid', $userId)->get();
+        if ($cartItems->isEmpty()) {
+            return back()->with('error', 'Your cart is empty!');
+        }
+
+        return back()->with('success', 'Checkout successful!');
     }
 }

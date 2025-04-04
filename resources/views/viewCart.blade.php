@@ -17,6 +17,7 @@
         #cont {
             min-height: 626px;
         }
+
         .table-responsive::-webkit-scrollbar {
             display: none;
         }
@@ -26,88 +27,95 @@
 <body>
     @extends('layouts.nav')
     @section('content')
-        @php
-            $id = 1;
-            $counter = 1;
-        @endphp
-
-        @if ($id == 1)
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 text-center border rounded bg-light my-3">
+                    <h1>My Cart</h1>
+                </div>
+            </div>
             <div class="container" id="cont">
                 <div class="row">
-                    {{-- <div class="alert alert-info mb-0" style="width: -webkit-fill-available;">
-                        <strong>Info!</strong> online payment are currently disabled so please choose cash on delivery.
-                    </div> --}}
-                    <div class="col-lg-12 text-center border rounded bg-light my-3">
-                        <h1>My Cart</h1>
-                    </div>
                     <div class="col-lg-8">
                         <div class="card wish-list mb-3">
                             <div class="table-responsive">
-                            <table class="table table-hover text-center">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Item Name</th>
-                                        <th scope="col">Item Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total Price</th>
-                                        <th scope="col">
-                                            <form action="partials/_manageCart.php" method="POST">
-                                                <button name="removeAllItem" class="btn btn-sm btn-outline-danger">Remove
-                                                    All</button>
-                                                <input type="hidden" name="userId" value="$userId">
-                                            </form>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- $sql = "SELECT * FROM `viewcart` WHERE `userId`= $userId";
-                                $result = mysqli_query($conn, $sql);
-                                $counter = 0;
-                                $totalPrice = 0;
-                                while($row = mysqli_fetch_assoc($result)){
-                                    $pizzaId = $row['pizzaId'];
-                                    $Quantity = $row['itemQuantity'];
-                                    $mysql = "SELECT * FROM `pizza` WHERE pizzaId = $pizzaId";
-                                    $myresult = mysqli_query($conn, $mysql);
-                                    $myrow = mysqli_fetch_assoc($myresult);
-                                    $pizzaName = $myrow['pizzaName'];
-                                    $pizzaPrice = $myrow['pizzaPrice'];
-                                    $total = $pizzaPrice * $Quantity;
-                                    $counter++;
-                                    $totalPrice = $totalPrice + $total; --}}
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Pizza 1</td>
-                                        <td>Rs.99/-</td>
-                                        <td>
-                                            <form id="frm' . $pizzaId . ">
-                                                <input type="hidden" name="pizzaId" value="">
-                                                <input type="number" name="quantity" value="1"
-                                                    class="text-center" onchange="updateCart(2)"
-                                                    onkeyup="return false" style="width:60px" min=1 oninput="check(this)"
-                                                    onClick="this.select();">
-                                            </form>
-                                        </td>
-                                        <td>Rs.99/-</td>
-                                        <td>
-                                            <form action="partials/_manageCart.php" method="POST">
-                                                <button name="removeItem"
-                                                    class="btn btn-sm btn-outline-danger">Remove</button>
-                                                <input type="hidden" name="itemId" value="'.$pizzaId. '">
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @if ($counter == 0)
-                                        <script>
-                                            document.getElementById("cont").innerHTML =
-                                                '<div class="col-md-12 my-5"><div class="card"><div class="card-body cart"><div class="col-sm-12 empty-cart-cls text-center"> <img src="img/emptyCart.png" width="130" height="130" class="img-fluid mb-4 mr-3"><h3><strong>Your Cart is Empty</strong></h3><h4>Add something to make me happy :)</h4> <a href="{{ route('user.index') }}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> </div></div></div></div>'
-                                        </script>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                <table class="table table-hover text-center">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">No.</th>
+                                            <th scope="col">Item Name</th>
+                                            <th scope="col" colspan="2">Item Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Total Price</th>
+                                            <th scope="col">
+                                                <form action="{{ route('cart.clear') }}" method="POST">
+                                                    @csrf
+                                                    <button name="removeAllItem"
+                                                        class="btn btn-sm btn-outline-danger">Remove
+                                                        All</button>
+                                                </form>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($cartItems as $item)
+                                            @php
+                                                $pizzaItem = App\Models\PizzaItems::where(
+                                                    'pizzaId',
+                                                    $item->pizzaid,
+                                                )->first();
+                                                $pizzaId = $pizzaItem->pizzaid;
+                                                $pizzaName = $pizzaItem->pizzaname;
+                                                $pizzaPrice = $pizzaItem->pizzaprice;
+                                                $itemTotalPrice = $pizzaPrice * $item->quantity;
+                                            @endphp
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $pizzaItem->pizzaname }}</td>
+                                                <td>{{ $pizzaItem->pizzaprice }}</td>
+                                                <td>
+                                                    <form id="frm' . $pizzaId . ">
+                                                        <input type="hidden" name="pizzaId" value="">
+                                                        <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                                            class="text-center" onchange="updateCart({{ $item->quantity }})"
+                                                            onkeyup="return false" style="width:60px" min=1
+                                                            oninput="check(this)" onClick="this.select();">
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    @if ($pizzaItem->discount > 0)
+                                                        @php
+                                                            $discountedPrice =
+                                                                $pizzaItem->pizzaprice -
+                                                                ($pizzaItem->pizzaprice * $pizzaItem->discount) / 100;
+                                                        @endphp
+                                                        <h6 style="color: #ff0000">
+                                                            <del>Rs.{{ $pizzaItem->pizzaprice }}/-</del>
+                                                            <span
+                                                                style="color: green;">Rs.{{ number_format($itemTotalPrice, 2) }}/-</span>
+                                                        </h6>
+                                                    @else
+                                                        <h6 style="color: green">Rs.{{ $itemTotalPrice }}/-</h6>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $itemTotalPrice }}</td>
+                                                <td>
+                                                    <form action="{{ route('cart.remove', ['cartitemid' => $item->cartitemid]) }}" method="POST">
+                                                        @csrf
+                                                        <button name="removeItem"
+                                                            class="btn btn-sm btn-outline-danger">Remove</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        @if ($cartItems->isEmpty())
+                                            <script>
+                                                document.getElementById("cont").innerHTML =
+                                                    '<div class="col-md-12 my-5"><div class="card"><div class="card-body cart"><div class="col-sm-12 empty-cart-cls text-center"> <img src="img/emptyCart.png" width="130" height="130" class="img-fluid mb-4 mr-3"><h3><strong>Your Cart is Empty</strong></h3><h4>Add something to make me happy :)</h4> <a href="{{ route('user.index') }}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> </div></div></div></div>'
+                                            </script>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -117,7 +125,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 bg-light">
-                                        Total Price<span>Rs.99</span></li>
+                                        Total Price<span>{{ 99 }}</span></li>
                                     <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0  bg-light">
                                         Shipping<span>Rs. 0</span></li>
@@ -141,7 +149,7 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                        id="flexRadioDefault2" >
+                                        id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         Online Payment
                                     </label>
@@ -161,8 +169,8 @@
                                 <div class="collapse" id="collapseExample">
                                     <div class="mt-3">
                                         <div class="md-form md-outline mb-0">
-                                            <input type="text" id="discount-code" class="form-control font-weight-light"
-                                                placeholder="Enter discount code">
+                                            <input type="text" id="discount-code"
+                                                class="form-control font-weight-light" placeholder="Enter discount code">
                                         </div>
                                     </div>
                                 </div>
@@ -171,16 +179,7 @@
                     </div>
                 </div>
             </div>
-        @else
-            <div class="container" style="min-height : 610px;">
-                <div class="alert alert-info my-3">
-                    <font style="font-size:22px">
-                        <center>Before checkout you need to <strong><a class="alert-link" data-toggle="modal"
-                                    data-target="#loginModal">Login</a></strong></center>
-                    </font>
-                </div>
-            </div>
-        @endif
+        </div>
     @endsection
     @extends('paricals.checkoutModel')
 

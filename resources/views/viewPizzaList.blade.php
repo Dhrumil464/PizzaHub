@@ -119,7 +119,7 @@
                                                 <button type="submit" name="addToCart"
                                                     class="btn btn-primary myBtnSize">Add to Cart</button>
                                             @else
-                                                <a href="{{ route('user.viewCart') }}"><button
+                                                <a href="{{ route('user.showCart') }}"><button
                                                         class="btn btn-primary myBtnSize">Go to Cart</button></a>
                                         @endif
                                     @else

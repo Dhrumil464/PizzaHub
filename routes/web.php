@@ -37,8 +37,6 @@ Route::get('/viewOrder', [UserController::class, 'viewOrder'])->name('user.viewO
 
 Route::get('/viewPizza/{catid}/{pizzaid}', [UserController::class, 'viewPizza'])->name('user.viewPizza');
 
-Route::get('/viewCart', [UserController::class, 'viewCart'])->name('user.viewCart');
-
 Route::get('/search', [UserController::class, 'search'])->name('user.search');
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
@@ -86,5 +84,13 @@ Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactMa
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
 Route::get('/admin/dashboard/userManage', [AdminController::class, 'userManage'])->name('admin.userManage');
 
+
+
+/*************************   cart routes   ************************/
+Route::get('/pizzaCart', [CartController::class, 'showCart'])->name('user.showCart');
+
 Route::post('/addToCart/{pizzaid}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::post('/removeFromCart/{cartitemid}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+Route::post('/clearCart', [CartController::class, 'clearCart'])->name('cart.clear');

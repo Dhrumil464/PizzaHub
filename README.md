@@ -133,3 +133,7 @@ loader added in categories filter
 item add to cart complete
 
 after exam given changes
+
+
+04/04/25
+cart manage on user side without quantity update manage
