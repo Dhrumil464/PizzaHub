@@ -46,12 +46,15 @@
             }
         }
 
+        input[type=radio]:hover{
+            cursor: pointer;
+        }
+
         /* loader code */
         .pizza-loader {
             width: 50px;
             height: 50px;
             background: url('/img/pizza-loader.png') no-repeat center center;
-
             background-size: cover;
             position: fixed;
             top: 50%;
@@ -98,7 +101,7 @@
                                                 🍕🔥</span></h2>
                                         <p class="animate__animated animate__fadeInUp">Where every slice is made with love
                                             and the freshest ingredients. Dive into cheesy goodness today!"</p>
-                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
+                                        <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -116,7 +119,7 @@
                                         </h2>
                                         <p class="animate__animated animate__fadeInUp">Enjoy the taste of perfection with
                                             our handcrafted pizzas, made with love and the freshest ingredients!</p>
-                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
+                                        <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -133,7 +136,7 @@
                                             🚀</h2>
                                         <p class="animate__animated animate__fadeInUp">Craving pizza? Get it delivered hot
                                             and fresh straight to your door in just a few clicks!</p>
-                                        <a href="{{ route('user.index', ['category_id' => 0]) }}"
+                                        <a href="{{ route('user.index') }}"
                                             class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
                                             Started</a>
                                     </div>
@@ -156,12 +159,10 @@
             </section>
             <!-- End Hero -->
         </div>
-        <div class="container my-3 mb-5">
-            {{-- radio buttons --}}
-            <div class="col-lg-12 text-center bg-light mt-3 mb-4"
-                style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
-                <h2 class="text-center">Pizza Categories</h2>
-                <form method="GET">
+        <div class="row">
+            <div class="col-lg-12 text-center border rounded bg-light my-3">
+                <h1>Pizza Categories</h1>
+                <form method="GET" @style('padding-bottom: 10px;')>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pizzaCat" id="option1" value="0"
                             onchange="handleRadioChange(this)" checked>
@@ -184,6 +185,8 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="container my-3 mb-5">
             {{-- loader code --}}
             <div id="pizzaLoader" class="pizza-loader"></div>
             <div class="row d-flex justify-content-start" id="catData">

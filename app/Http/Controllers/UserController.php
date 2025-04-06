@@ -182,7 +182,7 @@ class UserController extends Controller
             'email.unique' => 'This email is already registered.',
             'email.max' => 'Email cannot exceed 50 characters.',
 
-            'phoneNo.required' => 'PhoneNos is required.',
+            'phoneNo.required' => 'PhoneNo is required.',
             'phoneNo.numeric' => 'Phone number must contain only numbers.',
             'phoneNo.digits' => 'Phone number must be exactly 5 digits.',
             'phoneNo.unique' => 'This phone number is already registered.',
@@ -223,7 +223,59 @@ class UserController extends Controller
         }
     }
 
-    public function userManageUpdate($userid) {}
+    public function userManageUpdate(Request $request,$userid)
+    {
+        $request->validate([
+            'editusername' => 'string|max:12',
+            'editfirstName' => 'required|string|max:20',
+            'editlastName' => 'required|string|max:20',
+            'editemail' => 'string|email|max:50',
+            'editphoneNo' => 'required|numeric|digits:5',
+        ], [
+            'editusername.string' => 'Username must be a valid string.',
+            'editusername.max' => 'Username cannot exceed 12 characters.',
+
+            'editfirstName.required' => 'Firstname is required.',
+            'editfirstName.string' => 'Firstname must be a valid string.',
+            'editfirstName.max' => 'Firstname cannot exceed 20 characters.',
+
+            'editlastName.required' => 'Lastname is required.',
+            'editlastName.string' => 'Lastname must be a valid string.',
+            'editlastName.max' => 'Lastname cannot exceed 20 characters.',
+
+            'editemail.string' => 'Email must be a valid string.',
+            'editemail.email' => 'Enter a valid email address.',
+            'editemail.max' => 'Email cannot exceed 50 characters.',
+
+            'editphoneNo.required' => 'PhoneNo is required.',
+            'editphoneNo.numeric' => 'Phone number must contain only numbers.',
+            'editphoneNo.digits' => 'Phone number must be exactly 5 digits.',
+            'editphoneNo.unique' => 'This phone number is already registered.',
+        ]);
+
+        $user = UsersAdmin::where('userid', $userid)->first();
+        if ($user) {
+            if($user->usertype == 0){
+                $user->username = $request->editusername;
+                $user->firstname = $request->editfirstName;
+                $user->lastname = $request->editlastName;
+                $user->phoneno = $request->editphoneNo;
+                $user->save();
+                return back()->with('success', 'User updated successfully!');
+            }elseif ($user->usertype == 1){ 
+                $user->firstname = $request->editfirstName;
+                $user->lastname = $request->editlastName;
+                $user->email = $request->editemail;
+                $user->phoneno = $request->editphoneNo;
+                $user->save();
+                return back()->with('success', 'Admin updated successfully!');
+            }else{
+                return back()->with('error', 'User not found!');
+            }
+        } else {
+            return back()->with('error', 'User not found!');
+        }
+    }
 
     public function userManageDestroy($userid)
     {

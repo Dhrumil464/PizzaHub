@@ -49,7 +49,7 @@
                                             @endphp
                                         @endif
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $user->userid }}</td>
                                             <td><img src="/img/profilePic.jpg" alt="image for this user"
                                                     onError="this.src =\'/img/profilePic.jpg\'" width="90px"
                                                     height="100px">
@@ -72,11 +72,15 @@
                                                             style="margin-left:9px;">Delete</button>
                                                     @else
                                                         <form
-                                                            action="{{ route('admin.userManageDestroy', ['userid' => $user->userid]) }}"
-                                                            method="get">
+                                                            action="{{ route('admin.userManageUpdate', ['userid' => $user->userid]) }}"
+                                                            method="POST">
                                                             <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                                                data-target="#editUser{{ $user->userid }}" type="button"
-                                                                disabled>Edit</button>
+                                                                data-target="#editUser{{ $user->userid }}"
+                                                                type="button">Edit</button>
+                                                        </form>
+                                                        <form
+                                                            action="{{ route('admin.userManageDestroy', ['userid' => $user->userid]) }}"
+                                                            method="GET">
                                                             <button class="btn btn-sm btn-danger"
                                                                 style="margin-left:5px;">Delete</button>
                                                         </form>
@@ -109,7 +113,7 @@
                             <div class="form-group">
                                 <b><label for="username">Username</label></b>
                                 <input class="form-control" id="username" name="username"
-                                    placeholder="Choose a unique Username" type="text">
+                                    placeholder="Choose a unique Username" type="text" value="{{ old('username') }}">
                                 @error('username')
                                     <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                 @enderror
@@ -118,7 +122,7 @@
                                 <div class="form-group col-md-6">
                                     <b><label for="firstName">First Name:</label></b>
                                     <input type="text" class="form-control" id="firstName" name="firstName"
-                                        placeholder="First Name">
+                                        placeholder="First Name" value="{{ old('firstName') }}">
                                     @error('firstName')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                     @enderror
@@ -126,7 +130,7 @@
                                 <div class="form-group col-md-6">
                                     <b><label for="lastName">Last name:</label></b>
                                     <input type="text" class="form-control" id="lastName" name="lastName"
-                                        placeholder="Last Name">
+                                        placeholder="Last Name" value="{{ old('lastName') }}">
                                     @error('lastName')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                     @enderror
@@ -135,7 +139,7 @@
                             <div class="form-group">
                                 <b><label for="email">Email:</label></b>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Enter Your Email">
+                                    placeholder="Enter Your Email" value="{{ old('email') }}">
                                 @error('email')
                                     <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                 @enderror
@@ -148,7 +152,7 @@
                                             <span class="input-group-text" id="basic-addon">+91</span>
                                         </div>
                                         <input type="tel" class="form-control" id="phone" name="phoneNo"
-                                            placeholder="Enter Phone No">
+                                            placeholder="Enter Phone No" value="{{ old('phoneNo') }}">
                                     </div>
                                     @error('phoneNo')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -158,8 +162,16 @@
                                     <b><label for="userType">Type:</label></b>
                                     <select name="userType" id="userType" class="custom-select browser-default">
                                         <option value="">Select Type</option>
-                                        <option value="0">User</option>
-                                        <option value="1">Admin</option>
+                                        @if (old('UserType') == 1)
+                                            <option value="0" selected>User</option>
+                                        @else
+                                            <option value="0">User</option>
+                                        @endif
+                                        @if (old('cattype') == 2)
+                                            <option value="1" selected>Admin</option>
+                                        @else
+                                            <option value="1">Admin</option>
+                                        @endif
                                     </select>
                                     @error('userType')
                                         <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -169,7 +181,7 @@
                             <div class="form-group">
                                 <b><label for="password">Password:</label></b>
                                 <input class="form-control" id="password" name="password" placeholder="Enter Password"
-                                    type="password" data-toggle="password">
+                                    type="password" data-toggle="password" value="{{ old('password') }}">
                                 @error('password')
                                     <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                 @enderror
@@ -177,7 +189,8 @@
                             <div class="form-group">
                                 <b><label for="password1">Renter Password:</label></b>
                                 <input class="form-control" id="cpassword" name="cpassword"
-                                    placeholder="Renter Password" type="password" data-toggle="password">
+                                    placeholder="Renter Password" type="password" data-toggle="password"
+                                    value="{{ old('cpassword') }}">
                                 @error('cpassword')
                                     <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                                 @enderror
@@ -189,6 +202,7 @@
             </div>
         </div>
 
+        {{-- edit user model --}}
         @foreach ($users as $user)
             <div class="modal fade" id="editUser{{ $user->userid }}" tabindex="-1" role="dialog"
                 aria-labelledby="editUser{{ $user->userid }}" aria-hidden="true">
@@ -202,16 +216,12 @@
                             </button>
                         </div>
                         <div class="modal-body">
-
                             <div class="text-left my-2 row" style="border-bottom: 2px solid #dee2e6;">
                                 <div class="form-group col-md-8">
-                                    <form action="partials/_userManage.php" method="post" enctype="multipart/form-data">
-                                        @csrf
+                                    <form action="" method="POST" enctype="multipart/form-data">
                                         <b><label for="image">Profile Picture</label></b>
-                                        <input type="file" name="userimage" id="userimage" accept=".jpg"
-                                            class="form-control" required style="border:none;">
-                                        <small id="Info" class="form-text text-muted mx-3">Please .jpg file
-                                            upload.</small>
+                                        <input type="file" name="userimage" id="userimage"
+                                            class="form-control">
                                         <input type="hidden" id="userId" name="userId" value="$Id">
                                         <button type="submit" class="btn btn-success mt-3"
                                             name="updateProfilePhoto">Update
@@ -221,65 +231,94 @@
                                 <div class="form-group col-md-4">
                                     <img src="/img/person-1.jpg" alt="Profile Photo" width="100" height="100"
                                         onError="this.src ='/img/profilePic.jpg'">
-                                    <form action="partials/_userManage.php" method="post">
-                                        <input type="hidden" id="userId" name="userId" value="$Id">
-                                        <button type="submit" class="btn btn-success mt-2"
-                                            name="removeProfilePhoto">Remove
-                                            Img</button>
-                                    </form>
                                 </div>
                             </div>
 
-                            <form action="partials/_userManage.php" method="post">
+                            <form action="{{ route('admin.userManageUpdate', ['userid' => $user->userid]) }}"
+                                method="post">
                                 @csrf
+                                @method('put')
                                 <div class="form-group">
                                     <b><label for="username">Username</label></b>
-                                    <input class="form-control" id="username" name="username" value="name"
-                                        type="text" disabled>
+                                    @if ($user->usertype == 0)
+                                        <input class="form-control" id="username" name="editusername"
+                                            value="{{ $user->username }}" type="text">
+                                    @else
+                                        <input class="form-control" id="username" name="editusername"
+                                            value="{{ $user->username }}" type="text" disabled>
+                                    @endif
+                                    @error('editusername')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <b><label for="firstName">First Name:</label></b>
-                                        <input type="text" class="form-control" id="firstName" name="firstName"
-                                            value="firstName" required>
+                                        <input type="text" class="form-control" id="firstName" name="editfirstName"
+                                            value="{{ $user->firstname }}">
+                                        @error('editfirstName')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-6">
                                         <b><label for="lastName">Last name:</label></b>
-                                        <input type="text" class="form-control" id="lastName" name="lastName"
-                                            value="lastName" required>
+                                        <input type="text" class="form-control" id="lastName" name="editlastName"
+                                            value="{{ $user->lastname }}">
+                                        @error('editlastName')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <b><label for="email">Email:</label></b>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        value="email" required>
+                                    @if ($user->usertype == 1)
+                                        <input type="email" class="form-control" id="email" name="editemail"
+                                            value="{{ $user->email }}">
+                                    @else
+                                        <input type="email" class="form-control" id="email" name="editemail"
+                                            value="{{ $user->email }}" disabled>
+                                    @endif
+                                    @error('editemail')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group row my-0">
-                                    <div class="form-group col-md-6 my-0">
+                                    <div class="form-group col-md-6">
                                         <b><label for="phone">Phone No:</label></b>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon">+91</span>
                                             </div>
-                                            <input type="tel" class="form-control" id="phone" name="phone"
-                                                value="phone" required pattern="[0-9]{10}" maxlength="10">
+                                            <input type="tel" class="form-control" id="phone" name="editphoneNo"
+                                                value="{{ $user->phoneno }}">
                                         </div>
+                                        @error('editphoneNo')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <div class="form-group col-md-6 my-0">
+                                    <div class="form-group col-md-6">
                                         <b><label for="userType">Type:</label></b>
-                                        <select name="userType" id="userType" class="custom-select browser-default"
-                                            required>
-                                            @if ($userType == 1)
+                                        <select name="edituserType" id="userType" class="form-control" disabled>
+                                            <option value="">Select Type</option>
+                                            @php
+                                                $usertype = $user->usertype;
+                                            @endphp
+                                            @if ($usertype == 0)
+                                                <option value="0" selected>User</option>
+                                            @else
                                                 <option value="0">User</option>
+                                            @endif
+                                            @if ($usertype == 1)
                                                 <option value="1" selected>Admin</option>
                                             @else
-                                                <option value="0" selected>User</option>
                                                 <option value="1">Admin</option>
                                             @endif
                                         </select>
+                                        @error('edituserType')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
-                                <input type="hidden" id="userId" name="userId" value="$Id">
                                 <button type="submit" name="editUser" class="btn btn-success">Update</button>
                             </form>
                         </div>

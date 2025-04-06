@@ -80,13 +80,13 @@ Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactMa
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
 
 /*************************   Profile Manage routes   ************************/
-Route::get('/admin/dashboard/userManage', [UserController::class, 'userManageView'])->name('admin.userManageView');
+Route::get('/userManage', [UserController::class, 'userManageView'])->name('admin.userManageView');
 
-Route::post('/admin/dashboard/userManage/addUser', [UserController::class, 'userManageAdd'])->name('admin.userManageAdd');
+Route::post('/userManage/addUser', [UserController::class, 'userManageAdd'])->name('admin.userManageAdd');
 
-Route::put('/admin/dashboard/userManage/updateUser/{userid}', [UserController::class, 'userManageUpdate'])->name('admin.userManageUpdate');
+Route::put('/userManage/updateUser/{userid}', [UserController::class, 'userManageUpdate'])->name('admin.userManageUpdate');
 
-Route::get('/admin/dashboard/userManage/removeUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
+Route::get('/userManage/destroyUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
 
 
 /*************************   cart routes   ************************/
