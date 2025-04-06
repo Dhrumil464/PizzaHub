@@ -172,39 +172,39 @@
 
     @section('content')
         @php
-            $id = 1;
+            $userid = session('userId');
         @endphp
-        @if ($id == 1)
+        @if ($userid)
+            @php
+                $user = DB::table('users_admins')->where('userid', $userid)->first();
+            @endphp
             <div class="container">
                 <div class="d-flex justify-content-center my-5 acontainer">
                     <div class="jumbotron p-3 d-flex justify-content-center">
                         <div class="user-info">
-                            <img class="rounded-circle mb-3 bg-dark d-flex pimg" src="img/profilePic.jpg"
-                                onError="this.src = 'img/profilePic.jpg'" style="max-width:90%;">
-                            <form action="partials/_manageProfile.php" method="POST">
-                                <small>Remove Image: </small><button type="submit" class="btn btn-primary"
-                                    name="removeProfilePic"
-                                    style="font-size: 12px;padding: 3px 8px;border-radius: 9px;">remove</button>
-                            </form>
+                            <center><img class="rounded-circle mb-3 bg-dark d-flex pimg" src="img/profilePic.jpg"
+                                    onError="this.src = 'img/profilePic.jpg'" style="max-width:80%; margin-left: -3px;">
+                            </center>
                             <form action="partials/_manageProfile.php" method="POST" enctype="multipart/form-data"
-                                style="margin-top: 7px;">
+                                style="margin-top: 30px;">
                                 <div class="upload-btn-wrapper">
-                                    <small>Change Image:</small>
-                                    <button class="btn upload">choose</button>
+                                    <medium>Change Image:</medium>
+                                    <button class="btn btn-sm btn-primary">choose</button>
                                     <input type="file" name="image" id="image" accept="image/*">
                                 </div>
-                                <button type="submit" name="updateProfilePic" class="btn btn-primary"
-                                    style="margin-top: -20px;font-size: 15px;padding: 3px 8px;">Update</button>
+                                <button type="submit" name="updateProfilePic"
+                                    class="btn btn-sm btn-primary mb-4">Update</button>
                             </form>
 
-                            <ul class="meta list list-unstyled" style="text-align:center;">
-                                <li class="username my-2"><a href="viewProfile.php">@dhrumil123</a></li>
-                                <li class="name"><?php echo 'Dhrumil Mandaviya'; ?>
+                            <ul class="meta list list-unstyled" style="text-align:center;margin-top: -15px;">
+                                <li class="username my-2"><a
+                                        href="{{ route('user.viewProfile') }}">{{ '@' . $user->username }}</a></li>
+                                <li class="name">{{ $user->firstname }} {{ $user->lastname }}
                                     <label class="label label-info"></label>
                                 </li>
-                                <li class="email">dhrumil@gmail.com</li>
-                                <li class="my-2"><a href="partials/_logout.php"><button class="btn btn-secondary"
-                                            style="font-size: 15px;padding: 3px 8px; ">Logout</button></a></li>
+                                <li class="email">{{ $user->email }}</li>
+                                <li class="my-2"><a href="{{ route('user.logout') }}"><button
+                                            class="btn btn-md btn-secondary">Logout</button></a></li>
                             </ul>
                         </div>
                     </div>
@@ -214,28 +214,52 @@
                             <h2 class="title text-center">Your Profile<span class="pro-label label label-warning"></span>
                             </h2>
 
-                            <form action="partials/_manageProfile.php" method="post">
+                            <form action="{{ route('user.manageProfile', ['userid' => $userid]) }}" method="POST">
+                                @csrf
+                                @method('put')
                                 <div class="form-group">
                                     <b><label for="username">Username:</label></b>
-                                    <input class="form-control" id="username" name="username" type="text"
-                                        placeholder="Enter Your username" value="dhrumil123">
+                                    @if ($user->usertype == 0)
+                                        <input class="form-control" id="username" name="username" type="text"
+                                            placeholder="Enter Your username" value="{{ $user->username }}">
+                                    @else
+                                        <input class="form-control" id="username" name="username" type="text"
+                                            placeholder="Enter Your username" value="{{ $user->username }}" readonly>
+                                    @endif
+                                    @error('username')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <b><label for="firstName">First Name:</label></b>
                                         <input type="text" class="form-control" id="firstName" name="firstName"
-                                            placeholder="First Name" required value="Dhrumil">
+                                            placeholder="First Name" value="{{ $user->firstname }}">
+                                        @error('firstName')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-6">
                                         <b><label for="lastName">Last Name:</label></b>
                                         <input type="text" class="form-control" id="lastName" name="lastName"
-                                            placeholder="Last name" required value="Mandaviya">
+                                            placeholder="Last name" value="{{ $user->lastname }}">
+                                        @error('lastName')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <b><label for="email">Email:</label></b>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="" required value="dhrumil@gmail.com" readonly>
+                                    @if ($user->usertype == 0)
+                                        <input type="email" class="form-control" id="email" name="email" placeholder=""
+                                            value="{{ $user->email }}" readonly>
+                                    @else
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Enter Your Email" value="{{ $user->email }}">
+                                    @endif  
+                                    @error('email')
+                                        <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group  col-md-6">
@@ -244,16 +268,21 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon">+91</span>
                                             </div>
-                                            <input type="tel" class="form-control" id="phone" name="phone"
-                                                placeholder="Enter Your Phone Number" required pattern="[0-9]{10}"
-                                                maxlength="10" value="12345">
+                                            <input type="tel" class="form-control" id="phone" name="phoneNo"
+                                                placeholder="Enter Your Phone Number" value="{{ $user->phoneno }}">
                                         </div>
+                                        @error('phoneNo')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group  col-md-6">
                                         <b><label for="password">Password:</label></b>
                                         <input class="form-control" id="password" name="password"
-                                            placeholder="Enter Password" type="password" required minlength="4"
-                                            maxlength="21" data-toggle="password" value="XXXXX">
+                                            placeholder="Enter Password" type="password" data-toggle="password"
+                                            value="{{ $user->password }}">
+                                        @error('password')
+                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <button type="submit" name="updateProfileDetail" class="btn btn-primary">Update</button>

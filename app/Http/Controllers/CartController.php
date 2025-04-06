@@ -14,12 +14,13 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
+            $cartItems = PizzaCart::where('userid', $userId)->get();
+            return view('viewcart', compact('cartItems'));
         } else {
-            return back()->with('error', 'Please log in to view your cart.');
+            $cartItems = [];
+            return view('viewcart', compact('cartItems'));
+            // return back()->with('error', 'Please log in to view your cart.');
         }
-
-        $cartItems = PizzaCart::where('userid', $userId)->get();
-        return view('viewcart', compact('cartItems'));
     }
 
     public function addToCart()

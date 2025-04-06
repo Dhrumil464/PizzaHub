@@ -117,11 +117,20 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        @if ($cartItems->isEmpty())
-                                            <script>
-                                                document.getElementById("cont").innerHTML =
-                                                    '<div class="col-md-12 my-5"><div class="card"><div class="card-body cart"><div class="col-sm-12 empty-cart-cls text-center"> <img src="img/emptyCart.png" width="130" height="130" class="img-fluid mb-4 mr-3"><h3><strong>Your Cart is Empty</strong></h3><h4>Add something to make me happy :)</h4> <a href="{{ route('user.index') }}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> </div></div></div></div>'
-                                            </script>
+                                        @if (session('userloggedin') && session('userloggedin') == 'true')
+                                            @if ($cartItems->isempty())
+                                                <script>
+                                                    document.getElementById("cont").innerHTML =
+                                                        '<div class="col-md-12 my-5"><div class="card"><div class="card-body cart"><div class="col-sm-12 empty-cart-cls text-center"> <img src="img/emptyCart.png" width="130" height="130" class="img-fluid mb-4 mr-3"><h3><strong>Your Cart is Empty</strong></h3><h4>Add something to make me happy :)</h4> <a href="{{ route('user.index') }}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> </div></div></div></div>'
+                                                </script>
+                                            @endif
+                                        @else
+                                            @if (empty($cartItems))
+                                                <script>
+                                                    document.getElementById("cont").innerHTML =
+                                                        '<div class="col-md-12 my-5"><div class="card"><div class="card-body cart"><div class="col-sm-12 empty-cart-cls text-center"> <img src="img/emptyCart.png" width="130" height="130" class="img-fluid mb-4 mr-3"><h3><strong>Please login to view your cart</strong></h3><a href="{{ route('user.index') }}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">Login Now</a> </div></div></div></div>'
+                                                </script>
+                                            @endif
                                         @endif
                                     </tbody>
                                 </table>

@@ -23,11 +23,18 @@ Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name
 Route::get('/admin/logout', [AdminController::class, 'adminLogout'])->name('admin.logout'); // admin logout
 
 
+/*************************   Profile Manage routes   ************************/
+Route::get('/userManage', [UserController::class, 'userManageView'])->name('admin.userManageView');
+
+Route::post('/userManage/addUser', [UserController::class, 'userManageAdd'])->name('admin.userManageAdd');
+
+Route::put('/userManage/updateUser/{userid}', [UserController::class, 'userManageUpdate'])->name('admin.userManageUpdate');
+
+Route::get('/userManage/destroyUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
+
 
 
 /********************  Users Part ***********************/
-
-Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
 
 Route::get('/viewOrder', [UserController::class, 'viewOrder'])->name('user.viewOrder');
 
@@ -37,11 +44,16 @@ Route::get('/about', [UserController::class, 'about'])->name('user.about');
 
 Route::get('/contact', [UserController::class, 'contact'])->name('user.contact');
 
+Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');
+
 Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->name('user.handleUserLogin');
 
 Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');
 
-Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');
+Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
+
+Route::put('/manageProfile/{userid}', [UserController::class, 'manageProfile'])->name('user.manageProfile');
+
 
 
 /*************************   categories routes   *************************/
@@ -78,15 +90,6 @@ Route::get('/viewPizza/{catid}/{pizzaid}', [PizzaItemController::class, 'viewPiz
 Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
 Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
-
-/*************************   Profile Manage routes   ************************/
-Route::get('/userManage', [UserController::class, 'userManageView'])->name('admin.userManageView');
-
-Route::post('/userManage/addUser', [UserController::class, 'userManageAdd'])->name('admin.userManageAdd');
-
-Route::put('/userManage/updateUser/{userid}', [UserController::class, 'userManageUpdate'])->name('admin.userManageUpdate');
-
-Route::get('/userManage/destroyUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
 
 
 /*************************   cart routes   ************************/

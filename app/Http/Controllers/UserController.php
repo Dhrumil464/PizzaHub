@@ -289,4 +289,74 @@ class UserController extends Controller
             return back()->with('error', 'User not found!');
         }
     }
+
+    public function manageProfile(Request $request,$userid)
+    {
+        $request->validate([
+            'username' => 'string|max:12',
+            'firstName' => 'required|string|max:20',
+            'lastName' => 'required|string|max:20',
+            'email' => 'string|email|max:50',
+            'phoneNo' => 'required|numeric|digits:5',
+        ], [
+            'username.string' => 'Username must be a valid string.',
+            'username.max' => 'Username cannot exceed 12 characters.',
+
+            'firstName.required' => 'Firstname is required.',
+            'firstName.string' => 'Firstname must be a valid string.',
+            'firstName.max' => 'Firstname cannot exceed 20 characters.',
+
+            'lastName.required' => 'Lastname is required.',
+            'lastName.string' => 'Lastname must be a valid string.',
+            'lastName.max' => 'Lastname cannot exceed 20 characters.',
+
+            'email.string' => 'Email must be a valid string.',
+            'email.email' => 'Enter a valid email address.',
+            'email.max' => 'Email cannot exceed 50 characters.',
+
+            'phoneNo.required' => 'PhoneNo is required.',
+            'phoneNo.numeric' => 'Phone number must contain only numbers.',
+            'phoneNo.digits' => 'Phone number must be exactly 5 digits.',
+            'phoneNo.unique' => 'This phone number is already registered.',
+
+            'password.string' => 'Password must be a valid string.',
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.max' => 'Password cannot exceed 20 characters.',
+        ]);
+
+        $user = UsersAdmin::where('userid', $userid)->first();
+        if ($user) {
+            if($user->usertype == 0){
+                $user->username = $request->username;
+                $user->firstname = $request->firstName;
+                $user->lastname = $request->lastName;
+                $user->phoneno = $request->phoneNo;
+                if ($request->password) {
+                    if(strlen($request->password) < 20)
+                    {
+                        $user->password = password_hash($request->password, PASSWORD_DEFAULT);
+                    }
+                }
+                $user->save();
+                return back()->with('success', 'Profile updated successfully!');
+            }elseif ($user->usertype == 1){ 
+                $user->firstname = $request->firstName;
+                $user->lastname = $request->lastName;
+                $user->email = $request->email;
+                $user->phoneno = $request->phoneNo;
+                if ($request->password) {
+                    if(strlen($request->password) < 20)
+                    {
+                        $user->password = password_hash($request->password, PASSWORD_DEFAULT);
+                    }
+                }
+                $user->save();
+                return back()->with('success', 'Profile updated successfully!');
+            }else{
+                return back()->with('error', 'User not found!');
+            }
+        } else {
+            return back()->with('error', 'User not found!');
+        }
+    }
 }
