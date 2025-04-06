@@ -69,6 +69,8 @@ Route::get('/destroyCategory/{catid}', [CategoryController::class, 'destroyCateg
 
 Route::get('/', [CategoryController::class, 'userIndex'])->name('user.index');
 
+
+
 /*************************   pizza items routes   ************************/
 Route::get('/admin/dashboard/managePizzaItems', [PizzaItemController::class, 'index'])->name('admin.managePizzaItems');
 
@@ -86,12 +88,6 @@ Route::get('/viewPizza/{catid}/{pizzaid}', [PizzaItemController::class, 'viewPiz
 
 
 
-/*************************   other routes   ************************/
-Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
-Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
-Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
-
-
 /*************************   cart routes   ************************/
 Route::get('/pizzaCart', [CartController::class, 'showCart'])->name('user.showCart');
 
@@ -102,3 +98,24 @@ Route::post('/removeFromCart/{cartitemid}', [CartController::class, 'removeFromC
 Route::post('/clearCart', [CartController::class, 'clearCart'])->name('cart.clear');
 
 Route::post('/cart/updateQuantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+
+
+/*************************   order routes   ************************/
+
+Route::post('/showCheckoutModal', [CartController::class, 'showCheckoutModal'])->name('user.showCheckoutModal'); // payment method
+
+Route::post('/checkout', [CartController::class, 'checkout'])->name('user.checkout'); // checkout
+
+Route::get('/orderHistory', [CartController::class, 'orderHistory'])->name('user.orderHistory'); // show orders
+
+Route::get('/orderDetails/{orderid}', [CartController::class, 'orderDetails'])->name('user.orderDetails');  // order Items
+
+Route::get('/cancelOrder/{orderid}', [CartController::class, 'cancelOrder'])->name('user.cancelOrder');
+
+
+
+/*************************   other routes   ************************/
+Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
+Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
+Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');

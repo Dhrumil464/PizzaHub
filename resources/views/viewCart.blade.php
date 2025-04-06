@@ -11,11 +11,11 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <title>Cart</title>
+    <title>Pizza Cart</title>
     <link rel = "icon" href ="img/logo.jpg" type = "image/x-icon">
     <style>
         #cont {
-            min-height: 626px;
+            min-height: 60vh;
         }
 
         .table-responsive::-webkit-scrollbar {
@@ -75,9 +75,10 @@
                                                 $itemTotalPrice = $pizzaPrice * $quantity;
                                                 $discountedPrice =
                                                     $itemTotalPrice - ($itemTotalPrice * $discount) / 100;
-
                                                 $totalFinalPrice += $itemTotalPrice;
                                                 $discountedTotalPrice += $discountedPrice;
+
+                                                session(['totalFinalPrice' => $totalFinalPrice, 'discountedTotalPrice' => $discountedTotalPrice]);
                                             @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -164,22 +165,25 @@
                                         <span><strong>Rs.{{ number_format($discountedTotalPrice, 2) }}/-</strong></span>
                                     </li>
                                 </ul>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                        id="flexRadioDefault1" checked>
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        Cash On Delivery
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                        id="flexRadioDefault2">
-                                    <label class="form-check-label" for="flexRadioDefault2">
-                                        Online Payment
-                                    </label>
-                                </div><br>
-                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
-                                    data-target="#checkoutModal">Checkout</button>
+                                <form action="{{ route('user.showCheckoutModal') }}" method="post">
+                                    @csrf
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            id="flexRadioDefault1" value="1" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Cash On Delivery
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            id="flexRadioDefault2" value="2">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            Online Payment
+                                        </label>
+                                    </div><br>
+                                    <button type="submit" id="checkoutBtn" class="btn btn-primary btn-block"
+                                        data-toggle="modal" data-target="#checkoutModal">Checkout</button>
+                                </form>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -193,8 +197,8 @@
                                 <div class="collapse" id="collapseExample">
                                     <div class="mt-3">
                                         <div class="md-form md-outline mb-0">
-                                            <input type="text" id="discount-code" class="form-control font-weight-light"
-                                                placeholder="Enter discount code">
+                                            <input type="text" id="discount-code"
+                                                class="form-control font-weight-light" placeholder="Enter discount code">
                                         </div>
                                     </div>
                                 </div>
@@ -205,6 +209,13 @@
             </div>
         </div>
     @endsection
+    @if (session('showModal'))
+        <script>
+            window.onload = function() {
+                $('#checkoutModal').modal('show');
+            };
+        </script>
+    @endif
     @extends('paricals.checkoutModel')
 
     <!-- Optional JavaScript -->

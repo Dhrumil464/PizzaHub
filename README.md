@@ -137,3 +137,9 @@ after exam given changes
 
 04/04/25
 cart manage on user side without quantity update manage
+
+
+06/03/25
+cart manage on user side and admin side
+user manage on user side and admin side
+checkout show modal and checkout function in cart controller without database
