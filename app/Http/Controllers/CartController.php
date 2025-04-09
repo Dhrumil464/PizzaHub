@@ -114,24 +114,24 @@ class CartController extends Controller
         $user = UsersAdmin::find($userId);
         $cartItems = PizzaCart::where('userid', $userId)->get();
 
-        // order -> orderid, userid, fullname, email, address, zip, phoneNo, totalFinalPrice, discountedTotalPrice, paymentMethod, orderStatus, orderDate
-        // orderItem -> orderItemId, orderId, pizzaid, quantity
+        // orders -> orderid, userid, fullname, email, address, zip, phoneNo, totalFinalPrice, discountedTotalPrice, paymentMethod, orderStatus, orderDate
+        // orderItems -> orderItemId, orderId, pizzaid, quantity
         $fullname = $request->fullname;
         $email = $request->email;
         $address = $request->address;
         $zip = $request->zip;
         $phoneNo = $request->phoneNo;
+        $totalFinalPrice = session('totalFinalPrice');
+        $discountedTotalPrice = session('discountedTotalPrice');
         $paymentMethod = session('paymentMethod');
         $orderStatus = 0;
         $orderDate = Carbon::now('Asia/Kolkata');
-        $totalFinalPrice = session('totalFinalPrice');
-        $discountedTotalPrice = session('discountedTotalPrice');
         $password = $request->password;
 
         if ($paymentMethod == 1) {
-            return back()->with('success', 'cash'.$cartItems);
+            return back()->with('success', 'cash');
         } elseif ($paymentMethod == 2) {
-            return back()->with('success', 'online'.$cartItems);
+            return back()->with('success', 'online');
         }
     }
 }

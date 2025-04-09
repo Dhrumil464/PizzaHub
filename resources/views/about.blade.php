@@ -45,101 +45,10 @@
     @php
         use Carbon\Carbon;
     @endphp
-    {{-- @extends('layouts.nav') --}}
-    {{-- @section('content')     --}}
+    @extends('layouts.nav')
+    @section('content')
     @include('paricals.loginModal')
     @include('paricals.signupModal')
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-        <a class="navbar-brand" href="{{ route('user.index') }}">Pizza Hub</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('user.index') }}">Home<span class="sr-only"></span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Top Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        @php
-                            $categories = App\Models\Categories::get();
-                        @endphp
-                        @foreach ($categories as $cat)
-                            <a class="dropdown-item"
-                                href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
-                        @endforeach
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.viewOrder') }}">Your Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.about') }}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.contact') }}">Contact Us</a>
-                </li>
-            </ul>
-
-            <form method="get" action="{{ route('user.search') }}" class="form-inline my-2 my-lg-0 mx-3">
-                <input class="form-control mr-sm-2" type="search" name="search" id="search" placeholder="Search"
-                    aria-label="Search" required>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
-            <a href="{{ route('user.showCart') }}">
-                <button type="button" class="btn btn-secondary mx-2" title="MyCart">
-                    <svg xmlns="img/cart.svg" width="16" height="16" fill="currentColor" class="bi bi-cart"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                    </svg>
-                    <i class="bi bi-cart">Cart(1)</i>
-                </button>
-            </a>
-
-            @if ($userloggedin == true)
-                <ul class="navbar-nav mr-2">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown">Welcome {{ session('username') }}</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-                <div class="text-center image-size-small position-relative">
-                    <a href="{{ route('user.viewProfile') }}"><img src="img/profilepic.jpg" class="rounded-circle"
-                            onError="this.src = \'img/profilepic.jpg\'" style="width:40px; height:40px"></a>
-                </div>
-            @else
-                <button type="button" class="btn btn-success mx-2" data-toggle="modal"
-                    data-target="#loginModal">Login</button>
-                <button type="button" class="btn btn-success mx-2" data-toggle="modal"
-                    data-target="#signupModal">SignUp</button>
-            @endif
-        </div>
-    </nav>
-    @if (session('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Warning!</strong> {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Success!</strong> {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button>
-        </div>
-    @endif
 
     <!-- ======= Hero Section ======= -->
     <section id="hero">
@@ -153,7 +62,8 @@
                         </div>
                         <div class="carousel-container">
                             <div class="carousel-content">
-                                <h2 class="animate__animated animate__fadeInDown mb-0">Welcome to <span>Pizza Hub</span>
+                                <h2 class="animate__animated animate__fadeInDown mb-0">Welcome to <span>Pizza
+                                        Hub</span>
                                 </h2>
                                 <a href="{{ route('user.index') }}"
                                     class="btn-get-started animate__animated animate__fadeInUp scrollto">Get
@@ -164,7 +74,7 @@
                     <!-- Slide 2 -->
                     <div class="carousel-item">
                         <img src="https://i.pinimg.com/736x/48/b5/d2/48b5d236bac9c2d3415a7ba3159280e5.jpg"
-                                        alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
+                            alt="" style="width: 100vw;height: 100vh;object-fit: cover;">
                         <div class="carousel-container">
                             <div class="carousel-content">
                                 <h2 class="animate__animated animate__fadeInDown mb-0">Our Mission</h2>
@@ -374,12 +284,7 @@
             </div>
         </section><!-- End Our Team Section -->
     </main>
-    {{-- @endsection --}}
-
-    <div class="footer py-3 container-fluid bg-dark text-light">
-        <p class="text-center py-2 mb-0">Copyright © 2021 Designed by <a href="https://github.com/darshankparmar"
-                target="_blank" rel="noopener noreferrer">@pizzahub</a></p>
-    </div>
+    @endsection
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
