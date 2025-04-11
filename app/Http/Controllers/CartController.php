@@ -133,7 +133,7 @@ class CartController extends Controller
         $totalFinalPrice = session('totalFinalPrice');
         $discountedTotalPrice = session('discountedTotalPrice');
         $paymentMethod = session('paymentMethod');
-        $orderStatus = 0;
+        $orderStatus = "Pending";
         $orderDate = Carbon::now('Asia/Kolkata');
         $password = $request->password;
 
@@ -174,5 +174,20 @@ class CartController extends Controller
         } else {
             return back()->with('error', 'Password is incorrect!');
         }
+    }
+
+    public function viewOrders()
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+            $orders = Order::where('userid', $userId)->get();
+            return view('viewOrder', compact('orders'));
+        }
+    }
+
+    public function manageOrders()
+    {
+        $orders = Order::all();
+        return view('admin.orderManage', compact('orders'));
     }
 }

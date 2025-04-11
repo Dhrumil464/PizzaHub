@@ -32,11 +32,13 @@ Route::put('/userManage/updateUser/{userid}', [UserController::class, 'userManag
 
 Route::get('/userManage/destroyUser/{userid}', [UserController::class, 'userManageDestroy'])->name('admin.userManageDestroy');
 
+Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
+
+Route::put('/manageProfile/{userid}', [UserController::class, 'manageProfile'])->name('user.manageProfile');
+
 
 
 /********************  Users Part ***********************/
-
-Route::get('/viewOrder', [UserController::class, 'viewOrder'])->name('user.viewOrder');
 
 Route::get('/search', [UserController::class, 'search'])->name('user.search');
 
@@ -49,11 +51,6 @@ Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->n
 Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->name('user.handleUserLogin');
 
 Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');
-
-Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.viewProfile');
-
-Route::put('/manageProfile/{userid}', [UserController::class, 'manageProfile'])->name('user.manageProfile');
-
 
 
 /*************************   categories routes   *************************/
@@ -107,15 +104,12 @@ Route::post('/showCheckoutModal', [CartController::class, 'showCheckoutModal'])-
 
 Route::post('/checkout', [CartController::class, 'checkout'])->name('user.checkout'); // checkout
 
-Route::get('/orderHistory', [CartController::class, 'orderHistory'])->name('user.orderHistory'); // show orders
+Route::get('/viewOrders', [CartController::class, 'viewOrders'])->name('user.viewOrder');
 
-Route::get('/orderDetails/{orderid}', [CartController::class, 'orderDetails'])->name('user.orderDetails');  // order Items
-
-Route::get('/cancelOrder/{orderid}', [CartController::class, 'cancelOrder'])->name('user.cancelOrder');
+Route::get('/admin/dashboard/manageOrders', [CartController::class, 'manageOrders'])->name('admin.manageOrders');
 
 
 
 /*************************   other routes   ************************/
-Route::get('/admin/dashboard/manageOrders', [AdminController::class, 'manageOrders'])->name('admin.manageOrders');
 Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');

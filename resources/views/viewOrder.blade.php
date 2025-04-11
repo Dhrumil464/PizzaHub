@@ -203,40 +203,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- $sql = "SELECT * FROM `orders` WHERE `userId`= $userId";
-                            $result = mysqli_query($conn, $sql);
-                            $counter = 0;
-                            while($row = mysqli_fetch_assoc($result)){
-                            $orderId = $row['orderId'];
-                            $address = $row['address'];
-                            $zipCode = $row['zipCode'];
-                            $phoneNo = $row['phoneNo'];
-                            $amount = $row['amount'];
-                            $orderDate = $row['orderDate'];
-                            $paymentMode = $row['paymentMode'];
-                            if($paymentMode == 0) {
-                            $paymentMode = "Cash on Delivery";
-                            }
-                            else {
-                            $paymentMode = "Online";
-                            }
-                            $orderStatus = $row['orderStatus'];
-
-                            $counter++; --}}
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{ substr("Navsari", 0, 20)}}</td>
-                                    <td>12345</td>
-                                    <td>Rs.188/-</td>
-                                    <td>Cash on Delivery</td>
-                                    <td>03/03/25 19:45</td>
-                                    <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view">
-                                            <i class="material-icons">&#xE5C8;</i></a></td>
-                                    <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
-                                            title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
-
-                                </tr>
+                                @if ($orders->isEmpty())
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="alert alert-info my-3">
+                                                <font style="font-size:22px">
+                                                    <center>No Orders Found</center>
+                                                </font>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td>{{ $order->orderid }}</td>
+                                        <td>{{ substr($order->address, 0, 20) }}</td>
+                                        <td>{{ $order->phoneno }}</td>
+                                        <td>Rs.{{ $order->discountedtotalprice }}/-</td>
+                                        <td>
+                                            @if ($order->paymentmethod == 1)
+                                                Cash on Delivery
+                                            @else
+                                                Online
+                                            @endif
+                                        </td>
+                                        <td>{{ $order->orderdate }}</td>
+                                        <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view">
+                                                <i class="material-icons">&#xE5C8;</i></a></td>
+                                        <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
+                                                title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -246,7 +243,7 @@
             <div class="container" style="min-height : 610px;">
                 <div class="alert alert-info my-3">
                     <font style="font-size:22px">
-                        <center>Check your Order. You need to
+                        <center>Check your order. You need to
                             <strong>
                                 <a class="alert-link" data-toggle="modal" data-target="#loginModal">Login</a>
                             </strong>

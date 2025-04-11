@@ -57,51 +57,38 @@
                             @else
                                 {{ $paymentMode = 'Online' }}
                             @endif
-
-                            <tr>
-                                <td>1</td>
-                                <td>101</td>
-                                <td data-toggle="tooltip" title="' .$address. '">{{ substr('Navasari', 0, 20) }}</td>
-                                <td>12345</td>
-                                <td>Rs.188/-</td>
-                                <td>{{ $paymentMode }}</td>
-                                <td>03/03/25</td>
-                                <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
-                                            class="material-icons">&#xE5C8;</i></a></td>
-                                <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
-                                        title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>102</td>
-                                <td data-toggle="tooltip" title="' .$address. '">{{ substr('Navasari', 0, 20) }}</td>
-                                <td>12345</td>
-                                <td>Rs.188/-</td>
-                                <td>{{ $paymentMode }}</td>
-                                <td>03/03/25</td>
-                                <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
-                                            class="material-icons">&#xE5C8;</i></a></td>
-                                <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
-                                        title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>103</td>
-                                <td data-toggle="tooltip" title="' .$address. '">{{ substr('Navasari', 0, 20) }}</td>
-                                <td>12345</td>
-                                <td>Rs.188/-</td>
-                                <td>{{ $paymentMode }}</td>
-                                <td>03/03/25</td>
-                                <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
-                                            class="material-icons">&#xE5C8;</i></a></td>
-                                <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
-                                        title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
-                            </tr>
-                            @if ($counter == 0)
-                                <script>
-                                    document.getElementById("NoOrder").innerHTML =
-                                        '<div class="alert alert-info alert-dismissible fade show" role="alert" style="width:100%"> You have not Recieve any Order!	</div>';
-                                </script>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->orderid }}</td>
+                                    <td>{{ $order->userid }}</td>
+                                    <td data-toggle="tooltip" title="' .$address. '">{{ substr($order->address, 0, 20) }}
+                                    </td>
+                                    <td>{{ $order->phoneno }}</td>
+                                    <td>Rs.{{ $order->discountedtotalprice }}/-</td>
+                                    <td>
+                                        @if ($order->paymentmethod == 1)
+                                            Cash on Delivery
+                                        @else
+                                            Online
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->orderdate }}</td>
+                                    <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
+                                                class="material-icons">&#xE5C8;</i></a></td>
+                                    <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
+                                            title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
+                                </tr>
+                            @endforeach
+                            @if ($orders->isEmpty())
+                                <tr>
+                                    <td colspan="12">
+                                        <div class="alert alert-info my-3">
+                                            <font style="font-size:22px">
+                                                <center>No Orders Found</center>
+                                            </font>
+                                        </div>
+                                    </td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>

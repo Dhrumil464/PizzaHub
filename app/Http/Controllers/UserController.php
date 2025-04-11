@@ -15,11 +15,6 @@ class UserController extends Controller
         return view('viewProfile');
     }
 
-    public function viewOrder()
-    {
-        return view('viewOrder');
-    }
-
     public function viewCart()
     {
         return view('viewCart');
