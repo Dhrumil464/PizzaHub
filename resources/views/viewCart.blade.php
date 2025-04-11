@@ -78,7 +78,10 @@
                                                 $totalFinalPrice += $itemTotalPrice;
                                                 $discountedTotalPrice += $discountedPrice;
 
-                                                session(['totalFinalPrice' => $totalFinalPrice, 'discountedTotalPrice' => $discountedTotalPrice]);
+                                                session([
+                                                    'totalFinalPrice' => $totalFinalPrice,
+                                                    'discountedTotalPrice' => $discountedTotalPrice,
+                                                ]);
                                             @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -232,10 +235,6 @@
     <script>
         function updateQuantity(cartItemId) {
             const form = document.getElementById('frm' + cartItemId);
-            if (!form) {
-                console.error("Form not found for cartItemId:", form);
-                return;
-            }
             const formData = new FormData(form);
 
             fetch("{{ route('cart.updateQuantity') }}", {

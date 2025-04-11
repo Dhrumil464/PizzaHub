@@ -10,7 +10,7 @@
     @endphp
 @endif
 
-@if ($userloggedin == true)
+@if ($userloggedin)
     <!-- Checkout Modal -->
     <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModal"
         aria-hidden="true">
@@ -32,12 +32,12 @@
                         <div class="form-group">
                             <b><label for="fullname">FullName:</label></b>
                             <input class="form-control" id="fullname" name="fullname" placeholder="Your Name"
-                                type="text" value="{{ $user->firstname }} {{ $user->lastname }}">
+                                type="text" value="{{ old('fullname', $user->firstname . ' ' . $user->lastname) }}">
                         </div>
                         <div class="form-group">
                             <b><label for="email">Email:</label></b>
                             <input class="form-control" id="email" name="email" placeholder="example@gmail.com"
-                                type="email" value="{{ $user->email }}">
+                                type="email" value="{{ old('email', $user->email) }}">
                         </div>
                         <div class="form-group">
                             <b><label for="address">Address:</label></b>
@@ -52,7 +52,7 @@
                                         <span class="input-group-text" id="basic-addon">+91</span>
                                     </div>
                                     <input type="tel" class="form-control" id="phoneNo" name="phoneNo"
-                                        value="{{ $user->phoneno }}">
+                                        value="{{ old('phoneNo', $user->phoneno) }}">
                                 </div>
                             </div>
                             <div class="form-group col-md-6 mb-0">
@@ -68,10 +68,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <form action="" method="POST">
-                                @csrf
-                                <button type="submit" name="checkout" class="btn btn-success">Order</button>
-                            </form>
+                            <button type="submit" name="checkout" class="btn btn-primary">Order</button>
                         </div>
                     </form>
                 </div>

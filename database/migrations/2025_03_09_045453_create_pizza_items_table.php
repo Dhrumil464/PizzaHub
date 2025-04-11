@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('pizzaimage',100);
             $table->string('pizzadesc', 60)->nullable();
             $table->foreignId('catid');
-            $table->decimal('discount', 8, 2)->nullable()->default(0);
+            $table->decimal('discount', 8, 2)->default(0);
             $table->timestamp('pizzacreatedate')->useCurrent();
             $table->timestamp('pizzaupdatedate')->useCurrent();
 

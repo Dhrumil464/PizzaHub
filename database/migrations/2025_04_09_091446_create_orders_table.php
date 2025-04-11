@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('address', 50);
             $table->string('zip', 10);
             $table->string('phoneno', 15);
-            $table->decimal('totalfinalrice', 10, 2);
+            $table->decimal('totalfinalprice', 10, 2);
             $table->decimal('discountedtotalprice', 10, 2);
             $table->tinyInteger('paymentmethod'); // 1 = COD, 2 = Online
 

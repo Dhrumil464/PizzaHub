@@ -23,7 +23,6 @@ class PizzaItemController extends Controller
             'pizzaimage' => 'required|image|mimes:jpeg,png,jpg|max:10000',
             'pizzadesc' => 'nullable|string',
             'catid' => 'required',
-            'discount' => 'nullable|numeric',
         ], [
             'pizzaname.required' => 'The name field is required.',
             'pizzaname.string' => 'The name must be a string.',
@@ -34,7 +33,6 @@ class PizzaItemController extends Controller
             'pizzaimage.mimes' => 'The image must be type of jpeg, jpg or png.',
             'pizzaimage.max' => 'The image size less then 10000.',
             'catid.required' => 'The category field is required.',
-            'discount.numeric' => 'The discount must be a number.',
         ]);
 
         $imageName = time() . '.' . $request->pizzaimage->extension();
@@ -46,7 +44,7 @@ class PizzaItemController extends Controller
             'pizzaimage' => $imageName ?? null,
             'pizzadesc' => $request->pizzadesc,
             'catid' => $request->catid,
-            'discount' => $request->discount,
+            'discount' => $request->discount ? $request->discount : 0,
             'pizzacreatedate' => Carbon::now('Asia/Kolkata'),
             'pizzaupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);

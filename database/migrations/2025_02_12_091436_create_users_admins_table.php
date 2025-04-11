@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('lastname', 25);
             $table->string('email', 30);
             $table->bigInteger('phoneno')->unique();
-            $table->integer('usertype')->unsigned();
+            $table->tinyInteger('usertype');
             $table->string('password', 100);
             $table->timestamps();
         });

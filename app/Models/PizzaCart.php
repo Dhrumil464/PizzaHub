@@ -9,7 +9,7 @@ class PizzaCart extends Model
 {
     use HasFactory;
 
-    protected $table = 'pizzacarts';
+    protected $table = 'pizza_carts';
     protected $primaryKey = 'cartitemid';
 
     protected $fillable = ['pizzaid', 'userid', 'quantity', 'itemadddate'];

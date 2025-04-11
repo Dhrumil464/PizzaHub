@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('cartitemid');
             $table->foreignId('pizzaid');
             $table->foreignId('userid');
-            $table->integer('quantity')->unsigned();
+            $table->tinyInteger('quantity');
             $table->timestamp('itemadddate')->useCurrent();
 
             $table->foreign('pizzaid')->references('pizzaid')->on('pizza_items')->onDelete('cascade')->onUpdate('cascade');

@@ -11,10 +11,11 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id('orderitemid');
             $table->string('orderid', 10);
-            $table->tinyInteger('pizzaid');
+            $table->foreignId('pizzaid');
             $table->tinyInteger('quantity');
 
             $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('pizzaid')->references('pizzaid')->on('pizza_items')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
