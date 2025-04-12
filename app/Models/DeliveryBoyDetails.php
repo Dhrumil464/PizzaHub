@@ -9,10 +9,10 @@ class DeliveryDetails extends Model
 {
     use HasFactory;
 
-    protected $table = 'delivery_details';
-    protected $primaryKey = 'deliveryid';
+    protected $table = 'delivery_boy_details';
+    protected $primaryKey = 'dbid';
 
-    protected $fillable = ['orderid','dbid','deliverytime','trackid','deliverydate'];
+    protected $fillable = ['deliveryboyname','deliveryboyphoneno','deliveryboyemail'];
 
     public $timestamps = false;
 }

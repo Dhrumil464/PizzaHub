@@ -11,13 +11,13 @@ return new class extends Migration
         Schema::create('delivery_details', function (Blueprint $table) {
             $table->id('deliveryid');
             $table->string('orderid', 10);
-            $table->string('deliveryboyname', 30);
-            $table->string('deliveryboyphoneno', 10);
-            $table->string('deliverytime')->nullable(); // in minutes
+            $table->foreignId('dbid');
+            $table->string('deliverytime',5)->nullable(); // in minutes
             $table->string('trackid', 10)->unique();
             $table->dateTime('deliverydate')->useCurrent();
 
             $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('dbid')->references('dbid')->on('delivery_boy_details')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
