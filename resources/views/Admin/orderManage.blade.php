@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover text-center" id="NoOrder">
+                    <table class="table table-striped table-bordered table-hover text-center">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Order Id</th>
@@ -35,50 +35,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- $sql = "SELECT * FROM `orders`";
-                    $result = mysqli_query($conn, $sql);
-                    $counter = 0;
-                    while($row = mysqli_fetch_assoc($result)){
-                        $Id = $row['userId'];
-                        $orderId = $row['orderId'];
-                        $address = $row['address'];
-                        $zipCode = $row['zipCode'];
-                        $phoneNo = $row['phoneNo'];
-                        $amount = $row['amount'];
-                        $orderDate = $row['orderDate'];
-                        $paymentMode = $row['paymentMode']; --}}
-                            @php
-                                $paymentMode = 0;
-                                $orderStatus = 'orderStatus';
-                                $counter = 1;
-                            @endphp
-                            @if ($paymentMode == 0)
-                                @php $paymentMode = 'Cash on Delivery' @endphp
-                            @else
-                                {{ $paymentMode = 'Online' }}
-                            @endif
-                            @foreach ($orders as $order)
-                                <tr>
-                                    <td>{{ $order->orderid }}</td>
-                                    <td>{{ $order->userid }}</td>
-                                    <td data-toggle="tooltip" title="' .$address. '">{{ substr($order->address, 0, 20) }}
-                                    </td>
-                                    <td>{{ $order->phoneno }}</td>
-                                    <td>Rs.{{ $order->discountedtotalprice }}/-</td>
-                                    <td>
-                                        @if ($order->paymentmethod == 1)
-                                            Cash on Delivery
-                                        @else
-                                            Online
-                                        @endif
-                                    </td>
-                                    <td>{{ $order->orderdate }}</td>
-                                    <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view"><i
-                                                class="material-icons">&#xE5C8;</i></a></td>
-                                    <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
-                                            title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
-                                </tr>
-                            @endforeach
                             @if ($orders->isEmpty())
                                 <tr>
                                     <td colspan="12">
@@ -90,6 +46,31 @@
                                     </td>
                                 </tr>
                             @endif
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->orderid }}</td>
+                                    <td>{{ $order->userid }}</td>
+                                    <td data-toggle="tooltip" title="{{ $order->address }}">
+                                        {{ substr($order->address, 0, 20) }}
+                                    </td>
+                                    <td>{{ $order->phoneno }}</td>
+                                    <td>Rs.{{ $order->discountedtotalprice }}/-</td>
+                                    <td>
+                                        @if ($order->paymentmethod == 1)
+                                            Cash
+                                        @else
+                                            Online
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->orderdate }}</td>
+                                    <td><a href="" data-toggle="modal"
+                                            data-target="#orderStatus{{ $order->orderid }}" class="view">
+                                            <i class="material-icons">&#xE5C8;</i></a></td>
+                                    <td><a href="" data-toggle="modal" data-target="#orderItem{{ $order->orderid }}"
+                                            class="view" title="View Details"><i class="material-icons">&#xE5C8;</i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -98,9 +79,6 @@
         @extends('admin.particals.orderItemModal')
         @extends('admin.particals.orderStatusModal')
     @endsection
-
-    {{-- include 'partials/_orderItemModal.php';
- include 'partials/_orderStatusModal.php'; --}}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>

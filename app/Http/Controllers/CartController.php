@@ -182,6 +182,9 @@ class CartController extends Controller
             $userId = session('userId');
             $orders = Order::where('userid', $userId)->get();
             return view('viewOrder', compact('orders'));
+        }else {
+            $orders = [];
+            return view('viewOrder', compact('orders'));
         }
     }
 

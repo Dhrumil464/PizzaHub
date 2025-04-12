@@ -228,9 +228,11 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->orderdate }}</td>
-                                        <td><a href="" data-toggle="modal" data-target="#orderStatus" class="view">
+                                        <td><a href="" data-toggle="modal"
+                                                data-target="#orderStatus{{ $order->orderid }}" class="view">
                                                 <i class="material-icons">&#xE5C8;</i></a></td>
-                                        <td><a href="" data-toggle="modal" data-target="#orderItem" class="view"
+                                        <td><a href="" data-toggle="modal"
+                                                data-target="#orderItem{{ $order->orderid }}" class="view"
                                                 title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
                                     </tr>
                                 @endforeach

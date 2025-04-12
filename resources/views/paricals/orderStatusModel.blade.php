@@ -1,9 +1,4 @@
 <style>
-    /* .modal-body {
-        background-color: #eeeeee;
-        font-family: 'Open Sans', serif
-    } */
-
     .card {
         position: relative;
         display: -webkit-box;
@@ -156,118 +151,119 @@
         $deliveryBoyPhoneNo = '';
         $deliveryTime = 'xx'; --}}
 @endif
-
-<!-- Modal -->
-<div class="modal fade" id="orderStatus" tabindex="-1" role="dialog" aria-labelledby="orderStatus" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-light" style="background: #4b5366;">
-                <h5 class="modal-title" id="orderStatus">Order Status</h5>
-                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="printThis">
-                <div class="container" style="padding-right: 0px;padding-left: 0px;">
-                    <article class="card">
-                        <div class="card-body">
-                            <h6><strong>Order ID:</strong> #$orderid</h6>
-                            <article class="card">
-                                <div class="card-body row">
-                                    <div class="col"> <strong>Estimated Delivery time:</strong>
-                                        <br>$deliveryTime minute
+@foreach ($orders as $order)
+    <!-- Modal -->
+    <div class="modal fade" id="orderStatus{{ $order->orderid }}" tabindex="-1" role="dialog" aria-labelledby="orderStatus{{ $order->orderid }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-light" style="background: #4b5366;">
+                    <h5 class="modal-title" id="orderStatus{{ $order->orderid }}">Order Status</h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="printThis">
+                    <div class="container" style="padding-right: 0px;padding-left: 0px;">
+                        <article class="card">
+                            <div class="card-body">
+                                <h6><strong>Order ID : </strong>{{ $order->orderid }}</h6>
+                                <article class="card">
+                                    <div class="card-body row">
+                                        <div class="col"> <strong>Estimated Delivery time : </strong>
+                                            <br>$deliveryTime minute
+                                        </div>
+                                        <div class="col"> <strong>Shipping By : </strong> <br> $deliveryBoyName | <i
+                                                class="fa fa-phone"></i> $deliveryBoyPhoneNo </div>
+                                        <div class="col"> <strong>Status : </strong> <br> $tstatus </div>
+                                        <div class="col"> <strong>Tracking # : </strong> <br> $trackId
+                                        </div>
                                     </div>
-                                    <div class="col"> <strong>Shipping By:</strong> <br> $deliveryBoyName | <i
-                                            class="fa fa-phone"></i> $deliveryBoyPhoneNo </div>
-                                    <div class="col"> <strong>Status:</strong> <br> $tstatus </div>
-                                    <div class="col"> <strong>Tracking #:</strong> <br> $trackId
-                                    </div>
+                                </article>
+                                <div class="track">
+                                    @if ($status == 0)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
+                                            <span class="text">Order Confirmed</span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
+                                            <span class="text"> Preparing your Order</span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> On the way </span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Order Delivered</span>
+                                        </div>
+                                    @elseif($status == 1)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Confirmed</span> </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
+                                            <span class="text"> Preparing your Order</span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> On the way </span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Order Delivered</span>
+                                        </div>
+                                    @elseif($status == 2)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Confirmed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text"> Preparing your Order</span> </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> On the way </span>
+                                        </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Order Delivered</span>
+                                        </div>
+                                    @elseif($status == 3)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Confirmed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text"> Preparing your Order</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i>
+                                            </span> <span class="text"> On the way </span> </div>
+                                        <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Order Delivered</span>
+                                        </div>
+                                    @elseif($status == 4)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Confirmed</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text"> Preparing your Order</span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i>
+                                            </span> <span class="text"> On the way </span> </div>
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-box"></i>
+                                            </span> <span class="text">Order Delivered</span> </div>
+                                    @elseif($status == 5)
+                                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
+                                            </span> <span class="text">Order Placed</span> </div>
+                                        <div class="step deactive"> <span class="icon"> <i class="fa fa-times"></i>
+                                            </span> <span class="text">Order Denied.</span> </div>
+                                    @else
+                                        <div class="step deactive"> <span class="icon"> <i class="fa fa-times"></i>
+                                            </span> <span class="text">Order Cancelled.</span> </div>
+                                    @endif
                                 </div>
-                            </article>
-                            <div class="track">
-                                @if ($status == 0)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
-                                        <span class="text">Order Confirmed</span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
-                                        <span class="text"> Preparing your Order</span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
-                                        <span class="text"> On the way </span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
-                                        <span class="text">Order Delivered</span>
-                                    </div>
-                                @elseif($status == 1)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Confirmed</span> </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-times"></i> </span>
-                                        <span class="text"> Preparing your Order</span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
-                                        <span class="text"> On the way </span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
-                                        <span class="text">Order Delivered</span>
-                                    </div>
-                                @elseif($status == 2)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Confirmed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text"> Preparing your Order</span> </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span>
-                                        <span class="text"> On the way </span>
-                                    </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
-                                        <span class="text">Order Delivered</span>
-                                    </div>
-                                @elseif($status == 3)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Confirmed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text"> Preparing your Order</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i>
-                                        </span> <span class="text"> On the way </span> </div>
-                                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span>
-                                        <span class="text">Order Delivered</span>
-                                    </div>
-                                @elseif($status == 4)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Confirmed</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text"> Preparing your Order</span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-truck"></i>
-                                        </span> <span class="text"> On the way </span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-box"></i>
-                                        </span> <span class="text">Order Delivered</span> </div>
-                                @elseif($status == 5)
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i>
-                                        </span> <span class="text">Order Placed</span> </div>
-                                    <div class="step deactive"> <span class="icon"> <i class="fa fa-times"></i>
-                                        </span> <span class="text">Order Denied.</span> </div>
-                                @else
-                                    <div class="step deactive"> <span class="icon"> <i class="fa fa-times"></i>
-                                        </span> <span class="text">Order Cancelled.</span> </div>
-                                @endif
+                                <a href="contact.php" class="btn btn-warning" data-abc="true">Help <i
+                                        class="fa fa-chevron-right"></i></a>
                             </div>
-                            <a href="contact.php" class="btn btn-warning" data-abc="true">Help <i
-                                    class="fa fa-chevron-right"></i></a>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+@endforeach
 
 @yield('orderStatusModel')

@@ -1,14 +1,11 @@
-{{-- $itemModalSql = "SELECT * FROM `orders` WHERE `userId`= $userId";
-$itemModalResult = mysqli_query($conn, $itemModalSql);
-while($itemModalRow = mysqli_fetch_assoc($itemModalResult)){
-$orderid = $itemModalRow['orderId']; --}}
 @foreach ($orders as $order)
     <!-- Modal -->
-    <div class="modal fade" id="orderItem" tabindex="-1" role="dialog" aria-labelledby="orderItem" aria-hidden="true">
+    <div class="modal fade" id="orderItem{{ $order->orderid }}" tabindex="-1" role="dialog"
+        aria-labelledby="orderItem{{ $order->orderid }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header text-light" style="background: #4b5366;">
-                    <h5 class="modal-title" id="orderItem">Order Items</h5>
+                    <h5 class="modal-title" id="orderItem{{ $order->orderid }}">Order Items</h5>
                     <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -31,7 +28,10 @@ $orderid = $itemModalRow['orderId']; --}}
                                     </thead>
                                     <tbody>
                                         @php
-                                            $orderItems = App\Models\OrderItem::where('orderid',$order->orderid)->get();
+                                            $orderItems = App\Models\OrderItem::where(
+                                                'orderid',
+                                                $order->orderid,
+                                            )->get();
                                         @endphp
                                         @foreach ($orderItems as $orderItem)
                                             @php
@@ -68,7 +68,9 @@ $orderid = $itemModalRow['orderId']; --}}
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <td class="align-middle text-center"><strong>{{ $itemQuantity }}</strong></td>
+                                                <td class="align-middle text-center">
+                                                    <strong>{{ $itemQuantity }}</strong>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
