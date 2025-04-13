@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('orderid', 10);
             $table->foreignId('pizzaid');
             $table->tinyInteger('quantity');
+            $table->decimal('discount', 8, 2)->default(0);
 
             $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('pizzaid')->references('pizzaid')->on('pizza_items')->onDelete('cascade')->onUpdate('cascade');

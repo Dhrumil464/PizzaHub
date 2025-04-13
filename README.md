@@ -143,3 +143,10 @@ cart manage on user side without quantity update manage
 cart manage on user side and admin side
 user manage on user side and admin side
 checkout show modal and checkout function in cart controller without database
+
+09/04/25 to 13/04/25
+order migration and model
+orderItems migration and model
+orderItems and orderStatus modal pages on user and admin side
+deliveryBoyDetails and deliveryDetails migration and model
+all 4 database tables work successfully

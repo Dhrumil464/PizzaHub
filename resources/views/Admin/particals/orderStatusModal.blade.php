@@ -1,10 +1,3 @@
-{{-- $itemModalSql = "SELECT * FROM `orders`";
-    $itemModalResult = mysqli_query($conn, $itemModalSql);
-    while($itemModalRow = mysqli_fetch_assoc($itemModalResult)){
-        $orderid = $itemModalRow['orderId'];
-        $userid = $itemModalRow['userId'];
-        $orderStatus = $itemModalRow['orderStatus']; --}}
-
 @foreach ($orders as $order)
     <!-- Modal -->
     <div class="modal fade" id="orderStatus{{ $order->orderid }}" tabindex="-1" role="dialog"
@@ -70,7 +63,7 @@
                                     ->first();
                             @endphp
                             <b><label for="boySelect">Delivery Boy Name</label></b>
-                            <select name="dbid" id="boySelect" class="form-control">
+                            <select name="dbid" id="boySelect{{ $order->orderid }}" class="form-control">
                                 @foreach ($boyDetails as $boy)
                                     <option value="{{ $boy->dbid }}"
                                         {{ isset($deliveryDetails) && $deliveryDetails->dbid == $boy->dbid ? 'selected' : '' }}>
@@ -82,7 +75,7 @@
                         <div class="text-left my-2 row">
                             <div class="form-group col-md-6">
                                 <b><label for="phone">Phone No</label></b>
-                                <input class="form-control" id="phone" name="phone"
+                                <input class="form-control" id="phone{{ $order->orderid }}" name="phone"
                                     value="{{ $boy->deliveryboyphoneno }}" type="tel">
                             </div>
                             <div class="form-group col-md-6">
@@ -116,7 +109,6 @@
 <!-- Bootstrap Bundle (Includes Popper.js) -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-
 <script>
     $(function() {
         var popoverElement = $('[data-toggle="popover"]').popover();
@@ -125,22 +117,26 @@
 
 <script>
     const deliveryBoys = @json($boyDetails);
+
     document.addEventListener('DOMContentLoaded', function() {
-        const select = document.getElementById('boySelect');
-        const phoneInput = document.getElementById('phone');
+        @foreach ($orders as $order)
+            const select{{ $order->orderid }} = document.getElementById('boySelect{{ $order->orderid }}');
+            const phoneInput{{ $order->orderid }} = document.getElementById('phone{{ $order->orderid }}');
 
-        select.addEventListener('change', function() {
-            const selectedId = this.value;
+            if (select{{ $order->orderid }}) {
+                select{{ $order->orderid }}.addEventListener('change', function() {
+                    const selectedId = this.value;
+                    const selectedBoy = deliveryBoys.find(boy => boy.dbid == selectedId);
+                    if (selectedBoy) {
+                        phoneInput{{ $order->orderid }}.value = selectedBoy.deliveryboyphoneno;
+                    } else {
+                        phoneInput{{ $order->orderid }}.value = '';
+                    }
+                });
 
-            const selectedBoy = deliveryBoys.find(boy => boy.dbid == selectedId);
-            if (selectedBoy) {
-                phoneInput.value = selectedBoy.deliveryboyphoneno;
-            } else {
-                phoneInput.value = '';
+                // Trigger change manually to set phone initially
+                select{{ $order->orderid }}.dispatchEvent(new Event('change'));
             }
-        });
-
-        // Trigger change manually to set phone initially
-        select.dispatchEvent(new Event('change'));
+        @endforeach
     });
 </script>

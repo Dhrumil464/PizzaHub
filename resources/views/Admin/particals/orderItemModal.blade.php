@@ -40,7 +40,7 @@
 
                                                 $itemTotalPrice = $pizzaItem->pizzaprice * $itemQuantity;
                                                 $discountedPrice =
-                                                    $itemTotalPrice - ($itemTotalPrice * $pizzaItem->discount) / 100;
+                                                    $itemTotalPrice - ($itemTotalPrice * $orderItem->discount) / 100;
                                             @endphp
                                             <tr>
                                                 <th scope="row">
