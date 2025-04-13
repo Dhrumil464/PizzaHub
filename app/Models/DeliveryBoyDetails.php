@@ -12,7 +12,7 @@ class DeliveryDetails extends Model
     protected $table = 'delivery_boy_details';
     protected $primaryKey = 'dbid';
 
-    protected $fillable = ['deliveryboyname','deliveryboyphoneno','deliveryboyemail'];
+    protected $fillable = ['deliveryboyname', 'deliveryboyphoneno', 'deliveryboyemail'];
 
     public $timestamps = false;
 }

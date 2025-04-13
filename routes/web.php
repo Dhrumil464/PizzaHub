@@ -108,6 +108,11 @@ Route::get('/viewOrders', [CartController::class, 'viewOrders'])->name('user.vie
 
 Route::get('/admin/dashboard/manageOrders', [CartController::class, 'manageOrders'])->name('admin.manageOrders');
 
+Route::put('/admin/dashboard/updateOrderStatus/{orderid}', [CartController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+
+Route::put('/admin/dashboard/updateDeliveryBoy/{orderid}', [CartController::class, 'updateDeliveryBoy'])->name('admin.updateDeliveryBoy');
+
+
 
 
 /*************************   other routes   ************************/

@@ -12,7 +12,7 @@ class DeliveryDetails extends Model
     protected $table = 'delivery_details';
     protected $primaryKey = 'deliveryid';
 
-    protected $fillable = ['orderid','dbid','deliverytime','trackid','deliverydate'];
+    protected $fillable = ['orderid', 'dbid', 'deliverytime', 'trackid', 'deliverydate'];
 
     public $timestamps = false;
 }

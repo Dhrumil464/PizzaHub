@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Validator;
+use App\Models\DeliveryDetails;
 use App\Models\UsersAdmin;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -133,7 +134,7 @@ class CartController extends Controller
         $totalFinalPrice = session('totalFinalPrice');
         $discountedTotalPrice = session('discountedTotalPrice');
         $paymentMethod = session('paymentMethod');
-        $orderStatus = "Pending";
+        $orderStatus = 1;
         $orderDate = Carbon::now('Asia/Kolkata');
         $password = $request->password;
 
@@ -182,7 +183,7 @@ class CartController extends Controller
             $userId = session('userId');
             $orders = Order::where('userid', $userId)->get();
             return view('viewOrder', compact('orders'));
-        }else {
+        } else {
             $orders = [];
             return view('viewOrder', compact('orders'));
         }
@@ -192,5 +193,55 @@ class CartController extends Controller
     {
         $orders = Order::all();
         return view('admin.orderManage', compact('orders'));
+    }
+
+    public function updateOrderStatus(Request $request, $orderid)
+    {
+        $order = Order::where('orderid', $orderid)->first();
+        if ($order) {
+            $order->orderstatus = $request->orderstatus;
+            $order->save();
+            return back()->with('success', 'Order id : ' . $orderid . ' status updated successfully!');
+        } else {
+            return back()->with('error', 'Order id : ' . $orderid . ' not found!');
+        }
+    }
+
+    public function updateDeliveryBoy(Request $request, $orderid)
+    {
+        do {
+            $trackId = 'TRACK' . rand(1000, 9999);
+            $exists = DeliveryDetails::where('trackid', $trackId)->exists();
+        } while ($exists);
+
+        $deliveryDetail = DeliveryDetails::where('orderid', $orderid)->first();
+        if ($deliveryDetail) {
+            $deliveryDetail->dbid = $request->dbid;
+            $deliveryDetail->deliverytime = $request->time;
+            $deliveryDetail->save();
+
+            if ($deliveryDetail) {
+                return back()->with('success', 'Order delivery details updated.');
+            } else {
+                return back()->with('error', 'Order delivery fail.');
+            }
+        } else {
+            $deliveryDetail = DeliveryDetails::create([
+                'orderid' => $orderid,
+                'dbid' => $request->dbid,
+                'deliverytime' => $request->time,
+                'trackid' => $trackId,
+                'deliverydate' => Carbon::now('Asia/Kolkata')
+            ]);
+
+            if ($deliveryDetail) {
+                $order = Order::where('orderid', $orderid)->first();
+                $order->orderstatus = 4;
+                $order->save();
+                return back()->with('success', 'Order out of delivery.');
+            } else {
+                return back()->with('error', 'Order delivery fail.');
+            }
+        }
     }
 }
