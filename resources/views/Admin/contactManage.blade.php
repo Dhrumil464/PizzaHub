@@ -62,9 +62,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    @php
-                                        $totalReply = 1;
-                                    @endphp
                                     @if ($contacts->isEmpty())
                                         <script>
                                             document.getElementById("notempty").innerHTML =
@@ -80,11 +77,6 @@
             </div>
         </div>
 
-        {{-- $contactsql = "SELECT * FROM `contact`";
-$contactResult = mysqli_query($conn, $contactsql);
-while($contactRow = mysqli_fetch_assoc($contactResult)){
-$contactId = $contactRow['contactId'];
-$Id = $contactRow['userId']; --}}
         @php
             $userId = session('userId');
             $contacts = DB::table('contacts')->where('userId', $userId)->get();
@@ -108,13 +100,13 @@ $Id = $contactRow['userId']; --}}
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="partials/_contactManage.php" method="post">
+                            <form action="{{ route('admin.submitContactReply') }}" method="POST">
+                                @csrf
                                 <div class="text-left my-2">
                                     <b><label for="message">Message: </label></b>
-                                    <textarea class="form-control" id="message" name="message" rows="2" required minlength="5"></textarea>
+                                    <textarea class="form-control" id="message" name="message" rows="2"></textarea>
                                 </div>
-                                <input type="hidden" id="contactId" name="contactId" value="$contactId">
-                                <input type="hidden" id="userId" name="userId" value="$Id">
+                                <input type="hidden" id="contactId" name="contactId" value="{{ $contactId }}">
                                 <button type="submit" class="btn btn-success" name="contactReply">Reply</button>
                             </form>
                         </div>
@@ -140,26 +132,21 @@ $Id = $contactRow['userId']; --}}
                                     <tr>
                                         <th>Contact Id</th>
                                         <th>Reply Message</th>
-                                        <th>datetime</th>
+                                        <th>Datetime</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- $sql = "SELECT * FROM `contactreply`"; 
-                    $result = mysqli_query($conn, $sql);
-                    $totalReply = 0;
-                    while($row=mysqli_fetch_assoc($result))
-                        $contactId = $row['contactId'];
-                        $message = $row['message'];
-                        $datetime = $row['datetime'];
-                        $totalReply++; --}}
-
-                                    <tr>
-                                        <td>contactId</td>
-                                        <td>message</td>
-                                        <td>datetime</td>
-                                    </tr>
-
-                                    @if ($totalReply == 0)
+                                    @php
+                                        $contacts = DB::table('contact_replies')->where('userId', $userId)->get();
+                                    @endphp
+                                    @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ $contact->contactId }}</td>
+                                            <td>{{ $contact->message }}</td>
+                                            <td>{{ $contact->contactdate }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @if ($contacts->isEmpty())
                                         <script>
                                             document.getElementById("notReply").innerHTML =
                                                 '<div class="alert alert-info alert-dismissible fade show" role="alert" style="width:100%"> You have not Reply any message!	</div>';

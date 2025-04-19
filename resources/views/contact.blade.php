@@ -141,7 +141,7 @@
             <div class="container">
                 <div class="row contact-container">
                     <div class="col-lg-12">
-                        <div class="card card-shadow border-0 mb-4" style="margin-top: -50px;">
+                        <div class="card card-shadow border-0 mb-4" style="margin-top: -80px;">
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="contact-box p-4">
@@ -289,40 +289,36 @@
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: rgb(187 188 189);">
+                    <div class="modal-header text-light" style="background-color: #4b5366;">
                         <h5 class="modal-title" id="adminReply">Admin Reply</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body" id="messagebd">
-                        <table class="table-striped table-bordered col-md-12 text-center">
-                            <thead style="background-color: rgb(111 202 203);">
+                        <table class="table table-striped table-bordered col-md-12 text-center">
+                            <thead class="bg-dark text-light">
                                 <tr>
                                     <th>Contact Id</th>
                                     <th>Reply Message</th>
-                                    <th>datetime</th>
+                                    <th>Datetime</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- $sql = "SELECT * FROM `contactreply` WHERE `userId`='$userId'";
-                                $result = mysqli_query($conn, $sql);
-                                $count = 0;
-                                while($row=mysqli_fetch_assoc($result)) {
-                                $contactId = $row['contactId'];
-                                $message = $row['message'];
-                                $datetime = $row['datetime'];
-                                $count++; --}}
                                 @php
                                     $count = 0;
+                                    $contactReply = DB::table('contact_replies')->where('userid', $userId)->get();
+                                    $count = count($contactReply);
                                 @endphp
-                                <tr>
-                                    <td>contactId</td>
-                                    <td>message</td>
-                                    <td>datetime</td>
-                                </tr>
+                                @foreach ($contactReply as $reply)
+                                    <tr>
+                                        <td>{{ $reply->contactId }}</td>
+                                        <td>{{ $reply->message }}</td>
+                                        <td>{{ $reply->contactdate }}</td>
+                                    </tr>
+                                @endforeach
                                 <script>
-                                    document.getElementById("totalMessage").innerHTML = "50";
+                                    document.getElementById("totalMessage").innerHTML = {{ $count }};
                                 </script>
                                 @if ($count == 0)
                                     <script>
@@ -341,15 +337,15 @@
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-header" style="background-color: rgb(187 188 189);">
+                    <div class="modal-header text-light" style="background-color: #4b5366;">
                         <h5 class="modal-title" id="history">Your Sent Message</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body" id="bd">
-                        <table class="table-striped table-bordered col-md-12 text-center">
-                            <thead style="background-color: rgb(111 202 203);">
+                        <table class="table table-striped table-bordered col-md-12 text-center">
+                            <thead class="bg-dark text-light">
                                 <tr>
                                     <th>Contact Id</th>
                                     <th>Order Id</th>

@@ -8,12 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
-            $table->id('contactId');
+        Schema::create('contact_replies', function (Blueprint $table) {
+            $table->id('replyId');
+            $table->foreignId('contactId')->constrained('contacts', 'contactId');
             $table->foreignId('userid')->constrained('users_admins', 'userid')->onDelete('cascade');
-            $table->string('orderid', 10)->default('0');
-            $table->string('email', 30);
-            $table->bigInteger('phoneno');
             $table->string('message', 100);
             $table->timestamp('contactdate')->useCurrent();
         });
@@ -21,6 +19,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('contact_replies');
     }
 };

@@ -6,6 +6,7 @@ use App\Models\UsersAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Session\Session;
 use App\Models\Contact;
+use App\Models\ContactReply;
 use Carbon\Carbon;
 
 include "./PHPMailer/PHPMailer.php";
@@ -389,8 +390,6 @@ class UserController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo);
         }
-
-        // header('location : index.php');
     }
 
     public function contact()
@@ -430,6 +429,69 @@ class UserController extends Controller
             }
         } else {
             return back()->with('error', 'Email does not exists!');
+        }
+    }
+
+    function sendMailByAdmin($contactDetails, $reply, $user)
+    {
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+            $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
+            $mail->Port       =  465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            $mail->Username   = 'bunkers0006@gmail.com';                     //SMTP username
+            $mail->Password   = 'tarrxnpmpufadtaf';                               //SMTP password
+            // $mail->Username   = 'dhrumilmandaviya464@gmail.com';                     //SMTP username
+            // $mail->Password   = 'ctznzsfvutdpnqwa';                               //SMTP password
+
+            $mail->setFrom('bunkers0006@gmail.com', 'Pizza Hub'); //Set sender email and name
+            $mail->addAddress($user->email, $user->firstname . ' ' . $user->lastname);     //Add a recipient
+
+            $mail->isHTML(true);                                  //Set email format to HTML
+
+            $mail->Subject = 'Pizzahub Contact Replay.';
+            $mail->Body    = '<h1>Contact Message</h1>
+                            <p>Order ID: ' . $contactDetails->orderid . '</p>
+                            <p>Reply Date: ' . $reply->contactdate . '</p>
+                            <p>Message: ' . $reply->message . '</p>
+                            <p>Thank you for contacting us. We will get back to you soon.</p>
+                            <p>Best Regards,</p>
+                            <p>Pizza Hub</p>';
+
+            $mail->send();
+            $reply->save();
+            return back()->with('success', 'Reply sent successfully!');
+        } catch (Exception $e) {
+            return back()->with('error', 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo);
+        }
+    }
+
+    public function submitContactReply(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string|max:100',
+        ]);
+
+        $user = UsersAdmin::where('userid', session('userId'))->first();
+        $contact = Contact::where('contactId', $request->contactId)->first();
+        if ($contact) {
+            $reply = new ContactReply;
+            $reply->contactId = $contact->contactId;
+            $reply->userid = session('userId');
+            $reply->message = $request->message;
+            $reply->contactdate = Carbon::now('Asia/Kolkata');
+
+            if ($reply) {
+                $this->sendMailByAdmin($contact, $reply, $user);
+                return back();
+            } else {
+                return back()->with('error', 'Failed to send message!');
+            }
+        } else {
+            return back()->with('error', 'Contact not found!');
         }
     }
 

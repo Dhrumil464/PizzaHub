@@ -57,6 +57,10 @@ Route::get('/contact', [UserController::class, 'contact'])->name('user.contact')
 
 Route::post('/submitContact', [UserController::class, 'submitContact'])->name('user.submitContact');
 
+Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
+
+Route::post('/submitContactReply', [UserController::class, 'submitContactReply'])->name('admin.submitContactReply');
+
 
 /*************************   categories routes   *************************/
 Route::get('/admin/dashboard/manageCategory', [CategoryController::class, 'index'])->name('admin.manageCategory');
@@ -121,5 +125,4 @@ Route::put('/admin/dashboard/updateDeliveryBoy/{orderid}', [CartController::clas
 
 
 /*************************   other routes   ************************/
-Route::get('/admin/dashboard/contactManage', [AdminController::class, 'contactManage'])->name('admin.contactManage');
 Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');
