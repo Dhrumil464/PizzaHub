@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('dbid');
             $table->string('deliverytime',5)->nullable(); // in minutes
             $table->string('trackid', 10)->unique();
-            $table->dateTime('deliverydate')->useCurrent();
+            $table->timestamp('deliverydate')->useCurrent();
 
             $table->foreign('orderid')->references('orderid')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('dbid')->references('dbid')->on('delivery_boy_details')->onDelete('cascade')->onUpdate('cascade');

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('discountedtotalprice', 10, 2);
             $table->tinyInteger('paymentmethod'); // 1 = COD, 2 = Online
             $table->tinyInteger('orderstatus')->default(1);
-            $table->dateTime('orderdate')->useCurrent();
+            $table->timestamp('orderdate')->useCurrent();
 
             $table->foreign('userid')->references('userid')->on('users_admins')->onDelete('cascade')->onUpdate('cascade');
         });

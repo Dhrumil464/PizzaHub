@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\UsersAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Session\Session;
+use App\Models\Contact;
+use Carbon\Carbon;
+
+include "./PHPMailer/PHPMailer.php";
+include "./PHPMailer/Exception.php";
+include "./PHPMailer/SMTP.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 class UserController extends Controller
 {
     /********************  User Controller *********************/
-
-    public function viewProfile()
-    {
-        return view('viewProfile');
-    }
 
     public function search()
     {
@@ -275,6 +280,11 @@ class UserController extends Controller
         }
     }
 
+    public function viewProfile()
+    {
+        return view('viewProfile');
+    }
+
     public function manageProfile(Request $request, $userid)
     {
         $request->validate([
@@ -343,21 +353,84 @@ class UserController extends Controller
         }
     }
 
+
+    /*****************  Contact Us  ****************/
+
+    function sendMailByUser($contactDetails, $user)
+    {
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+            $mail->SMTPSecure = 'ssl';                                  //Enable implicit TLS encryption
+            $mail->Port       =  465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            $mail->Username   = 'bunkers0006@gmail.com';                     //SMTP username
+            $mail->Password   = 'tarrxnpmpufadtaf';                               //SMTP password
+            // $mail->Username   = 'dhrumilmandaviya464@gmail.com';                     //SMTP username
+            // $mail->Password   = 'ctznzsfvutdpnqwa';                               //SMTP password
+
+            $mail->setFrom($user->email, $user->firstname . ' ' . $user->lastname); //Set sender email and name
+            $mail->addAddress('bunkers0006@gmail.com', 'Pizza Hub');     //Add a recipient
+
+            $mail->isHTML(true);                                  //Set email format to HTML
+
+            $mail->Subject = 'Pizzahub Contact Message.';
+            $mail->Body    = '<h1>Contact Message</h1>
+                            <p>Order ID: ' . $contactDetails->orderid . '</p>
+                            <p>Email: ' . $contactDetails->email . '</p>
+                            <p>Phone No: ' . $contactDetails->phoneno . '</p>
+                            <p>Message: ' . $contactDetails->message . '</p>
+                            <p>Contact Date: ' . $contactDetails->contactdate . '</p>';
+            $mail->send();
+            $contactDetails->save();
+            return back()->with('success', 'Message sent successfully!');
+        } catch (Exception $e) {
+            return back()->with('error', 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo);
+        }
+
+        // header('location : index.php');
+    }
+
     public function contact()
     {
         return view('contact');
     }
 
-    public function contactSubmit(Request $request)
+    public function submitContact(Request $request)
     {
         $request->validate([
             'email' => 'required|string|email|max:30',
-            'phoneNo' => 'required|numeric|digits:5',
-            'orderId' => 'required|numeric|digits:5',
+            'phoneno' => 'required|numeric|digits:5',
             'message' => 'required|string|max:100',
+            'password' => 'required|string',
         ]);
 
-        return back()->with('success', 'Message sent successfully!');
+        $user = UsersAdmin::where('userid', session('userId'))->first();
+
+        if ($user->email == $request->email) {
+            if (password_verify($request->password, $user->password)) {
+                $contact = new Contact;
+                $contact->userid = $user->userid;
+                $contact->orderid = $request->orderid ? $request->orderid : 0;
+                $contact->email = $request->email;
+                $contact->phoneno = $request->phoneno;
+                $contact->message = $request->message;
+                $contact->contactdate = Carbon::now('Asia/Kolkata');
+
+                if ($contact) {
+                    $this->sendMailByUser($contact, $user);
+                    return back();
+                } else {
+                    return back()->with('error', 'Failed to send message!');
+                }
+            } else {
+                return back()->with('error', 'Invalid Password!');
+            }
+        } else {
+            return back()->with('error', 'Email does not exists!');
+        }
     }
 
     public function userManageSearch(Request $request)

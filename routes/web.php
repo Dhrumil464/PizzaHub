@@ -44,13 +44,18 @@ Route::get('/search', [UserController::class, 'search'])->name('user.search');
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
 
-Route::get('/contact', [UserController::class, 'contact'])->name('user.contact');
 
 Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');
 
 Route::post('/handleUserLogin', [UserController::class, 'handleUserLogin'])->name('user.handleUserLogin');
 
 Route::get('/logout', [UserController::class, 'userLogout'])->name('user.logout');
+
+
+/*************************   contact manage routes   *************************/
+Route::get('/contact', [UserController::class, 'contact'])->name('user.contact');
+
+Route::post('/submitContact', [UserController::class, 'submitContact'])->name('user.submitContact');
 
 
 /*************************   categories routes   *************************/

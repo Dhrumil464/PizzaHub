@@ -33,15 +33,19 @@
 
         .icon-badge {
             background-color: #979797;
-            font-size: 10px;
+            font-size: 12px;
             color: white;
             text-align: center;
-            width: 15px;
-            height: 15px;
-            border-radius: 49%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             position: relative;
-            top: -35px;
+            top: -38px;
             left: 17px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
         }
 
         .footer.container-fluid.bg-dark.text-light {
@@ -146,56 +150,61 @@
                                                 <h4 class="title">Contact Us</h4>
                                             </div>
                                             @php
-                                                $id = 1;
+                                                $userloggedin = session('userloggedin');
+                                                $userId = session('userId');
                                             @endphp
-                                            @if ($id)
+                                            @if ($userloggedin)
                                                 <div class="col-lg-4">
-                                                    <div class="icon-badge-container mx-1" style="padding-left: 167px;">
+                                                    <div class="icon-badge-container" style="padding-left: 175px">
                                                         <a href="#" data-toggle="modal" data-target="#adminReply"><i
                                                                 class="far fa-envelope icon-badge-icon"></i></a>
-                                                        <div class="icon-badge"><b><span id="totalMessage">0</span></b>
+                                                        <div class="icon-badge"><b><span id="totalMessage"></span></b>
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endif
                                         </div>
-                                        {{-- $passSql = "SELECT * FROM users WHERE id='$userId'";
-                                        $passResult = mysqli_query($conn, $passSql);
-                                        $passRow = mysqli_fetch_assoc($passResult);
-                                        $email = $passRow['email'];
-                                        $phone = $passRow['phone']; --}}
-                                        <form action="" method="POST">
+                                        <form action="{{ route('user.submitContact') }}" method="POST">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group mt-3">
                                                         <b><label for="email">Email:</label></b>
                                                         <input type="email" class="form-control" id="email"
-                                                            name="email" placeholder="Enter Your Email" 
-                                                            value="dharmik@gmail.com">
+                                                            name="email" placeholder="Enter Your Email"
+                                                            value="{{ old('email') }}">
+                                                        @error('email')
+                                                            <span
+                                                                class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group mt-3">
                                                         <b><label for="phone">Phone No:</label></b>
-                                                        <div class="input-group mb-3">
+                                                        <div class="input-group">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text" id="basic-addon">+91</span>
                                                             </div>
                                                             <input type="tel" class="form-control" id="phone"
-                                                                name="phone" aria-describedby="basic-addon"
-                                                                placeholder="Enter Your Phone Number" 
-                                                                pattern="[0-9]{10}" value="phoneno">
+                                                                name="phoneno" aria-describedby="basic-addon"
+                                                                placeholder="Enter Your Phone Number"
+                                                                value="{{ old('phoneno') }}">
                                                         </div>
+                                                        @error('phoneno')
+                                                            <span
+                                                                class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group mt-3">
                                                         <b><label for="orderId">Order Id:</label></b>
                                                         <input class="form-control" type="text" id="orderId"
-                                                            name="orderId" placeholder="Order Id" value="0">
+                                                            name="orderid" placeholder="Order Id"
+                                                            value="{{ old('orderid') }}">
                                                         <small id="orderIdHelp" class="form-text text-muted">If your problem
-                                                            is not related to the order(order id = 0).</small>
+                                                            is not related to the order (order id = 0).</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -203,21 +212,30 @@
                                                         <b><label for="password">Password:</label></b>
                                                         <input class="form-control" id="password" name="password"
                                                             placeholder="Enter Password" type="password"
-                                                            placeholder="Enter Your Password" 
-                                                            data-toggle="password">
+                                                            placeholder="Enter Your Password" data-toggle="password"
+                                                            value="{{ old('password') }}">
+                                                        @error('password')
+                                                            <span
+                                                                class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <div class="form-group  mt-3">
-                                                        <textarea class="form-control" id="message" name="message" rows="2" 
-                                                            placeholder="How May We Help You ?"></textarea>
+                                                    <div class="form-group mt-3">
+                                                        <b><label for="message">Message:</label></b>
+                                                        <textarea class="form-control" id="message" name="message" rows="2" placeholder="How May We Help You ?">{{ old('message') }}</textarea>
+                                                        @error('message')
+                                                            <span
+                                                                class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
-                                                @if ($id)
+                                                @if ($userloggedin)
                                                     <div class="col-lg-12">
                                                         <button type="submit"
-                                                            class="btn btn-danger-gradiant mt-3 mb-3 text-white border-0 py-2 px-3"><span>
-                                                                SUBMIT NOW <i class="ti-arrow-right"></i></span></button>
+                                                            class="btn btn-danger-gradiant mt-3 mb-3 text-white border-0 py-2 px-3">
+                                                            <span> SUBMIT NOW <i class="ti-arrow-right"></i></span>
+                                                        </button>
                                                         <button type="button"
                                                             class="btn btn-danger-gradiant mt-3 mb-3 text-white border-0 py-2 px-3 mx-2"
                                                             data-toggle="modal" data-target="#history"><span> HISTORY <i
@@ -227,41 +245,33 @@
                                                     <div class="col-lg-12">
                                                         <button type="submit"
                                                             class="btn btn-danger-gradiant mt-3 text-white border-0 py-2 px-3"
-                                                            disabled><span> SUBMIT NOW <i
-                                                                    class="ti-arrow-right"></i></span></button>
-                                                        <small class="form-text text-muted">First login to Contct with
-                                                            Us.</small>
+                                                            disabled>
+                                                            <span> SUBMIT NOW <i class="ti-arrow-right"></i></span>
+                                                        </button>
+                                                        <small class="form-text text-muted">
+                                                            First login to Contct with Us.
+                                                        </small>
                                                     </div>
                                                 @endif
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                                {{-- $sql = 'SELECT * FROM `sitedetail`';
-                                $result = mysqli_query($conn, $sql);
-                                $row = mysqli_fetch_assoc($result);
-                                
-                                $systemName = $row['systemName'];
-                                $address = $row['address'];
-                                $email = $row['email'];
-                                $contact1 = $row['contact1'];
-                                $contact2 = $row['contact2']; --}}
 
                                 <div class="col-lg-4 bg-image" style="background-image:url(img/contact.jpg)">
                                     <div class="detail-box p-4">
                                         <h5 class="text-white font-weight-light mb-3">ADDRESS</h5>
-                                        <p class="text-white op-7">address</p>
+                                        <p class="text-white op-7">Pizza Hub, Xyz Line, Navsari</p>
                                         <h5 class="text-white font-weight-light mb-3 mt-4">CALL US</h5>
-                                        <p class="text-white op-7">contact1 <br> contact2
-                                        </p>
+                                        <p class="text-white op-7">12345 67890 <br> 12345 69876</p>
                                         <div class="round-social light">
-                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=' .$email .'"
+                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=pizzahub@gmail.com"
                                                 class="ml-0 text-decoration-none text-white border border-white rounded-circle"
                                                 target="_blank"><i class="far fa-envelope"></i></a>
-                                            <a href="https://github.com/"
+                                            <a href="https://github.com/dhrumil464"
                                                 class="text-decoration-none text-white border border-white rounded-circle"
                                                 target="_blank"><i class="fab fa-github"></i></i></a>
-                                            <a href="https://youtube.com/"
+                                            <a href="https://youtube.com/@dkcoding/shorts"
                                                 class="text-decoration-none text-white border border-white rounded-circle"
                                                 target="_blank"><i class="fab fa-youtube"></i></a>
                                         </div>
@@ -312,7 +322,7 @@
                                     <td>datetime</td>
                                 </tr>
                                 <script>
-                                    document.getElementById("totalMessage").innerHTML = "0";
+                                    document.getElementById("totalMessage").innerHTML = "50";
                                 </script>
                                 @if ($count == 0)
                                     <script>
@@ -344,30 +354,24 @@
                                     <th>Contact Id</th>
                                     <th>Order Id</th>
                                     <th>Message</th>
-                                    <th>datetime</th>
+                                    <th>Datetime</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- $sql = "SELECT * FROM `contact` WHERE `userId`='$userId'"; 
-                    $result = mysqli_query($conn, $sql); --}}
-                                {{-- while($row=mysqli_fetch_assoc($result)) {
-                        $contactId = $row['contactId'];
-                        $orderId = $row['orderId'];
-                        $message = $row['message'];
-                        $datetime = $row['time'];
-                        $count++; --}}
-                                <tr>
-                                    <td>contactId</td>
-                                    <td>orderId</td>
-                                    <td>message</td>
-                                    <td>datetime</td>
-                                </tr>
                                 @php
-                                    $count = 1;
+                                    $contacts = DB::table('contacts')->where('userId', $userId)->get();
                                 @endphp
-                                @if ($count == 0)
+                                @foreach ($contacts as $contact)
+                                    <tr>
+                                        <td>{{ $contact->contactId }}</td>
+                                        <td>{{ $contact->orderid }}</td>
+                                        <td>{{ $contact->message }}</td>
+                                        <td>{{ $contact->contactdate }}</td>
+                                    </tr>
+                                @endforeach
+                                @if ($contacts->isEmpty())
                                     <script>
-                                        document.getElementById("bd").innerHTML = '<div class="my-1">you have not contacted us.</div>';
+                                        document.getElementById("bd").innerHTML = '<div class="my-1">You have not contacted us.</div>';
                                     </script>
                                 @endif
                             </tbody>

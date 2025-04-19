@@ -32,51 +32,43 @@
                             <table class="table table-striped table-bordered table-hover col-md-12 text-center">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Id</th>
+                                        <th>ContactId</th>
                                         <th>UserId</th>
                                         <th>Email</th>
                                         <th>Phone No</th>
                                         <th>Order Id</th>
                                         <th>Message</th>
-                                        <th>datetime</th>
+                                        <th>Datetime</th>
                                         <th>Reply</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- $sql = "SELECT * FROM contact"; 
-                            $result = mysqli_query($conn, $sql);
-                            $count = 0;
-                            while($row=mysqli_fetch_assoc($result))
-                                $contactId = $row['contactId'];
-                                $userId = $row['userId'];
-                                $email = $row['email'];
-                                $phoneNo = $row['phoneNo'];
-                                $orderId = $row['orderId'];
-                                $message = $row['message'];
-                                $time = $row['time'];
-                                $count++; --}}
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td>101</td>
-                                        <td>example@gmail.com</td>
-                                        <td>12345</td>
-                                        <td>1</td>
-                                        <td>Hello</td>
-                                        <td>03/03/25 19:40</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-primary" type="button" data-toggle="modal"
-                                                data-target="#reply">Reply</button>
-                                        </td>
-                                    </tr>
                                     @php
-                                        $count = 1;
+                                        $userId = session('userId');
+                                        $contacts = DB::table('contacts')->where('userId', $userId)->get();
+                                    @endphp
+                                    @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ $contact->contactId }}</td>
+                                            <td>{{ $contact->userid }}</td>
+                                            <td>{{ $contact->email }}</td>
+                                            <td>{{ $contact->phoneno }}</td>
+                                            <td>{{ $contact->orderid }}</td>
+                                            <td>{{ $contact->message }}</td>
+                                            <td>{{ $contact->contactdate }}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-primary" type="button" data-toggle="modal"
+                                                    data-target="#reply{{ $contact->contactId }}">Reply</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @php
                                         $totalReply = 1;
                                     @endphp
-                                    @if ($count == 0)
+                                    @if ($contacts->isEmpty())
                                         <script>
                                             document.getElementById("notempty").innerHTML =
-                                                '<div class="alert alert-info alert-dismissible fade show" role="alert" style="width:100%"> You have not recieve any message!	</div>';
+                                                '<div class="alert alert-info alert-dismissible fade show" role="alert" style="width:100%"> You have not recieve any message!</div>';
                                             document.getElementById("empty").innerHTML = '';
                                         </script>
                                     @endif
@@ -93,31 +85,43 @@ $contactResult = mysqli_query($conn, $contactsql);
 while($contactRow = mysqli_fetch_assoc($contactResult)){
 $contactId = $contactRow['contactId'];
 $Id = $contactRow['userId']; --}}
+        @php
+            $userId = session('userId');
+            $contacts = DB::table('contacts')->where('userId', $userId)->get();
+        @endphp
 
         <!-- Reply Modal -->
-        <div class="modal fade" id="reply" tabindex="-1" role="dialog" aria-labelledby="reply" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-light" style="background-color: #4b5366;">
-                        <h5 class="modal-title" id="reply">Reply (Contact Id: $contactId)</h5>
-                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="partials/_contactManage.php" method="post">
-                            <div class="text-left my-2">
-                                <b><label for="message">Message: </label></b>
-                                <textarea class="form-control" id="message" name="message" rows="2" required minlength="5"></textarea>
-                            </div>
-                            <input type="hidden" id="contactId" name="contactId" value="$contactId">
-                            <input type="hidden" id="userId" name="userId" value="$Id">
-                            <button type="submit" class="btn btn-success" name="contactReply">Reply</button>
-                        </form>
+        @foreach ($contacts as $contact)
+            @php
+                $contactId = $contact->contactId;
+                $userId = $contact->userid;
+            @endphp
+            <div class="modal fade" id="reply{{ $contactId }}" tabindex="-1" role="dialog"
+                aria-labelledby="reply{{ $contactId }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-light" style="background-color: #4b5366;">
+                            <h5 class="modal-title" id="reply{{ $contactId }}">Reply (Contact Id: {{ $contactId }})
+                            </h5>
+                            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="partials/_contactManage.php" method="post">
+                                <div class="text-left my-2">
+                                    <b><label for="message">Message: </label></b>
+                                    <textarea class="form-control" id="message" name="message" rows="2" required minlength="5"></textarea>
+                                </div>
+                                <input type="hidden" id="contactId" name="contactId" value="$contactId">
+                                <input type="hidden" id="userId" name="userId" value="$Id">
+                                <button type="submit" class="btn btn-success" name="contactReply">Reply</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
 
         <!-- history Modal -->
         <div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="history" aria-hidden="true">
