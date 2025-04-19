@@ -158,10 +158,13 @@ class CartController extends Controller
                 if ($order) {
                     $cartItems = PizzaCart::where('userid', $userId)->get();
                     foreach ($cartItems as $item) {
+                        $pizza = PizzaItems::find($item->pizzaid);
+                        $discount = $pizza->discount;
                         OrderItem::create([
                             'orderid' => $orderId,
                             'pizzaid' => $item->pizzaid,
-                            'quantity' => $item->quantity
+                            'quantity' => $item->quantity,
+                            'discount' => $discount,
                         ]);
                     }
                     PizzaCart::where('userid', $userId)->delete();
@@ -181,7 +184,7 @@ class CartController extends Controller
     {
         if (session('userloggedin') && session('userloggedin') == true) {
             $userId = session('userId');
-            $orders = Order::where('userid', $userId)->get();
+            $orders = Order::where('userid', $userId)->orderBy('orderdate')->get();
             return view('viewOrder', compact('orders'));
         } else {
             $orders = [];
@@ -191,7 +194,7 @@ class CartController extends Controller
 
     public function manageOrders()
     {
-        $orders = Order::all();
+        $orders = Order::orderBy('orderdate')->get();
         return view('admin.orderManage', compact('orders'));
     }
 

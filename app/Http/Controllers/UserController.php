@@ -15,11 +15,6 @@ class UserController extends Controller
         return view('viewProfile');
     }
 
-    public function viewCart()
-    {
-        return view('viewCart');
-    }
-
     public function search()
     {
         return view('search');
@@ -28,11 +23,6 @@ class UserController extends Controller
     public function about()
     {
         return view('about');
-    }
-
-    public function contact()
-    {
-        return view('contact');
     }
 
     public function handleUserLogin(REQUEST $request) // when clicked on the admin login submit
@@ -218,7 +208,7 @@ class UserController extends Controller
         }
     }
 
-    public function userManageUpdate(Request $request,$userid)
+    public function userManageUpdate(Request $request, $userid)
     {
         $request->validate([
             'editusername' => 'string|max:12',
@@ -250,21 +240,21 @@ class UserController extends Controller
 
         $user = UsersAdmin::where('userid', $userid)->first();
         if ($user) {
-            if($user->usertype == 0){
+            if ($user->usertype == 0) {
                 $user->username = $request->editusername;
                 $user->firstname = $request->editfirstName;
                 $user->lastname = $request->editlastName;
                 $user->phoneno = $request->editphoneNo;
                 $user->save();
                 return back()->with('success', 'User updated successfully!');
-            }elseif ($user->usertype == 1){ 
+            } elseif ($user->usertype == 1) {
                 $user->firstname = $request->editfirstName;
                 $user->lastname = $request->editlastName;
                 $user->email = $request->editemail;
                 $user->phoneno = $request->editphoneNo;
                 $user->save();
                 return back()->with('success', 'Admin updated successfully!');
-            }else{
+            } else {
                 return back()->with('error', 'User not found!');
             }
         } else {
@@ -285,7 +275,7 @@ class UserController extends Controller
         }
     }
 
-    public function manageProfile(Request $request,$userid)
+    public function manageProfile(Request $request, $userid)
     {
         $request->validate([
             'username' => 'string|max:12',
@@ -321,37 +311,65 @@ class UserController extends Controller
 
         $user = UsersAdmin::where('userid', $userid)->first();
         if ($user) {
-            if($user->usertype == 0){
+            if ($user->usertype == 0) {
                 $user->username = $request->username;
                 $user->firstname = $request->firstName;
                 $user->lastname = $request->lastName;
                 $user->phoneno = $request->phoneNo;
                 if ($request->password) {
-                    if(strlen($request->password) < 20)
-                    {
+                    if (strlen($request->password) < 20) {
                         $user->password = password_hash($request->password, PASSWORD_DEFAULT);
                     }
                 }
                 $user->save();
                 return back()->with('success', 'Profile updated successfully!');
-            }elseif ($user->usertype == 1){ 
+            } elseif ($user->usertype == 1) {
                 $user->firstname = $request->firstName;
                 $user->lastname = $request->lastName;
                 $user->email = $request->email;
                 $user->phoneno = $request->phoneNo;
                 if ($request->password) {
-                    if(strlen($request->password) < 20)
-                    {
+                    if (strlen($request->password) < 20) {
                         $user->password = password_hash($request->password, PASSWORD_DEFAULT);
                     }
                 }
                 $user->save();
                 return back()->with('success', 'Profile updated successfully!');
-            }else{
+            } else {
                 return back()->with('error', 'User not found!');
             }
         } else {
             return back()->with('error', 'User not found!');
         }
+    }
+
+    public function contact()
+    {
+        return view('contact');
+    }
+
+    public function contactSubmit(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email|max:30',
+            'phoneNo' => 'required|numeric|digits:5',
+            'orderId' => 'required|numeric|digits:5',
+            'message' => 'required|string|max:100',
+        ]);
+
+        return back()->with('success', 'Message sent successfully!');
+    }
+
+    public function userManageSearch(Request $request)
+    {
+        $search = $request->input('search');
+        $users = UsersAdmin::where('username', 'LIKE', "%{$search}%")
+            ->orWhere('firstname', 'LIKE', "%{$search}%")
+            ->orWhere('lastname', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->orWhere('phoneno', 'LIKE', "%{$search}%")
+            ->get();
+
+        return view('admin.userManage', ['users' => $users]);
     }
 }

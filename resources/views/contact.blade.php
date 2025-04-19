@@ -164,14 +164,15 @@
                                         $passRow = mysqli_fetch_assoc($passResult);
                                         $email = $passRow['email'];
                                         $phone = $passRow['phone']; --}}
-                                        <form action="partials/_manageContactUs.php" method="POST">
+                                        <form action="" method="POST">
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="form-group mt-3">
                                                         <b><label for="email">Email:</label></b>
                                                         <input type="email" class="form-control" id="email"
-                                                            name="email" placeholder="Enter Your Email" required
-                                                            value="email">
+                                                            name="email" placeholder="Enter Your Email" 
+                                                            value="dharmik@gmail.com">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -183,7 +184,7 @@
                                                             </div>
                                                             <input type="tel" class="form-control" id="phone"
                                                                 name="phone" aria-describedby="basic-addon"
-                                                                placeholder="Enter Your Phone Number" required
+                                                                placeholder="Enter Your Phone Number" 
                                                                 pattern="[0-9]{10}" value="phoneno">
                                                         </div>
                                                     </div>
@@ -202,13 +203,13 @@
                                                         <b><label for="password">Password:</label></b>
                                                         <input class="form-control" id="password" name="password"
                                                             placeholder="Enter Password" type="password"
-                                                            placeholder="Enter Your Password" required
+                                                            placeholder="Enter Your Password" 
                                                             data-toggle="password">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group  mt-3">
-                                                        <textarea class="form-control" id="message" name="message" rows="2" required
+                                                        <textarea class="form-control" id="message" name="message" rows="2" 
                                                             placeholder="How May We Help You ?"></textarea>
                                                     </div>
                                                 </div>

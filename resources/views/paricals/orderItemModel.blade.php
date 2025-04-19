@@ -54,7 +54,7 @@
                                                                 <a
                                                                     href="#"class="text-dark d-inline-block align-middle">{{ $pizzaItem->pizzaname }}</a>
                                                             </h5>
-                                                            @if ($pizzaItem->discount > 0)
+                                                            @if ($orderItem->discount > 0)
                                                                 <h6 style="color: #ff0000">
                                                                     <del>Rs.{{ number_format($itemTotalPrice, 2) }}/-</del>
                                                                     <span class="ml-2"
