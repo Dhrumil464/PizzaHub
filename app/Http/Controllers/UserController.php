@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\UsersAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Session\Session;
 use App\Models\Contact;
 use App\Models\ContactReply;
+use App\Models\PizzaItems;
 use Carbon\Carbon;
 
 include "./PHPMailer/PHPMailer.php";
@@ -498,13 +500,9 @@ class UserController extends Controller
     public function userManageSearch(Request $request)
     {
         $search = $request->input('search');
-        $users = UsersAdmin::where('username', 'LIKE', "%{$search}%")
-            ->orWhere('firstname', 'LIKE', "%{$search}%")
-            ->orWhere('lastname', 'LIKE', "%{$search}%")
-            ->orWhere('email', 'LIKE', "%{$search}%")
-            ->orWhere('phoneno', 'LIKE', "%{$search}%")
-            ->get();
+        $cats = Categories::where('catname', 'LIKE', "%{$search}%")->orwhere('catdesc', 'LIKE', "%{$search}%")->get();
+        $pizzaItems = PizzaItems::where('pizzaname', 'LIKE', "%{$search}%")->orwhere('pizzadesc', 'LIKE', "%{$search}%")->get();
 
-        return view('admin.userManage', ['users' => $users]);
+        return view('search', ['cats' => $cats, 'pizzaItems' => $pizzaItems]);
     }
 }

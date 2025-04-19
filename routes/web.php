@@ -37,13 +37,10 @@ Route::get('/viewProfile', [UserController::class, 'viewProfile'])->name('user.v
 Route::put('/manageProfile/{userid}', [UserController::class, 'manageProfile'])->name('user.manageProfile');
 
 
-
 /********************  Users Part ***********************/
-
-Route::get('/search', [UserController::class, 'search'])->name('user.search');
+Route::post('/search', [UserController::class, 'userManageSearch'])->name('user.search');
 
 Route::get('/about', [UserController::class, 'about'])->name('user.about');
-
 
 Route::post('/handleUserSignup', [UserController::class, 'handleUserSignup'])->name('user.handleUserSignup');
 
@@ -120,8 +117,6 @@ Route::get('/admin/dashboard/manageOrders', [CartController::class, 'manageOrder
 Route::put('/admin/dashboard/updateOrderStatus/{orderid}', [CartController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
 
 Route::put('/admin/dashboard/updateDeliveryBoy/{orderid}', [CartController::class, 'updateDeliveryBoy'])->name('admin.updateDeliveryBoy');
-
-
 
 
 /*************************   other routes   ************************/

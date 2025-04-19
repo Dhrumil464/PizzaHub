@@ -1,3 +1,14 @@
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
 <!doctype html>
 <html lang="en">
 
@@ -11,8 +22,8 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    
-        <title>Search</title>
+
+    <title>Search</title>
     <link rel = "icon" href ="img/logo.jpg" type = "image/x-icon">
     <style>
         #cont {
@@ -39,107 +50,130 @@
 <body>
     @extends('layouts.nav')
     @section('content')
-
         <div class="container my-3">
-            <h2 class="py-2">Search Result for <em>"$_GET['search']"</em> :</h2>
-            <h3><span id="cat" class="py-2"></span></h3>
-            <div class="row d-flex justify-content-start">
-                {{-- $noResult = true;
-            $query = $_GET["search"];
-            $sql = "SELECT * FROM `categories` WHERE MATCH(categorieName, categorieDesc) against('$query')"; --}}
-
-                {{-- $result = mysqli_query($conn, $sql);
-            while($row = mysqli_fetch_assoc($result)) --}}
-                <script> document.getElementById("cat").innerHTML = "Category: ";</script>
-                {{-- $noResult = false;
-                $catId = $row['categorieId'];
-                $catname = $row['categorieName'];
-                $catdesc = $row['categorieDesc'];  --}}
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/card-1.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{{ route('user.viewPizzaList') }}">$catname</a></h5>
-                            <p class="card-text">substr($catdesc, 0, 29)...</p>
-                            <a href="{{ route('user.viewPizzaList') }}" class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
+            <h2 class="py-2">Search Result for <em>"{{ request('search') }}"</em> :</h2>
+            @if ($cats->isNotEmpty())
+                <div class="col-lg-12 text-center bg-light mb-4"
+                    style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
+                    <h2 class="text-center"><span id="cat"></span></h2>
                 </div>
-
-            </div>
-        </div>
-
-        <div class="container my-3 mb-5" id="cont">
-            <h3><span id="iteam" class="py-2"></span></h3>
-            <div class="row d-flex justify-content-start">
-                {{-- $query = $_GET["search"];
-            $sql = "SELECT * FROM `pizza` WHERE MATCH(pizzaName, pizzaDesc) against('$query')"; 
-            $result = mysqli_query($conn, $sql);
-            while($row = mysqli_fetch_assoc($result))--}}
-                <script> document.getElementById("iteam").innerHTML = "Items: ";</script>
-                {{-- $noResult = false;
-                $pizzaId = $row['pizzaId'];
-                $pizzaName = $row['pizzaName'];
-                $pizzaPrice = $row['pizzaPrice'];
-                $pizzaDesc = $row['pizzaDesc'];
-                $pizzaCategorieId = $row['pizzaCategorieId'];  --}}
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                    <div class="card">
-                        <img src="img/pizza-1.jpg" class="card-img-top" alt="image for this pizza">
-                        <div class="card-body">
-                            <h5 class="card-title">substr($pizzaName, 0, 20)...</h5>
-                            <h6 style="color: #ff0000">Rs.$pizzaPrice/-</h6>
-                            <p class="card-text">substr($pizzaDesc, 0, 29...</p>
-                            <div class="row justify-content-center">
-                                @php
-                                    $id = 1;
-                                    $quaExistRows = 0;
-                                    $noResult = 0;
-                                @endphp
-                                @if ($id == 1)
-                                    {{-- $quaSql = "SELECT `itemQuantity` FROM `viewcart` WHERE pizzaId = '$pizzaId' AND `userId`='$userId'";
-                                    $quaresult = mysqli_query($conn, $quaSql);
-                                    $quaExistRows = mysqli_num_rows($quaresult); --}}
-                                    @if ($quaExistRows == 0)
-                                        <form action="partials/_manageCart.php" method="POST">
-                                            <input type="hidden" name="itemId" value="'.$pizzaId. '">
-                                            <button type="submit" name="addToCart" class="btn btn-primary mx-2">Add to
-                                                Cart</button>
-                                    @else
-                                            <a href="{{ route('user.viewCart') }}"><button class="btn btn-primary mx-2">Go to
-                                                    Cart</button></a>
-                                    @endif
-                                @else
-                                    <button class="btn btn-primary mx-2" data-toggle="modal" data-target="#loginModal">Add
-                                        to Cart</button>
-                                @endif
-                                </form>
-                                <a href="{{ route('user.viewPizza') }}"><button class="btn btn-primary">Quick
-                                        View</button></a>
+                <div class="row d-flex justify-content-start">
+                    @foreach ($cats as $cat)
+                        <script>
+                            document.getElementById("cat").innerHTML = "Categories";
+                        </script>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                            <div class="card">
+                                <img src="catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this pizza">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">
+                                            {{ $cat->catname }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text">{{ substr($cat->catdesc, 0, 29) }}...</p>
+                                    <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
+                                        class="btn btn-primary">
+                                        View All</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-
-                @if($noResult == 0)
-                <div class="jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h1>Your search - <em>"$_GET['search']"</em> - No Result Found.</h1>
-                        <p class="lead"> Suggestions:
-                        <ul>
-                            <li>Make sure that all words are spelled correctly.</li>
-                            <li>Try different keywords.</li>
-                            <li>Try more general keywords.</li>
-                        </ul>
-                        </p>
-                    </div>
-                </div>
-                @endif
-            </div>
+            @endif
         </div>
 
+        @if ($pizzaItems->isNotEmpty())
+            <div class="container my-3" id="cont">
+                <div class="col-lg-12 text-center bg-light mb-4"
+                    style="margin: auto;border-top: 2px groove black;border-bottom: 2px groove black;">
+                    <h2 class="text-center"><span id="iteam"></span></h2>
+                </div>
+                <div class="row d-flex justify-content-start">
+                    @foreach ($pizzaItems as $item)
+                        <script>
+                            document.getElementById("iteam").innerHTML = "Items";
+                        </script>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                            <div class="card">
+                                @if ($item->discount > 0)
+                                    <div class="position-absolute"
+                                        style="top: 10px; right: -15px; font-size: 14px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 20px;transform: rotate(10deg); font-weight: bold; clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0% 100%, 15% 50%, 0% 0%)">
+                                        {{ $item->discount }}% OFF
+                                    </div>
+                                @endif
+                                <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top"
+                                    alt="image for this pizza">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
+
+                                    @if ($item->discount > 0)
+                                        @php
+                                            $discountedPrice =
+                                                $item->pizzaprice - ($item->pizzaprice * $item->discount) / 100;
+                                        @endphp
+                                        <h6 style="color: #ff0000">
+                                            <del>Rs.{{ $item->pizzaprice }}/-</del>
+                                            <span
+                                                style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                        </h6>
+                                    @else
+                                        <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
+                                    @endif
+
+                                    <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                    <div class="row justify-content-center">
+                                        @if ($userloggedin)
+                                            @php
+                                                $quaExistRows = App\Models\PizzaCart::where('pizzaId', $item->pizzaid)
+                                                    ->where('userId', $userId)
+                                                    ->count();
+                                            @endphp
+                                            @if ($quaExistRows == 0)
+                                                <form action="{{ route('cart.add', ['pizzaid' => $item->pizzaid]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" name="addToCart"
+                                                        class="btn btn-primary myBtnSize">Add to Cart</button>
+                                                @else
+                                                    <a href="{{ route('user.showCart') }}"><button
+                                                            class="btn btn-primary myBtnSize">Go to Cart</button></a>
+                                            @endif
+                                        @else
+                                            <button class="btn btn-primary myBtnSize" data-toggle="modal"
+                                                data-target="#loginModal">Add to Cart</button>
+                                        @endif
+                                        </form>
+                                        <a
+                                            href="{{ route('user.viewPizza', ['catid' => $item->catid, 'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
+                                                class="btn btn-primary myBtnSize">QuickView</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+        @if ($cats->isEmpty() && $pizzaItems->isEmpty())
+            <div class="container my-5 pb-4">
+                <div class="d-flex justify-content-center">
+                    <div class="jumbotron jumbotron-fluid mt-3">
+                        <div class="container">
+                            <h1>Your search - <em>"{{ request('search') }}"</em> - No Result Found.</h1>
+                            <p class="lead"> Suggestions:
+                            <ul>
+                                <li>Make sure that all words are spelled correctly.</li>
+                                <li>Try different keywords.</li>
+                                <li>Try more general keywords.</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endsection
 
     <!-- Optional JavaScript -->
