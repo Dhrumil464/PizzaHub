@@ -45,7 +45,6 @@
                                             @else
                                                 <option value="2">Non-Veg Pizza</option>
                                             @endif
-
                                         </select>
                                         @error('cattype')
                                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
@@ -61,6 +60,18 @@
                                     <div class=" form-control">
                                         <input type="checkbox" name="iscombo" id="iscombo" value="1">
                                         <label for="iscombo" class="control-label">Check if category is combo!</label>
+                                    </div>
+                                    <div id="combo-fields" style="display: none;" class="mt-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Price: </label>
+                                            <input type="number" class="form-control" name="comboprice"
+                                                value="{{ old('comboprice') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Discount: </label>
+                                            <input type="number" class="form-control" name="discount"
+                                                value="{{ old('discount') }}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -98,16 +109,33 @@
                                                         <td class="text-center"><b>{{ $cat->catid }}</b></td>
                                                         <td><img src="/catimages/{{ $cat->catimage }}"
                                                                 alt="image for this Category" width="120px" height="120px">
+                                                            <div class="text-right mt-2">
+                                                                @if ($cat->cattype == 1)
+                                                                    <img src="/img/veg-mark.jpg" height="25px">
+                                                                @else
+                                                                    <img src="/img/non-veg-mark.jpg" height="25px">
+                                                                @endif
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <p>Name : <b>{{ $cat->catname }}</b></p>
                                                             <p>Description : <b class="truncate">{{ $cat->catdesc }}</b>
                                                             </p>
-                                                            @if ($cat->cattype == 1)
-                                                                <p>Type : <img src="/img/veg-mark.jpg" height="30px"></p>
-                                                            @elseif ($cat->cattype == 2)
-                                                                <p>Type : <img src="/img/non-veg-mark.jpg" height="30px">
+                                                            @if ($cat->iscombo == 1)
+                                                                <p>Type : <b>Combo</b> | Discount :
+                                                                    <b>{{ $cat->discount }} %</b>
                                                                 </p>
+                                                                @if ($cat->discount > 0)
+                                                                    <p>Price : <del
+                                                                            style="color: #ff0000;"><b>Rs.{{ $cat->comboprice }}/-</b></del>
+                                                                        <b><span
+                                                                                style="color: green;">Rs.{{ number_format($cat->comboprice - ($cat->comboprice * $cat->discount) / 100, 2) }}/-</span></b>
+                                                                    </p>
+                                                                @else
+                                                                    <p class="text-green">Price :
+                                                                        <b>{{ $cat->comboprice }}</b>
+                                                                    </p>
+                                                                @endif
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
@@ -230,4 +258,25 @@
             }
         </style>
     @endsection
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isComboCheckbox = document.getElementById('iscombo');
+            const comboFields = document.getElementById('combo-fields');
+
+            // Initial check (for old values when form reloads with validation errors)
+            if (isComboCheckbox.checked) {
+                comboFields.style.display = 'block';
+            }
+
+            // Add listener
+            isComboCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    comboFields.style.display = 'block';
+                } else {
+                    comboFields.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>

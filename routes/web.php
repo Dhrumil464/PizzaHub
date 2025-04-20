@@ -96,6 +96,8 @@ Route::get('/pizzaCart', [CartController::class, 'showCart'])->name('user.showCa
 
 Route::post('/addToCart/{pizzaid}', [CartController::class, 'addToCart'])->name('cart.add');
 
+Route::post('/addToCart2/{catid}', [CartController::class, 'addToCart2'])->name('cart.add2');
+
 Route::post('/removeFromCart/{cartitemid}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 Route::post('/clearCart', [CartController::class, 'clearCart'])->name('cart.clear');
@@ -118,6 +120,3 @@ Route::put('/admin/dashboard/updateOrderStatus/{orderid}', [CartController::clas
 
 Route::put('/admin/dashboard/updateDeliveryBoy/{orderid}', [CartController::class, 'updateDeliveryBoy'])->name('admin.updateDeliveryBoy');
 
-
-/*************************   other routes   ************************/
-Route::get('/admin/dashboard/siteManage', [AdminController::class, 'siteManage'])->name('admin.siteManage');

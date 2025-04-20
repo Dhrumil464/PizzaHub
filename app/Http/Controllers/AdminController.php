@@ -83,9 +83,4 @@ class AdminController extends Controller
     {
         return view('admin.contactManage');
     }
-
-    public function siteManage()
-    {
-        return view('admin.siteManage');
-    }
 }

@@ -12,7 +12,7 @@ class PizzaCart extends Model
     protected $table = 'pizza_carts';
     protected $primaryKey = 'cartitemid';
 
-    protected $fillable = ['pizzaid', 'userid', 'quantity', 'itemadddate'];
+    protected $fillable = ['pizzaid', 'catid', 'userid', 'quantity', 'itemadddate'];
 
     public $timestamps = false;
 }

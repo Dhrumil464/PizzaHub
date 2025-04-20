@@ -44,8 +44,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $userId = session('userId');
-                                        $contacts = DB::table('contacts')->where('userId', $userId)->get();
+                                        $contacts = DB::table('contacts')->get();
                                     @endphp
                                     @foreach ($contacts as $contact)
                                         <tr>
@@ -78,8 +77,7 @@
         </div>
 
         @php
-            $userId = session('userId');
-            $contacts = DB::table('contacts')->where('userId', $userId)->get();
+            $contacts = DB::table('contacts')->get();
         @endphp
 
         <!-- Reply Modal -->
@@ -137,7 +135,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $contacts = DB::table('contact_replies')->where('userId', $userId)->get();
+                                        $contacts = DB::table('contact_replies')->get();
                                     @endphp
                                     @foreach ($contacts as $contact)
                                         <tr>

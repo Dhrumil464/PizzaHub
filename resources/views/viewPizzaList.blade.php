@@ -76,67 +76,89 @@
                     <h2 class="text-center"><span id="catTitle">{{ $category->catname }} | ITEMS</span></h2>
                 </div>
 
-                <div class="row d-flex justify-content-start">
-                    @foreach ($pizzaItems as $item)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                            <div class="card">
-                                @if ($item->discount > 0)
-                                    <div class="position-absolute"
-                                        style="top: 10px; right: -15px; font-size: 14px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 20px;transform: rotate(10deg); font-weight: bold; clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0% 100%, 15% 50%, 0% 0%)">
-                                        {{ $item->discount }}% OFF
-                                    </div>
-                                @endif
-                                <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top"
-                                    alt="image for this pizza">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
-
+                @if ($category->iscombo == 0)
+                    <div class="row d-flex justify-content-start">
+                        @foreach ($pizzaItems as $item)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                                <div class="card">
                                     @if ($item->discount > 0)
-                                        @php
-                                            $discountedPrice =
-                                                $item->pizzaprice - ($item->pizzaprice * $item->discount) / 100;
-                                        @endphp
-                                        <h6 style="color: #ff0000">
-                                            <del>Rs.{{ $item->pizzaprice }}/-</del>
-                                            <span style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
-                                        </h6>
-                                    @else
-                                        <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
+                                        <div class="position-absolute"
+                                            style="top: 10px; right: -15px; font-size: 14px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 20px;transform: rotate(10deg); font-weight: bold; clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0% 100%, 15% 50%, 0% 0%)">
+                                            {{ $item->discount }}% OFF
+                                        </div>
                                     @endif
+                                    <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top"
+                                        alt="image for this pizza">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
 
-                                    <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
-                                    <div class="row justify-content-center">
-                                        @if ($userloggedin)
+                                        @if ($item->discount > 0)
                                             @php
-                                                $quaExistRows = App\Models\PizzaCart::where('pizzaId', $item->pizzaid)
-                                                    ->where('userId', $userId)
-                                                    ->count();
+                                                $discountedPrice =
+                                                    $item->pizzaprice - ($item->pizzaprice * $item->discount) / 100;
                                             @endphp
-                                            @if ($quaExistRows == 0)
-                                                <form action="{{ route('cart.add', ['pizzaid' => $item->pizzaid]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    <button type="submit" name="addToCart"
-                                                        class="btn btn-primary myBtnSize">Add to Cart</button>
+                                            <h6 style="color: #ff0000">
+                                                <del>Rs.{{ $item->pizzaprice }}/-</del>
+                                                <span
+                                                    style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                            </h6>
+                                        @else
+                                            <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
+                                        @endif
+
+                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                        <div class="row justify-content-center">
+                                            @if ($userloggedin)
+                                                @php
+                                                    $quaExistRows = App\Models\PizzaCart::where(
+                                                        'pizzaId',
+                                                        $item->pizzaid,
+                                                    )
+                                                        ->where('userId', $userId)
+                                                        ->where('catid', null)
+                                                        ->count();
+                                                @endphp
+                                                @if ($quaExistRows == 0)
+                                                    <form action="{{ route('cart.add', ['pizzaid' => $item->pizzaid]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" name="addToCart"
+                                                            class="btn btn-primary myBtnSize">Add to Cart</button>
+                                                    </form>
                                                 @else
                                                     <a href="{{ route('user.showCart') }}"><button
                                                             class="btn btn-primary myBtnSize">Go to Cart</button></a>
+                                                @endif
+                                            @else
+                                                <button class="btn btn-primary myBtnSize" data-toggle="modal"
+                                                    data-target="#loginModal">Add to Cart</button>
                                             @endif
-                                        @else
-                                            <button class="btn btn-primary myBtnSize" data-toggle="modal"
-                                                data-target="#loginModal">Add to Cart</button>
-                                        @endif
-                                        </form>
-                                        <a
-                                            href="{{ route('user.viewPizza', ['catid' => $item->catid, 'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
-                                                class="btn btn-primary myBtnSize">QuickView</button>
-                                        </a>
+                                            <a
+                                                href="{{ route('user.viewPizza', ['catid' => $item->catid, 'pizzaid' => $item->pizzaid]) }}"class="mx-2"><button
+                                                    class="btn btn-primary myBtnSize">QuickView</button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="row d-flex justify-content-start">
+                        @foreach ($pizzaItems as $item)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
+                                <div class="card">
+                                    <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top"
+                                        alt="image for this pizza" height="250px">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
+                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         @else
             <div class="container mt-5" style="padding-bottom: 259px">

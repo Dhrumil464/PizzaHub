@@ -48,6 +48,13 @@
 </style>
 <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
 
+@php
+    $cats = App\Models\Categories::all()->count();
+    $items = App\Models\PizzaItems::all()->count();
+    $orders = App\Models\Order::all()->count();
+    $users = App\Models\UsersAdmin::all()->count();
+@endphp
+
 <body id="body-pd" style="background: #80808045;">
     @extends('admin.layouts.nav')
     @section('content')
@@ -55,26 +62,26 @@
         <div class="row mt-4">
             <div class="col-md-3">
                 <div class="dashboard-box">
-                    <h4>Orders</h4>
-                    <p class="counter" data-target="1200">0</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="dashboard-box">
                     <h4>Categories</h4>
-                    <p class="counter" data-target="10">0</p>
+                    <p class="counter" data-target="{{ $cats }}">0</p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="dashboard-box">
                     <h4>Menu Items</h4>
-                    <p class="counter" data-target="50">0</p>
+                    <p class="counter" data-target="{{ $items }}">0</p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="dashboard-box">
-                    <h4>Users</h4>
-                    <p class="counter" data-target="500">0</p>
+                    <h4>Orders</h4>
+                    <p class="counter" data-target="{{ $orders }}">0</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-box">
+                    <h4>Customers</h4>
+                    <p class="counter" data-target="{{ $users }}">0</p>
                 </div>
             </div>
         </div>

@@ -63,13 +63,20 @@
                                     <tbody>
                                         @foreach ($cartItems as $item)
                                             @php
-                                                $pizzaItem = App\Models\PizzaItems::where(
-                                                    'pizzaId',
-                                                    $item->pizzaid,
-                                                )->first();
-                                                $pizzaId = $pizzaItem->pizzaid;
-                                                $pizzaName = $pizzaItem->pizzaname;
-                                                $pizzaPrice = $pizzaItem->pizzaprice;
+                                                if ($item->catid) {
+                                                    $pizzaItem = App\Models\Categories::where(
+                                                        'catid',
+                                                        $item->catid,
+                                                    )->first();
+                                                } else {
+                                                    $pizzaItem = App\Models\PizzaItems::where(
+                                                        'pizzaId',
+                                                        $item->pizzaid,
+                                                    )->first();
+                                                }
+                                                $pizzaId = $pizzaItem->pizzaid ?? $pizzaItem->catid;
+                                                $pizzaName = $pizzaItem->pizzaname ?? $pizzaItem->catname;
+                                                $pizzaPrice = $pizzaItem->pizzaprice ?? $pizzaItem->comboprice;
                                                 $discount = $pizzaItem->discount;
                                                 $quantity = $item->quantity;
                                                 $itemTotalPrice = $pizzaPrice * $quantity;

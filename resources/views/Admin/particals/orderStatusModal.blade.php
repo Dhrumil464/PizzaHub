@@ -76,7 +76,7 @@
                             <div class="form-group col-md-6">
                                 <b><label for="phone">Phone No</label></b>
                                 <input class="form-control" id="phone{{ $order->orderid }}" name="phone"
-                                    value="{{ $boy->deliveryboyphoneno }}" type="tel">
+                                    value="{{ $boy->deliveryboyphoneno ?? null }}" type="tel">
                             </div>
                             <div class="form-group col-md-6">
                                 <b><label for="catId">Estimate Time(minute)</label></b>

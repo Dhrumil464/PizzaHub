@@ -90,7 +90,7 @@
                                         <table class="table table-bordered mb-0">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th class="text-center" style="width:7%;">Cat.Id</th>
+                                                    <th class="text-center" style="width:7%;">CatName</th>
                                                     <th class="text-center">Img</th>
                                                     <th class="text-center" style="width:58%;">Item Detail</th>
                                                     <th class="text-center" style="width:18%;">Action</th>
@@ -98,18 +98,42 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($pizzaitems as $item)
+                                                    @php
+                                                        $category = App\Models\Categories::where(
+                                                            'catid',
+                                                            $item->catid,
+                                                        )->first();
+                                                        $catname = $category ? $category->catname : 'Unknown';
+                                                        $cattype = $category ? $category->cattype : 'Unknown';
+                                                    @endphp
                                                     <tr>
-                                                        <td class="text-center"><b>{{ $item->catid }}</b></td>
+                                                        <td class="text-center"><b>{{ $catname }}</b></td>
                                                         <td class="text-center">
                                                             <img src="/pizzaimages/{{ $item->pizzaimage }}"
                                                                 alt="image for this item" width="120px" height="120px">
+                                                            <div class="text-right mt-2">
+                                                                @if ($cattype == 1)
+                                                                    <img src="/img/veg-mark.jpg" alt="Veg" height="25px">
+                                                                @else
+                                                                    <img src="/img/non-veg-mark.jpg" alt="Non-Veg" height="25px">
+                                                                @endif
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <p>PizzaName : <b>{{ $item->pizzaname }}</b></p>
-                                                            <p>Description : <b class="truncate">{{ $item->pizzadesc }}</b>
-                                                            </p>
-                                                            <p>Price : <b>Rs. {{ $item->pizzaprice }} /-</b></p>
+                                                            <p>Description : <b>{{ $item->pizzadesc }}</b></p>
                                                             <p>Discount : <b>{{ $item->discount }} %</b></p>
+                                                            @if ($item->discount > 0)
+                                                                <p>Price : <del
+                                                                        style="color: #ff0000;"><b>Rs.{{ $item->pizzaprice }}/-</b></del>
+                                                                    <b><span
+                                                                            style="color: green;">Rs.{{ number_format($item->pizzaprice - ($item->pizzaprice * $item->discount) / 100, 2) }}/-</span></b>
+                                                                </p>
+                                                            @else
+                                                                <p style="color: green;">Price :
+                                                                    <b>Rs.{{ $item->pizzaprice }}/-</b>
+                                                                </p>
+                                                            @endif
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="row mx-auto" style="width: 90px;">

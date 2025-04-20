@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('catdesc',60)->nullable();
             $table->tinyInteger('cattype');
             $table->tinyInteger('iscombo')->nullable();
+            $table->decimal('comboprice', 10, 2)->nullable();
+            $table->decimal('discount', 10, 2)->nullable();
             $table->timestamp('catcreatedate')->useCurrent();
             $table->timestamp('catupdatedate')->useCurrent();
         });

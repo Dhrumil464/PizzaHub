@@ -1,3 +1,14 @@
+@if (session('userloggedin') && session('userloggedin') == true)
+    @php
+        $userloggedin = true;
+        $userId = session('userId');
+    @endphp
+@else
+    @php
+        $userloggedin = false;
+        $userId = 0;
+    @endphp
+@endif
 <!doctype html>
 <html lang="en">
 
@@ -46,7 +57,7 @@
             }
         }
 
-        input[type=radio]:hover{
+        input[type=radio]:hover {
             cursor: pointer;
         }
 
@@ -192,24 +203,88 @@
             <div class="row d-flex justify-content-start" id="catData">
                 @foreach ($categories as $cat)
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
-                        <div class="card">
-                            <img src="/catimages/{{ $cat->catimage }}" class="card-img-top" alt="image for this category"
-                                height="250px">
-                            <div class="card-body">
-                                @if ($cat->cattype == 1)
-                                    <img src="/img/veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
-                                @elseif ($cat->cattype == 2)
-                                    <img src="/img/non-veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
+                        @if ($cat->iscombo == 1)
+                            <div class="card">
+                                @if ($cat->discount > 0)
+                                    <div class="position-absolute"
+                                        style="top: 10px; right: -15px; font-size: 14px; background: black; color: #fff; text-shadow: 0 0 5px red, 0 0 10px red; padding: 5px 20px;transform: rotate(10deg); font-weight: bold; clip-path: polygon(100% 0%, 85% 50%, 100% 100%, 0% 100%, 15% 50%, 0% 0%)">
+                                        {{ $cat->discount }}% OFF
+                                    </div>
                                 @endif
-                                <h5 class="card-title">
-                                    <a class="text-dark"
-                                        href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
-                                </h5>
-                                <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}...</p>
-                                <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
-                                    class="btn btn-primary">View All</a>
+                                <img src="/catimages/{{ $cat->catimage }}" class="card-img-top"
+                                    alt="image for this category" height="250px">
+                                <div class="card-body">
+                                    @if ($cat->cattype == 1)
+                                        <img src="/img/veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; left: 10px;')>
+                                    @elseif ($cat->cattype == 2)
+                                        <img src="/img/non-veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; left: 10px;')>
+                                    @endif
+                                    <h5 class="card-title">
+                                        <a class="text-dark"
+                                            href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                                    </h5>
+                                    @if ($cat->discount > 0)
+                                        @php
+                                            $discountedPrice =
+                                                $cat->comboprice - ($cat->comboprice * $cat->discount) / 100;
+                                        @endphp
+                                        <h6 style="color: #ff0000">
+                                            <del>Rs.{{ $cat->comboprice }}/-</del>
+                                            <span
+                                                style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                        </h6>
+                                    @else
+                                        <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
+                                    @endif
+                                    <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}...</p>
+                                    <div class="row justify-content-center">
+                                        @if ($userloggedin)
+                                            @php
+                                                $quaExistRows = App\Models\PizzaCart::where('catid', $cat->catid)
+                                                    ->where('userId', $userId)
+                                                    ->count();
+                                            @endphp
+                                            @if ($quaExistRows == 0)
+                                                <form action="{{ route('cart.add2', ['catid' => $cat->catid]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" name="addToCart"
+                                                        class="btn btn-primary myBtnSize">Add to Cart</button>
+                                                </form>
+                                            @else
+                                                <a href="{{ route('user.showCart') }}"><button
+                                                        class="btn btn-primary myBtnSize">Go to Cart</button></a>
+                                            @endif
+                                        @else
+                                            <button class="btn btn-primary myBtnSize" data-toggle="modal"
+                                                data-target="#loginModal">Add to Cart</button>
+                                        @endif
+                                        <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
+                                            class="mx-2"><button class="btn btn-primary myBtnSize">View</button>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="card">
+                                <img src="/catimages/{{ $cat->catimage }}" class="card-img-top"
+                                    alt="image for this category" height="250px">
+                                <div class="card-body">
+                                    @if ($cat->cattype == 1)
+                                        <img src="/img/veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
+                                    @elseif ($cat->cattype == 2)
+                                        <img src="/img/non-veg-mark.jpg" alt="" height="25px" @style('position: absolute; top: 10px; right: 10px;')>
+                                    @endif
+                                    <h5 class="card-title">
+                                        <a class="text-dark"
+                                            href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}">{{ $cat->catname }}</a>
+                                    </h5>
+                                    <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}...</p>
+                                    <a href="{{ route('user.viewPizzaList', ['catid' => $cat->catid]) }}"
+                                        class="btn btn-primary">View All</a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

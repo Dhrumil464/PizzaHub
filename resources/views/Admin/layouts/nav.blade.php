@@ -59,11 +59,6 @@
                         <i class='bx bx-grid-alt nav__icon'></i>
                         <span class="nav__name">Home</span>
                     </a>
-                    <a href="{{ route('admin.manageOrders') }}"
-                        class="nav__link nav-orderManage {{ Route::currentRouteName() == 'admin.manageOrders' ? 'active' : '' }}">
-                        <i class='bx bx-bar-chart-alt-2 nav__icon'></i>
-                        <span class="nav__name">Orders</span>
-                    </a>
                     <a href="{{ route('admin.manageCategory') }}"
                         class="nav__link nav-categoryManage {{ Route::currentRouteName() == 'admin.manageCategory' ? 'active' : '' }}">
                         <i class='bx bx-folder nav__icon'></i>
@@ -74,6 +69,11 @@
                         <i class='bx bx-message-square-detail nav__icon'></i>
                         <span class="nav__name">Pizza Item List</span>
                     </a>
+                    <a href="{{ route('admin.manageOrders') }}"
+                        class="nav__link nav-orderManage {{ Route::currentRouteName() == 'admin.manageOrders' ? 'active' : '' }}">
+                        <i class='bx bx-bar-chart-alt-2 nav__icon'></i>
+                        <span class="nav__name">Orders</span>
+                    </a>
                     <a href="{{ route('admin.contactManage') }}"
                         class="nav__link nav-contactManage {{ Route::currentRouteName() == 'admin.contactManage' ? 'active' : '' }}">
                         <i class="fas fa-hands-helping"></i>
@@ -83,11 +83,6 @@
                         class="nav__link nav-userManage {{ Route::currentRouteName() == 'admin.userManageView' ? 'active' : '' }}">
                         <i class='bx bx-user nav__icon'></i>
                         <span class="nav__name">Users</span>
-                    </a>
-                    <a href="{{ route('admin.siteManage') }}"
-                        class="nav__link nav-siteManage {{ Route::currentRouteName() == 'admin.siteManage' ? 'active' : '' }}">
-                        <i class="fas fa-cogs"></i>
-                        <span class="nav__name">Site Settings</span>
                     </a>
                 </div>
             </div>

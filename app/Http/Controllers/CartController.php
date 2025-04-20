@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Validator;
 use App\Models\DeliveryDetails;
+use App\Models\Categories;
 use App\Models\UsersAdmin;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -37,13 +38,38 @@ class CartController extends Controller
             return back()->with('error', 'Please log in to add items to cart.');
         }
         $pizzaid = request('pizzaid');
-        $cartItem = PizzaCart::where('userid', $userId)->where('pizzaid', $pizzaid)->first();
+        $cartItem = PizzaCart::where('userid', $userId)->where('pizzaid', $pizzaid)->where('catid', null)->first();
 
         if ($cartItem) {
             return back()->with('error', 'Item already added!');
         } else {
             PizzaCart::create([
                 'pizzaid' => $pizzaid,
+                'catid' => null,
+                'userid' => $userId,
+                'quantity' => 1,
+                'itemadddate' => Carbon::now('Asia/Kolkata'),
+            ]);
+        }
+        return back()->with('success', 'Item added to cart successfully!');
+    }
+
+    public function addToCart2()
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        } else {
+            return back()->with('error', 'Please log in to add items to cart.');
+        }
+        $catid = request('catid');
+        $cartItem = PizzaCart::where('userid', $userId)->where('pizzaid', 1)->where('catid', $catid)->first();
+
+        if ($cartItem) {
+            return back()->with('error', 'Item already added!');
+        } else {
+            PizzaCart::create([
+                'pizzaid' => 1,
+                'catid' => $catid,
                 'userid' => $userId,
                 'quantity' => 1,
                 'itemadddate' => Carbon::now('Asia/Kolkata'),
@@ -158,14 +184,30 @@ class CartController extends Controller
                 if ($order) {
                     $cartItems = PizzaCart::where('userid', $userId)->get();
                     foreach ($cartItems as $item) {
-                        $pizza = PizzaItems::find($item->pizzaid);
-                        $discount = $pizza->discount;
-                        OrderItem::create([
-                            'orderid' => $orderId,
-                            'pizzaid' => $item->pizzaid,
-                            'quantity' => $item->quantity,
-                            'discount' => $discount,
-                        ]);
+                        if ($item->catid) {
+                            $cats = Categories::find($item->catid);
+                            $pizzas = PizzaItems::where('catid', $item->catid)->get();
+                            $discount = $cats->discount;
+                            foreach ($pizzas as $pizza) {
+                                OrderItem::create([
+                                    'orderid' => $orderId,
+                                    'pizzaid' => $pizza->pizzaid,
+                                    'catid' => $item->catid,
+                                    'quantity' => $item->quantity,
+                                    'discount' => $discount,
+                                ]);
+                            }
+                        } else {
+                            $pizza = PizzaItems::find($item->pizzaid);
+                            $discount = $pizza->discount;
+                            OrderItem::create([
+                                'orderid' => $orderId,
+                                'pizzaid' => $item->pizzaid,
+                                'catid' => $item->catid,
+                                'quantity' => $item->quantity,
+                                'discount' => $discount,
+                            ]);
+                        }
                     }
                     PizzaCart::where('userid', $userId)->delete();
                     return back()->with('success', 'Order placed successfully!');

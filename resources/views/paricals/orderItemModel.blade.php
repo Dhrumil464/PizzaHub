@@ -43,35 +43,76 @@
                                                 $discountedPrice =
                                                     $itemTotalPrice - ($itemTotalPrice * $orderItem->discount) / 100;
                                             @endphp
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="p-2">
-                                                        <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}"
-                                                            alt="" width="70"
-                                                            class="img-fluid rounded shadow-sm">
-                                                        <div class="ml-3 d-inline-block align-middle">
-                                                            <h5 class="mb-0">
-                                                                <a
-                                                                    href="#"class="text-dark d-inline-block align-middle">{{ $pizzaItem->pizzaname }}</a>
-                                                            </h5>
-                                                            @if ($orderItem->discount > 0)
-                                                                <h6 style="color: #ff0000">
-                                                                    <del>Rs.{{ number_format($itemTotalPrice, 2) }}/-</del>
-                                                                    <span class="ml-2"
-                                                                        style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
-                                                                </h6>
-                                                            @else
-                                                                <h6 style="color: green">
-                                                                    Rs.{{ number_format($itemTotalPrice, 2) }}/-
-                                                                </h6>
-                                                            @endif
+                                            @if ($orderItem->catid)
+                                                @php
+                                                    $cat = App\Models\Categories::find($orderItem->catid);
+                                                    $itemTotalPrice = $cat->comboprice * $itemQuantity;
+                                                    $discountedPrice =
+                                                        $itemTotalPrice -
+                                                        ($itemTotalPrice * $orderItem->discount) / 100;
+                                                @endphp
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="p-2">
+                                                            <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}"
+                                                                alt="" width="70"
+                                                                class="img-fluid rounded shadow-sm">
+                                                            <div class="ml-3 d-inline-block align-middle">
+                                                                <h5 class="mb-0">
+                                                                    <a
+                                                                        href="#"class="text-dark d-inline-block align-middle">{{ $pizzaItem->pizzaname }}</a>
+                                                                </h5>
+                                                                @if ($orderItem->discount > 0)
+                                                                    <h6>Combo Price :</h6>
+                                                                    <h6 style="color: #ff0000">
+                                                                        <del>Rs.{{ number_format($itemTotalPrice, 2) }}/-</del>
+                                                                        <span class="ml-2"
+                                                                            style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                                                    </h6>
+                                                                @else
+                                                                    <h6>Combo Price :</h6>
+                                                                    <h6 style="color: green">
+                                                                        Rs.{{ number_format($itemTotalPrice, 2) }}/-
+                                                                    </h6>
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </th>
-                                                <td class="align-middle text-center">
-                                                    <strong>{{ $itemQuantity }}</strong>
-                                                </td>
-                                            </tr>
+                                                    </th>
+                                                    <td class="align-middle text-center">
+                                                        <strong>{{ $itemQuantity }}</strong>
+                                                    </td>
+                                                </tr>
+                                            @else
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="p-2">
+                                                            <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}"
+                                                                alt="" width="70"
+                                                                class="img-fluid rounded shadow-sm">
+                                                            <div class="ml-3 d-inline-block align-middle">
+                                                                <h5 class="mb-0">
+                                                                    <a
+                                                                        href="#"class="text-dark d-inline-block align-middle">{{ $pizzaItem->pizzaname }}</a>
+                                                                </h5>
+                                                                @if ($orderItem->discount > 0)
+                                                                    <h6 style="color: #ff0000">
+                                                                        <del>Rs.{{ number_format($itemTotalPrice, 2) }}/-</del>
+                                                                        <span class="ml-2"
+                                                                            style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
+                                                                    </h6>
+                                                                @else
+                                                                    <h6 style="color: green">
+                                                                        Rs.{{ number_format($itemTotalPrice, 2) }}/-
+                                                                    </h6>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <td class="align-middle text-center">
+                                                        <strong>{{ $itemQuantity }}</strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

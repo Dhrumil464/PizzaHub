@@ -45,6 +45,8 @@ class CategoryController extends Controller
             $iscombo = 0;
         } else {
             $iscombo = $request->iscombo;
+            $comboprice = $request->comboprice;
+            $discount = $request->discount;
         }
 
         $category = Categories::create([
@@ -53,6 +55,8 @@ class CategoryController extends Controller
             'catdesc' => $request->catdesc,
             'cattype' => $request->cattype,
             'iscombo' => $iscombo,
+            'comboprice' => $comboprice ?? null,
+            'discount' => $discount ?? null,
             'catcreatedate' => Carbon::now('Asia/Kolkata'),
             'catupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);
@@ -121,7 +125,7 @@ class CategoryController extends Controller
         $categories = collect();
 
         if ($categoryId == 0) {
-            $categories = Categories::get(); // Show all categories
+            $categories = Categories::orderBy('iscombo', 'asc')->get(); // Show all categories
         } elseif ($categoryId == 3) {
             $categories = Categories::where('iscombo', 1)->get();
         } else {

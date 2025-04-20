@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id('orderitemid');
             $table->string('orderid', 10);
             $table->foreignId('pizzaid');
+            $table->foreignId('catid');
             $table->tinyInteger('quantity');
             $table->decimal('discount', 8, 2)->default(0);
 

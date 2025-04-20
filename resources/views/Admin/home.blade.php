@@ -46,30 +46,36 @@
         margin-bottom: 20px;
     }
 </style>
+@php
+    $cats = App\Models\Categories::all()->count() ?? 0;
+    $items = App\Models\PizzaItems::all()->count() ?? 0;
+    $orders = App\Models\Order::all()->count() ?? 0;
+    $users = App\Models\UsersAdmin::all()->count() ?? 0;
+@endphp
 <h1 style="margin-top:98px">Welcome back, <b>{{ session('adminusername') }}</b></h1>
 <div class="row mt-4">
     <div class="col-md-3">
         <div class="dashboard-box">
-            <h4>Orders</h4>
-            <p class="counter" data-target="1200">0</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="dashboard-box">
             <h4>Categories</h4>
-            <p class="counter" data-target="10">0</p>
+            <p class="counter" data-target="{{ $cats }}">0</p>
         </div>
     </div>
     <div class="col-md-3">
         <div class="dashboard-box">
             <h4>Menu Items</h4>
-            <p class="counter" data-target="50">0</p>
+            <p class="counter" data-target="{{ $items }}">0</p>
         </div>
     </div>
     <div class="col-md-3">
         <div class="dashboard-box">
-            <h4>Users</h4>
-            <p class="counter" data-target="500">0</p>
+            <h4>Orders</h4>
+            <p class="counter" data-target="{{ $orders }}">0</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-box">
+            <h4>Customers</h4>
+            <p class="counter" data-target="{{ $users }}">0</p>
         </div>
     </div>
 </div>
