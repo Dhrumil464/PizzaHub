@@ -42,6 +42,9 @@
     <title>Home</title>
     <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
+        body{
+            overflow-x: hidden;
+        }
         .card {
             width: 100%;
         }
@@ -192,7 +195,7 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pizzaCat" id="option4" value="3"
                             onchange="handleRadioChange(this)">
-                        <label class="form-check-label" for="option4" @style('font-size: 20px;')>Comobos</label>
+                        <label class="form-check-label" for="option4" @style('font-size: 20px;')>Combos</label>
                     </div>
                 </form>
             </div>

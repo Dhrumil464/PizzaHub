@@ -30,7 +30,8 @@
         }
 
         .col-md-4 img {
-            /* mix-blend-mode: multiply; */
+            mix-blend-mode: multiply;
+            object-fit: contain;
         }
     </style>
 </head>

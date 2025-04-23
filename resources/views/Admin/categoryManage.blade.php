@@ -108,7 +108,7 @@
                                                     <tr>
                                                         <td class="text-center"><b>{{ $cat->catid }}</b></td>
                                                         <td><img src="/catimages/{{ $cat->catimage }}"
-                                                                alt="image for this Category" width="120px" height="120px">
+                                                                alt="image for this Category" width="120px" height="120px" style="object-fit: contain;">
                                                             <div class="text-right mt-2">
                                                                 @if ($cat->cattype == 1)
                                                                     <img src="/img/veg-mark.jpg" height="25px">

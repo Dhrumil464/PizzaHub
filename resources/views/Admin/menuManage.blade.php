@@ -110,7 +110,7 @@
                                                         <td class="text-center"><b>{{ $catname }}</b></td>
                                                         <td class="text-center">
                                                             <img src="/pizzaimages/{{ $item->pizzaimage }}"
-                                                                alt="image for this item" width="120px" height="120px">
+                                                                alt="image for this item" width="120px" height="120px" style="object-fit: contain;">
                                                             <div class="text-right mt-2">
                                                                 @if ($cattype == 1)
                                                                     <img src="/img/veg-mark.jpg" alt="Veg" height="25px">
