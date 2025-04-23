@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $request->validate([
             'catname' => 'required|string|unique:categories,catname|max:50',
             'catimage' => 'required|image|mimes:jpeg,png,jpg|max:10000',
-            'catdesc' => 'nullable|string|max:60',
+            'catdesc' => 'nullable|string|max:200',
             'cattype' => 'required|integer|max:2',
         ], [
             'catname.required' => 'The name field is required.',
@@ -32,7 +32,7 @@ class CategoryController extends Controller
             'catimage.mimes' => 'The image must be type of jpeg, jpg or png.',
             'catimage.max' => 'The image size less then 10000.',
             'catdesc.string' => 'The description must be a string.',
-            'catdesc.max' => 'The description must be less than 60 characters.',
+            'catdesc.max' => 'The description must be less than 200 characters.',
             'cattype.required' => 'The type field is required.',
             'cattype.integer' => 'The type must be a integer.',
         ]);
