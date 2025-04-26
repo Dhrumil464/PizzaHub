@@ -1,3 +1,13 @@
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#signupModal').modal('show');
+        });
+    </script>
+@endif
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <!-- Sign up Modal -->
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -13,8 +23,8 @@
                     @csrf
                     <div class="form-group">
                         <b><label for="username">Username</label></b>
-                        <input class="form-control" id="username" name="username"
-                            placeholder="Username" type="text" value="{{ old('username') }}">
+                        <input class="form-control" id="username" name="username" placeholder="Username" type="text"
+                            value="{{ old('username') }}">
                         @error('username')
                             <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
                         @enderror

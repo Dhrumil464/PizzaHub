@@ -236,8 +236,6 @@
                                             <span
                                                 style="color: green;">Rs.{{ number_format($discountedPrice, 2) }}/-</span>
                                         </h6>
-                                    @else
-                                        <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
                                     @endif
                                     <p class="card-text">{{ substr($cat->catdesc, 0, 30) }}...</p>
                                     <div class="row justify-content-center">

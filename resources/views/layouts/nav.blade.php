@@ -70,7 +70,7 @@
                         d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                 </svg>
                 @php
-                    $cartCounts = App\Models\PizzaCart::where('userid', session('userId'))->count();
+                    $cartCounts = $userloggedin ? App\Models\PizzaCart::where('userid', session('userId'))->count() : 0;
                 @endphp
                 <i class="bi bi-cart">Cart({{ $cartCounts }})</i>
             </button>
@@ -122,8 +122,14 @@
 </div>
 
 <script>
-    // Automatically close alerts after 3 seconds (3000ms)
+    // Automatically close alerts after 2 seconds (2000ms)
     setTimeout(function() {
         $(".alertmsg").fadeOut("slow");
     }, 2000);
 </script>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
