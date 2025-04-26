@@ -203,7 +203,7 @@ class CartController extends Controller
                             OrderItem::create([
                                 'orderid' => $orderId,
                                 'pizzaid' => $item->pizzaid,
-                                'catid' => $item->catid,
+                                'catid' => 0,
                                 'quantity' => $item->quantity,
                                 'discount' => $discount,
                             ]);
