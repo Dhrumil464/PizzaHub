@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('orderid', 10)->default('0');
             $table->string('email', 30);
             $table->bigInteger('phoneno');
-            $table->string('message', 100);
+            $table->string('message', 200);
             $table->timestamp('contactdate')->useCurrent();
         });
     }

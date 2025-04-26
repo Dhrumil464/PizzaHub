@@ -45,12 +45,10 @@ class AdminController extends Controller
         }
     }
 
-
     public function dashboardIndex()  // redirection comes here
     {
         return view('admin.index');
     }
-
 
     public function adminDashboard()
     {
@@ -69,10 +67,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
     }
-
-
-
-    // others
 
     public function manageOrders()
     {

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('userid'); // assuming FK to users table
             $table->string('fullname', 30);
             $table->string('email', 30);
-            $table->string('address', 50);
+            $table->string('address', 100);
             $table->string('zip', 10);
             $table->string('phoneno', 15);
             $table->decimal('totalfinalprice', 10, 2);

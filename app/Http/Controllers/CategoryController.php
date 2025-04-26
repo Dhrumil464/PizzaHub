@@ -55,8 +55,8 @@ class CategoryController extends Controller
             'catdesc' => $request->catdesc,
             'cattype' => $request->cattype,
             'iscombo' => $iscombo,
-            'comboprice' => $comboprice ?? null,
-            'discount' => $discount ?? null,
+            'comboprice' => $comboprice ?? 0,
+            'discount' => $discount ?? 0,
             'catcreatedate' => Carbon::now('Asia/Kolkata'),
             'catupdatedate' => Carbon::now('Asia/Kolkata'),
         ]);
@@ -90,14 +90,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'catnamee' => 'required|string|max:50',
-            'catdesce' => 'nullable|string|max:60',
+            'catdesce' => 'nullable|string|max:200',
         ], [
             'catname.required' => 'The name field is required.',
             'catname.string' => 'The name must be a string.',
             'catname.unique' => 'Category already exists.',
             'catname.max' => 'The name must be less than 50 characters.',
             'catdesc.text' => 'The description must be a text.',
-            'catdesc.max' => 'The description must be less than 60 characters.',
+            'catdesc.max' => 'The description must be less than 200 characters.',
         ]);
 
         $category = Categories::where('catid', $catid)->first();

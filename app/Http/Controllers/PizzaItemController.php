@@ -18,7 +18,7 @@ class PizzaItemController extends Controller
     public function addPizzaItem(Request $request)
     {
         $request->validate([
-            'pizzaname' => 'required|string|unique:pizza_items,pizzaname',
+            'pizzaname' => 'required|string|max:50',
             'pizzaprice' => 'required|numeric',
             'pizzaimage' => 'required|image|mimes:jpeg,png,jpg|max:10000',
             'pizzadesc' => 'nullable|string',
@@ -26,7 +26,7 @@ class PizzaItemController extends Controller
         ], [
             'pizzaname.required' => 'The name field is required.',
             'pizzaname.string' => 'The name must be a string.',
-            'pizzaname.unique' => 'Item already exists.',
+            'pizzaname.max' => 'The name must be less than 50 characters.',
             'pizzaprice.required' => 'The price field is required.',
             'pizzaprice.numeric' => 'The price must be a number.',
             'pizzaimage.required' => 'The image field is required.',
@@ -77,13 +77,13 @@ class PizzaItemController extends Controller
     public function updatePizzaItem(Request $request, $pizzaid)
     {
         $request->validate([
-            'pizzanamee' => 'required|string',
+            'pizzanamee' => 'required|string|max:50',
             'pizzadesce' => 'nullable|string',
             'pizzapricee' => 'required|numeric'
         ], [
             'pizzanamee.required' => 'The name field is required.',
             'pizzanamee.string' => 'The name must be a string.',
-            'pizzanamee.unique' => 'Item already exists.',
+            'pizzanamee.max' => 'The name must be less than 50 characters.',
             'pizzaprice.required' => 'The price field is required.',
         ]);
 

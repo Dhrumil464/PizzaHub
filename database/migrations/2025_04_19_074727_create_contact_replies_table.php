@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('replyId');
             $table->foreignId('contactId')->constrained('contacts', 'contactId');
             $table->foreignId('userid')->constrained('users_admins', 'userid')->onDelete('cascade');
-            $table->string('message', 100);
+            $table->string('message', 200);
             $table->timestamp('contactdate')->useCurrent();
         });
     }

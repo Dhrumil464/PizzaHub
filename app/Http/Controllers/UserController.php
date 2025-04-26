@@ -73,7 +73,7 @@ class UserController extends Controller
             'username' => 'required|string|unique:users_admins,username|max:12',
             'firstName' => 'required|string|max:20',
             'lastName' => 'required|string|max:20',
-            'email' => 'required|string|email|unique:users_admins,email|max:50',
+            'email' => 'required|string|email|unique:users_admins,email|max:30',
             'phoneNo' => 'required|numeric|digits:5|unique:users_admins,phoneNo',
             'password' => 'required|string|min:8|max:20',
             'cpassword' => 'required|string|min:8|max:20|same:password',
@@ -95,7 +95,7 @@ class UserController extends Controller
             'email.string' => 'Email must be a valid string.',
             'email.email' => 'Enter a valid email address.',
             'email.unique' => 'This email is already registered.',
-            'email.max' => 'Email cannot exceed 50 characters.',
+            'email.max' => 'Email cannot exceed 30 characters.',
 
             'phoneNo.required' => 'Phone number is required.',
             'phoneNo.numeric' => 'Phone number must contain only numbers.',
@@ -150,7 +150,7 @@ class UserController extends Controller
             'username' => 'required|string|unique:users_admins,username|max:12',
             'firstName' => 'required|string|max:20',
             'lastName' => 'required|string|max:20',
-            'email' => 'required|string|email|unique:users_admins,email|max:50',
+            'email' => 'required|string|email|unique:users_admins,email|max:30',
             'phoneNo' => 'required|numeric|digits:5|unique:users_admins,phoneNo',
             'userType' => 'required',
             'password' => 'required|string|min:8|max:20',
@@ -173,7 +173,7 @@ class UserController extends Controller
             'email.string' => 'Email must be a valid string.',
             'email.email' => 'Enter a valid email address.',
             'email.unique' => 'This email is already registered.',
-            'email.max' => 'Email cannot exceed 50 characters.',
+            'email.max' => 'Email cannot exceed 30 characters.',
 
             'phoneNo.required' => 'PhoneNo is required.',
             'phoneNo.numeric' => 'Phone number must contain only numbers.',
@@ -222,7 +222,7 @@ class UserController extends Controller
             'editusername' => 'string|max:12',
             'editfirstName' => 'required|string|max:20',
             'editlastName' => 'required|string|max:20',
-            'editemail' => 'string|email|max:50',
+            'editemail' => 'string|email|max:30',
             'editphoneNo' => 'required|numeric|digits:5',
         ], [
             'editusername.string' => 'Username must be a valid string.',
@@ -238,7 +238,7 @@ class UserController extends Controller
 
             'editemail.string' => 'Email must be a valid string.',
             'editemail.email' => 'Enter a valid email address.',
-            'editemail.max' => 'Email cannot exceed 50 characters.',
+            'editemail.max' => 'Email cannot exceed 30 characters.',
 
             'editphoneNo.required' => 'PhoneNo is required.',
             'editphoneNo.numeric' => 'Phone number must contain only numbers.',
@@ -294,7 +294,7 @@ class UserController extends Controller
             'username' => 'string|max:12',
             'firstName' => 'required|string|max:20',
             'lastName' => 'required|string|max:20',
-            'email' => 'string|email|max:50',
+            'email' => 'string|email|max:30',
             'phoneNo' => 'required|numeric|digits:5',
         ], [
             'username.string' => 'Username must be a valid string.',
@@ -310,7 +310,7 @@ class UserController extends Controller
 
             'email.string' => 'Email must be a valid string.',
             'email.email' => 'Enter a valid email address.',
-            'email.max' => 'Email cannot exceed 50 characters.',
+            'email.max' => 'Email cannot exceed 30 characters.',
 
             'phoneNo.required' => 'PhoneNo is required.',
             'phoneNo.numeric' => 'Phone number must contain only numbers.',
