@@ -26,12 +26,16 @@
     <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
     <style>
         #cont {
-            min-height: 578px;
+            min-height: 508px;
         }
 
         .col-md-4 img {
             mix-blend-mode: multiply;
             object-fit: contain;
+        }
+
+        .jumbotron{
+            /* padding: 4rem 4rem; */
         }
     </style>
 </head>
@@ -51,7 +55,7 @@
                     document.getElementById("title").innerHTML += " | {{ $pizzaItem->pizzaname }}"
                 </script>
                 <div class="col-md-4">
-                    <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}" width="249px" height="262px">
+                    <img src="/pizzaimages/{{ $pizzaItem->pizzaimage }}" width="250px" height="250px">
                 </div>
                 <div class="col-md-8 my-4">
                     <h3>{{ $pizzaItem->pizzaname }}</h3>
@@ -68,28 +72,15 @@
                             <form action="{{ route('cart.add', ['pizzaid' => $pizzaItem->pizzaid]) }}" method="POST">
                                 @csrf
                                 <button type="submit" name="addToCart" class="btn btn-primary my-2">Add to Cart</button>
-                            @else
-                                <a href="{{ route('user.showCart') }}"><button class="btn btn-primary my-2">Go to
-                                        Cart</button></a>
+                            </form>
+                        @else
+                            <a href="{{ route('user.showCart') }}"><button class="btn btn-primary my-2">Go to
+                                    Cart</button></a>
                         @endif
                     @else
                         <button class="btn btn-primary my-2" data-toggle="modal" data-target="#loginModal">Add to
                             Cart</button>
                     @endif
-                    </form>
-                    <h6 class="my-1"> View </h6>
-                    <div class="mx-4">
-                        <a href="{{ route('user.viewPizzaList', ['catid' => $catid]) }}" class="active text-dark">
-                            <i class="fas fa-qrcode"></i>
-                            <span>All Pizza</span>
-                        </a>
-                    </div>
-                    <div class="mx-4">
-                        <a href="{{ route('user.index') }}" class="active text-dark">
-                            <i class="fas fa-qrcode"></i>
-                            <span>All Category</span>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

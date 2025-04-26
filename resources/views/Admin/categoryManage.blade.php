@@ -4,93 +4,18 @@
     @extends('admin.layouts.nav')
     @section('content')
         <div class="container-fluid" style="margin-top: 98px" id="cside">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary float-right btn-md mr-4" data-toggle="modal" data-target="#addCat"><i
+                            class="fa fa-plus"></i> Add New category</button>
+                </div>
+            </div>
+            <br>
             <div class="col-lg-12">
-                <div class="row">
-                    <!-- FORM Panel -->
-                    <div class="col-md-4">
-                        <form action="{{ route('category.addCategory') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="card" style="border-radius: 15px;">
-                                <div class="card-header text-light"
-                                    style="background: #4b5366;border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                                    Add New Category
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label class="control-label">Category Name: </label>
-                                        <input type="text" class="form-control" name="catname"
-                                            value="{{ old('catname') }}">
-                                        @error('catname')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Description: </label>
-                                        <textarea type="text" class="form-control" name="catdesc">{{ old('catdesc') }}</textarea>
-                                        @error('catdesc')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Type: </label>
-                                        <select name="cattype" id="" class="form-control">
-                                            <option value="">Select Type</option>
-                                            @if (old('cattype') == 1)
-                                                <option value="1" selected>Veg Pizza</option>
-                                            @else
-                                                <option value="1">Veg Pizza</option>
-                                            @endif
-                                            @if (old('cattype') == 2)
-                                                <option value="2" selected>Non-Veg Pizza</option>
-                                            @else
-                                                <option value="2">Non-Veg Pizza</option>
-                                            @endif
-                                        </select>
-                                        @error('cattype')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="image" class="control-label">Image: </label>
-                                        <input type="file" name="catimage" id="image" class="form-control">
-                                        @error('catimage')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class=" form-control">
-                                        <input type="checkbox" name="iscombo" id="iscombo" value="1">
-                                        <label for="iscombo" class="control-label">Check if category is combo!</label>
-                                    </div>
-                                    <div id="combo-fields" style="display: none;" class="mt-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Price: </label>
-                                            <input type="number" class="form-control" name="comboprice"
-                                                value="{{ old('comboprice') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Discount: </label>
-                                            <input type="number" class="form-control" name="discount"
-                                                value="{{ old('discount') }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-md btn-primary">
-                                                Add Category
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- FORM Panel -->
-
+                <div class="row d-flex justify-content-center">
                     <!-- Table Panel -->
                     @if (count($categories) > 0)
-                        <div class="col-md-8 mb-3" id="side">
+                        <div class="col-md-12 mb-3" id="side">
                             <div class="card" style="border-radius: 12px;">
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -98,9 +23,10 @@
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th class="text-center" style="width:7%;">Cat.Id</th>
-                                                    <th class="text-center">Img</th>
-                                                    <th class="text-center" style="width:58%;">Category Detail</th>
-                                                    <th class="text-center" style="width:18%;">Action</th>
+                                                    <th class="text-center" style="width:10%;">Img</th>
+                                                    <th class="text-center" style="width:60%;">Category Detail</th>
+                                                    <th class="text-center" style="width:5%;">Type</th>
+                                                    <th class="text-center" style="width:13%;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -108,14 +34,8 @@
                                                     <tr>
                                                         <td class="text-center"><b>{{ $cat->catid }}</b></td>
                                                         <td><img src="/catimages/{{ $cat->catimage }}"
-                                                                alt="image for this Category" width="120px" height="120px" style="object-fit: contain;">
-                                                            <div class="text-right mt-2">
-                                                                @if ($cat->cattype == 1)
-                                                                    <img src="/img/veg-mark.jpg" height="25px">
-                                                                @else
-                                                                    <img src="/img/non-veg-mark.jpg" height="25px">
-                                                                @endif
-                                                            </div>
+                                                                alt="image for this Category" width="120px" height="120px"
+                                                                style="object-fit: contain;">
                                                         </td>
                                                         <td>
                                                             <p>Name : <b>{{ $cat->catname }}</b></p>
@@ -137,6 +57,15 @@
                                                                     </p>
                                                                 @endif
                                                             @endif
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center mt-2">
+                                                                @if ($cat->cattype == 1)
+                                                                    <img src="/img/veg-mark.jpg" height="25px">
+                                                                @else
+                                                                    <img src="/img/non-veg-mark.jpg" height="25px">
+                                                                @endif
+                                                            </div>
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="row mx-auto" style="width: 90px;">
@@ -180,8 +109,7 @@
         <!-- Modal -->
         @foreach ($categories as $cat)
             <div class="modal fade" id="updateCat{{ $cat->catid }}" tabindex="-1" role="dialog"
-                aria-labelledby="updateCat{{ $cat->catid }}" aria-hidden="true"
-                style="width: -webkit-fill-available;">
+                aria-labelledby="updateCat{{ $cat->catid }}" aria-hidden="true" style="width: -webkit-fill-available;">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-light" style="background-color: #4b5366;">
@@ -241,6 +169,86 @@
                 </div>
             </div>
         @endforeach
+
+        {{-- Add category Modal --}}
+        <div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-labelledby="addCat"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-light" style="background-color: #4b5366;">
+                        <h5 class="modal-title" id="addCat">Add New Category</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('category.addCategory') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label class="control-label">Category Name: </label>
+                                <input type="text" class="form-control" name="catname" value="{{ old('catname') }}">
+                                @error('catname')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Description: </label>
+                                <textarea type="text" class="form-control" name="catdesc">{{ old('catdesc') }}</textarea>
+                                @error('catdesc')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Type: </label>
+                                <select name="cattype" id="" class="form-control">
+                                    <option value="">Select Type</option>
+                                    @if (old('cattype') == 1)
+                                        <option value="1" selected>Veg Pizza</option>
+                                    @else
+                                        <option value="1">Veg Pizza</option>
+                                    @endif
+                                    @if (old('cattype') == 2)
+                                        <option value="2" selected>Non-Veg Pizza</option>
+                                    @else
+                                        <option value="2">Non-Veg Pizza</option>
+                                    @endif
+                                </select>
+                                @error('cattype')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="image" class="control-label">Image: </label>
+                                <input type="file" name="catimage" id="image" class="form-control">
+                                @error('catimage')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-control mb-3">
+                                <input type="checkbox" name="iscombo" id="iscombo" value="1">
+                                <label for="iscombo" class="control-label">Check if category is combo!</label>
+                            </div>
+                            <div id="combo-fields" style="display: none;" class="mt-3">
+                                <div class="form-group">
+                                    <label class="control-label">Price: </label>
+                                    <input type="number" class="form-control" name="comboprice"
+                                        value="{{ old('comboprice') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Discount: </label>
+                                    <input type="number" class="form-control" name="discount"
+                                        value="{{ old('discount') }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-md btn-primary">
+                                Add Category
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
         <style>
             .table-responsive::-webkit-scrollbar {

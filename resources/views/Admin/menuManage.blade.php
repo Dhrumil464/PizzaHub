@@ -4,96 +4,29 @@
     @extends('admin.layouts.nav')
     @section('content')
         <div class="container-fluid" style="margin-top:98px" id="cside">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary float-right btn-md mr-4" data-toggle="modal" data-target="#addItem"><i
+                            class="fa fa-plus"></i> Add New item</button>
+                </div>
+            </div>
+            <br>
             <div class="col-lg-12">
                 <div class="row">
-                    <!-- FORM Panel -->
-                    <div class="col-md-4">
-                        <form action="{{ route('pizzaitem.addPizzaItem') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="card" style="border-radius: 12px;">
-                                <div class="card-header text-light"
-                                    style="background: #4b5366;border-top-right-radius: 12px; border-top-left-radius: 10px;">
-                                    Add New Item
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label class="control-label">Pizza Name: </label>
-                                        <input type="text" class="form-control" name="pizzaname"
-                                            value="{{ old('pizzaname') }}">
-                                        @error('pizzaname')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Category: </label>
-                                        <select name="catid" id="categoryId" class="custom-select browser-default">
-                                            <option hidden disabled selected value>None</option>
-                                            @foreach (App\Models\Categories::all() as $category)
-                                                <option value="{{ $category->catid }}">{{ $category->catname }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('catid')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Price: </label>
-                                        <input type="number" class="form-control" name="pizzaprice"
-                                            value="{{ old('pizzaprice') }}">
-                                        @error('pizzaprice')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Discount (%): </label>
-                                        <input class="form-control" id="discount" name="discount"
-                                            value="{{ old('discount') }}" type="number">
-                                        @error('discount')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Description: </label>
-                                        <textarea cols="30" rows="3" class="form-control" name="pizzadesc">{{ old('pizzadesc') }}</textarea>
-                                        @error('pizzadesc')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="image" class="control-label">Image: </label>
-                                        <input type="file" name="pizzaimage" id="image" class="form-control">
-                                        @error('pizzaimage')
-                                            <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-md btn-primary">
-                                                Add Item
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- FORM Panel -->
-
                     <!-- Table Panel -->
                     @if (count($pizzaitems) > 0)
-                        <div class="col-md-8 mb-3" id="side">
+                        <div class="col-md-12 mb-3" id="side">
                             <div class="card" style="border-radius: 12px;">
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered mb-0">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th class="text-center" style="width:7%;">CatName</th>
-                                                    <th class="text-center">Img</th>
-                                                    <th class="text-center" style="width:58%;">Item Detail</th>
-                                                    <th class="text-center" style="width:18%;">Action</th>
+                                                    <th class="text-center" style="width:7%;">Cat.Name</th>
+                                                    <th class="text-center" style="width:10%;">Img</th>
+                                                    <th class="text-center" style="width:60%;">Item Detail</th>
+                                                    <th class="text-center" style="width:5%;">Type</th>
+                                                    <th class="text-center" style="width:13%;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -110,14 +43,8 @@
                                                         <td class="text-center"><b>{{ $catname }}</b></td>
                                                         <td class="text-center">
                                                             <img src="/pizzaimages/{{ $item->pizzaimage }}"
-                                                                alt="image for this item" width="120px" height="120px" style="object-fit: contain;">
-                                                            <div class="text-right mt-2">
-                                                                @if ($cattype == 1)
-                                                                    <img src="/img/veg-mark.jpg" alt="Veg" height="25px">
-                                                                @else
-                                                                    <img src="/img/non-veg-mark.jpg" alt="Non-Veg" height="25px">
-                                                                @endif
-                                                            </div>
+                                                                alt="image for this item" width="120px" height="120px"
+                                                                style="object-fit: contain;">
                                                         </td>
                                                         <td>
                                                             <p>PizzaName : <b>{{ $item->pizzaname }}</b></p>
@@ -134,6 +61,15 @@
                                                                     <b>Rs.{{ $item->pizzaprice }}/-</b>
                                                                 </p>
                                                             @endif
+                                                        </td>
+                                                        <td>
+                                                            <div class="text-center mt-2">
+                                                                @if ($cattype == 1)
+                                                                    <img src="/img/veg-mark.jpg" height="25px">
+                                                                @else
+                                                                    <img src="/img/non-veg-mark.jpg" height="25px">
+                                                                @endif
+                                                            </div>
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="row mx-auto" style="width: 90px;">
@@ -257,6 +193,80 @@
                 </div>
             </div>
         @endforeach
+
+        {{-- Add category Modal --}}
+        <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="addItem"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-light" style="background-color: #4b5366;">
+                        <h5 class="modal-title" id="addItem">Add New Item</h5>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('pizzaitem.addPizzaItem') }}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label class="control-label">Pizza Name: </label>
+                                <input type="text" class="form-control" name="pizzaname"
+                                    value="{{ old('pizzaname') }}">
+                                @error('pizzaname')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Category: </label>
+                                <select name="catid" id="categoryId" class="custom-select browser-default">
+                                    <option hidden disabled selected value>None</option>
+                                    @foreach (App\Models\Categories::orderBy('iscombo', 'asc')->get() as $category)
+                                        <option value="{{ $category->catid }}">{{ $category->catname }}</option>
+                                    @endforeach
+                                </select>
+                                @error('catid')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Price: </label>
+                                <input type="number" class="form-control" name="pizzaprice"
+                                    value="{{ old('pizzaprice') }}">
+                                @error('pizzaprice')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Discount (%): </label>
+                                <input class="form-control" id="discount" name="discount"
+                                    value="{{ old('discount') }}" type="number">
+                                @error('discount')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Description: </label>
+                                <textarea cols="30" rows="3" class="form-control" name="pizzadesc">{{ old('pizzadesc') }}</textarea>
+                                @error('pizzadesc')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="image" class="control-label">Image: </label>
+                                <input type="file" name="pizzaimage" id="image" class="form-control">
+                                @error('pizzaimage')
+                                    <span class="alert alert-danger px-3 py-0 rounded-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-md btn-primary">
+                                Add Item
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <style>
             .table-responsive::-webkit-scrollbar {

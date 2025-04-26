@@ -36,7 +36,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     @php
-                        $categories = App\Models\Categories::get();
+                        $categories = App\Models\Categories::orderBy('iscombo', 'asc')->get();
                     @endphp
                     @foreach ($categories as $cat)
                         <a class="dropdown-item"

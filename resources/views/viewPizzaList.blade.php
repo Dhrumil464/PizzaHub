@@ -61,13 +61,6 @@
     @extends('layouts.nav')
 
     @section('content')
-        <div>&nbsp;
-            <a href="{{ route('user.index') }}" class="active text-dark">
-                <i class="fas fa-qrcode"></i>
-                <span>All Category</span>
-            </a>
-        </div>
-
         @php
             $catid = request('catid');
             $category = App\Models\Categories::where('catid', $catid)->first();
@@ -166,7 +159,7 @@
                 @endif
             </div>
         @else
-            <div class="container mt-5" style="padding-bottom: 259px">
+            <div class="container mt-5" style="padding-bottom: 283px">
                 <div class="row d-flex justify-content-center">
                     <div class="jumbotron jumbotron-fluid">
                         <div class="container">
