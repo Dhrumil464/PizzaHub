@@ -185,18 +185,7 @@
                             <center><img class="rounded-circle mb-3 bg-dark d-flex pimg" src="img/profilePic.jpg"
                                     onError="this.src = 'img/profilePic.jpg'" style="max-width:80%; margin-left: -3px;">
                             </center>
-                            <form action="partials/_manageProfile.php" method="POST" enctype="multipart/form-data"
-                                style="margin-top: 30px;">
-                                <div class="upload-btn-wrapper">
-                                    <medium>Change Image:</medium>
-                                    <button class="btn btn-sm btn-primary">choose</button>
-                                    <input type="file" name="image" id="image" accept="image/*">
-                                </div>
-                                <button type="submit" name="updateProfilePic"
-                                    class="btn btn-sm btn-primary mb-4">Update</button>
-                            </form>
-
-                            <ul class="meta list list-unstyled" style="text-align:center;margin-top: -15px;">
+                            <ul class="meta list list-unstyled" style="text-align:center;margin-top: 30px;">
                                 <li class="username my-2"><a
                                         href="{{ route('user.viewProfile') }}">{{ '@' . $user->username }}</a></li>
                                 <li class="name">{{ $user->firstname }} {{ $user->lastname }}
