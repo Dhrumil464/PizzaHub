@@ -104,6 +104,9 @@ Route::post('/clearCart', [CartController::class, 'clearCart'])->name('cart.clea
 
 Route::post('/cart/updateQuantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
+Route::get('/order-download/{orderid}', [CartController::class, 'orderDownload'])->name('order.download');
+
+
 
 
 /*************************   order routes   ************************/

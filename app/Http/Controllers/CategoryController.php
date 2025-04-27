@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Categories::get();
+        $categories = Categories::paginate(5);
         return view('admin.categoryManage', ['categories' => $categories]);
         // return redirect()->route('admin.dashboard', ['page' => 'categoryManage']);
     }

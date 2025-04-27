@@ -10,6 +10,12 @@
     @endphp
 @endif
 
+@if(session('pdf_url'))
+    <script>
+        window.open('{{ session('pdf_url') }}', '_blank');
+    </script>
+@endif
+
 <!doctype html>
 <html lang="en">
 
@@ -200,12 +206,13 @@
                                     <th>Order Date</th>
                                     <th>Status</th>
                                     <th>Items</th>
+                                    <th>Download Invoice</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if ($orders->isEmpty())
                                     <tr>
-                                        <td colspan="8">
+                                        <td colspan="9">
                                             <div class="alert alert-info my-3">
                                                 <font style="font-size:22px">
                                                     <center>No Orders Found</center>
@@ -234,6 +241,8 @@
                                         <td><a href="" data-toggle="modal"
                                                 data-target="#orderItem{{ $order->orderid }}" class="view"
                                                 title="View Details"><i class="material-icons">&#xE5C8;</i></a></td>
+                                        <td><a href="{{ route('order.download', ['orderid' => $order->orderid]) }}">⬇️</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

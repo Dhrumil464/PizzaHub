@@ -1,5 +1,15 @@
 <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
 
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#addCat').modal('show');
+        });
+    </script>
+@endif
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <body id="body-pd" style="background: #80808045;">
     @extends('admin.layouts.nav')
     @section('content')
@@ -88,6 +98,9 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <div class="mt-3 d-flex justify-content-center">
+                                            {{ $categories->links('pagination::bootstrap-4') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +261,6 @@
                 </div>
             </div>
         </div>
-        
 
         <style>
             .table-responsive::-webkit-scrollbar {

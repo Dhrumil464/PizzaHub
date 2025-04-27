@@ -11,7 +11,7 @@ class PizzaItemController extends Controller
 {
     public function index()
     {
-        $pizzitems = PizzaItems::get();
+        $pizzitems = PizzaItems::paginate(5);
         return view('admin.menuManage', ['pizzaitems' => $pizzitems]);
     }
 

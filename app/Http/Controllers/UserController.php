@@ -23,11 +23,6 @@ class UserController extends Controller
 {
     /********************  User Controller *********************/
 
-    public function search()
-    {
-        return view('search');
-    }
-
     public function about()
     {
         return view('about');
@@ -501,7 +496,7 @@ class UserController extends Controller
     {
         $search = $request->input('search');
         $cats = Categories::where('catname', 'LIKE', "%{$search}%")->orwhere('catdesc', 'LIKE', "%{$search}%")->get();
-        $pizzaItems = PizzaItems::where('pizzaname', 'LIKE', "%{$search}%")->orwhere('pizzadesc', 'LIKE', "%{$search}%")->get();
+        $pizzaItems = PizzaItems::where('pizzaname', 'LIKE', "%{$search}%")->orwhere('pizzadesc', 'LIKE', "%{$search}%")->distinct()->get();
 
         return view('search', ['cats' => $cats, 'pizzaItems' => $pizzaItems]);
     }
