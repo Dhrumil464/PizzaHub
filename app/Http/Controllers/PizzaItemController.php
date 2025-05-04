@@ -9,9 +9,17 @@ use Carbon\Carbon;
 
 class PizzaItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pizzitems = PizzaItems::paginate(5);
+        $sort = $request->input('sort', 'pizzaid'); // default sort column
+        $order = $request->input('order', 'asc');   // default order
+
+        $allowedSorts = ['pizzaid', 'catid'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'pizzaid'; // default sort column
+        }
+
+        $pizzitems = PizzaItems::orderBy($sort, $order)->paginate(5);
         return view('admin.menuManage', ['pizzaitems' => $pizzitems]);
     }
 

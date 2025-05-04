@@ -215,7 +215,7 @@ class CartController extends Controller
                     $pdf = PDF::loadView('order_pdf', compact('orderDetails', 'orderItems'));
                     $pdf->save(public_path('invoices/Order_' . $orderId . '.pdf'));
 
-                    return redirect()->route('user.viewOrder')->with('success', 'Order placed successfully!')->with('pdf_url',asset('invoices/Order_' . $orderId . '.pdf'));
+                    return redirect()->route('user.viewOrder')->with('success', 'Order placed successfully!')->with('pdf_url', asset('invoices/Order_' . $orderId . '.pdf'));
                 } else {
                     return back()->with('error', 'Order Failed Try Again!');
                 }
@@ -248,10 +248,21 @@ class CartController extends Controller
         }
     }
 
-    public function manageOrders()
+    public function manageOrders(Request $request)
     {
-        $orders = Order::orderBy('orderdate')->get();
+        $sort = $request->input('sort', 'orderdate'); // default sort column
+        $order = $request->input('order', 'asc');   // default order
+
+        $allowedSorts = ['userid', 'address', 'paymentmethod', 'orderdate'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'orderdate'; // default sort column
+        }
+
+        $orders = Order::orderBy($sort, $order)->get();
         return view('admin.orderManage', compact('orders'));
+
+        // $orders = Order::orderBy('orderdate')->get();
+        // return view('admin.orderManage', compact('orders'));
     }
 
     public function updateOrderStatus(Request $request, $orderid)

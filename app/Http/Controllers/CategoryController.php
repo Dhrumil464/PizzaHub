@@ -9,9 +9,17 @@ use Carbon\Carbon;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Categories::paginate(5);
+        $sort = $request->input('sort', 'catid'); // default sort column
+        $order = $request->input('order', 'asc');   // default order
+
+        $allowedSorts = ['catid', 'cattype'];
+        if (!in_array($sort, $allowedSorts)) {
+            $sort = 'catid'; // default sort column
+        }
+
+        $categories = Categories::orderBy($sort, $order)->paginate(5);
         return view('admin.categoryManage', ['categories' => $categories]);
         // return redirect()->route('admin.dashboard', ['page' => 'categoryManage']);
     }

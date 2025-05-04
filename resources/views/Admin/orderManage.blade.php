@@ -18,18 +18,49 @@
                         </div>
                     </div>
                 </div>
-
+                @php
+                    $sort = request('sort');
+                    $order = request('order') === 'asc' ? 'desc' : 'asc';
+                @endphp
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover text-center">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Order Id</th>
+                                <th>
+                                    <a href="?sort=orderid&order={{ $sort === 'orderid' ? $order : 'asc' }}">
+                                        Order Id
+                                        @if ($sort === 'orderid')
+                                            {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </a>
+                                </th>
                                 <th>User Id</th>
-                                <th>Address</th>
+                                <th>
+                                    <a href="?sort=address&order={{ $sort === 'address' ? $order : 'asc' }}">
+                                        Address
+                                        @if ($sort === 'address')
+                                            {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </a>
+                                </th>
                                 <th>Phone No</th>
                                 <th>Amount</th>
-                                <th>Payment Mode</th>
-                                <th>Order Date</th>
+                                <th>
+                                    <a href="?sort=paymentmethod&order={{ $sort === 'paymentmethod' ? $order : 'asc' }}">
+                                        Payment Mode
+                                        @if ($sort === 'paymentmethod')
+                                            {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="?sort=orderdate&order={{ $sort === 'orderdate' ? $order : 'asc' }}">
+                                        Order Date
+                                        @if ($sort === 'orderdate')
+                                            {{ request('order') == 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </a>
+                                </th>
                                 <th>Status</th>
                                 <th>Items</th>
                             </tr>
@@ -172,6 +203,11 @@
             cursor: pointer;
         }
 
+        table.table th a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
         table.table td a {
             font-weight: bold;
             color: #566787;
@@ -218,3 +254,4 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+</body>

@@ -28,15 +28,44 @@
                         <div class="col-md-12 mb-3" id="side">
                             <div class="card" style="border-radius: 12px;">
                                 <div class="card-body">
+                                    @php
+                                        $sort = request('sort');
+                                        $order = request('order') === 'asc' ? 'desc' : 'asc';
+                                    @endphp
                                     <div class="table-responsive">
                                         <table class="table table-bordered mb-0">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th class="text-center" style="width:7%;">Cat.Name</th>
+                                                    <th class="text-center" style="width:8%;">
+                                                        <a
+                                                            href="?sort=pizzaid&order={{ $sort === 'pizzaid' ? $order : 'asc' }}">
+                                                            Item Id
+                                                            @if ($sort === 'pizzaid')
+                                                                {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                                            @endif
+                                                        </a>
+                                                    </th>
+                                                    <th class="text-center" style="width:12%;">
+                                                        <a
+                                                            href="?sort=catid&order={{ $sort === 'catid' ? $order : 'asc' }}">
+                                                            Cat.Name
+                                                            @if ($sort === 'catid')
+                                                                {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                                            @endif
+                                                        </a>
+                                                    </th>
                                                     <th class="text-center" style="width:10%;">Img</th>
-                                                    <th class="text-center" style="width:60%;">Item Detail</th>
-                                                    <th class="text-center" style="width:5%;">Type</th>
-                                                    <th class="text-center" style="width:13%;">Action</th>
+                                                    <th class="text-center" style="width:46%;">Item Detail</th>
+                                                    <th class="text-center" style="width:8%;">
+                                                        <a
+                                                            href="?sort=cattype&order={{ $sort === 'cattype' ? $order : 'asc' }}">
+                                                            Type
+                                                            @if ($sort === 'cattype')
+                                                                {{ request('order') === 'asc' ? '↑' : '↓' }}
+                                                            @endif
+                                                        </a>
+                                                    </th>
+                                                    <th class="text-center" style="width:14%;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -50,6 +79,7 @@
                                                         $cattype = $category ? $category->cattype : 'Unknown';
                                                     @endphp
                                                     <tr>
+                                                        <td class="text-center"><b>{{ $item->pizzaid }}</b></td>
                                                         <td class="text-center"><b>{{ $catname }}</b></td>
                                                         <td class="text-center">
                                                             <img src="/pizzaimages/{{ $item->pizzaimage }}"
@@ -75,9 +105,9 @@
                                                         <td>
                                                             <div class="text-center mt-2">
                                                                 @if ($cattype == 1)
-                                                                    <img src="/img/veg-mark.jpg" height="25px">
+                                                                    <img src="/img/veg-mark.jpg" height="35px">
                                                                 @else
-                                                                    <img src="/img/non-veg-mark.jpg" height="25px">
+                                                                    <img src="/img/non-veg-mark.jpg" height="35px">
                                                                 @endif
                                                             </div>
                                                         </td>
@@ -282,6 +312,11 @@
         </div>
 
         <style>
+            table.table th a {
+                color: #ffffff;
+                text-decoration: none;
+            }
+
             .table-responsive::-webkit-scrollbar {
                 display: none;
             }
