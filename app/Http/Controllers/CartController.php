@@ -13,6 +13,9 @@ use App\Models\PizzaItems;
 use App\Models\PizzaCart;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PSpell\Config;
+use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
 
 
 use function PHPUnit\Framework\assertNotEmpty;
@@ -220,11 +223,40 @@ class CartController extends Controller
                     return back()->with('error', 'Order Failed Try Again!');
                 }
             } elseif ($paymentMethod == 2) {
-                return back()->with('success', 'online');
+                \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+                try{
+                $session = StripeSession::create([
+                    'line_items' => [
+                        [
+                            'price_data' =>  [
+                                'currency' => 'inr',
+                                'product_data' => [
+                                    'name' => 'Pizza Order ' . $orderId,
+                                ],
+                                'unit_amount' => $discountedTotalPrice,
+                            ],
+                            'quantity' => 1,
+                        ],
+                    ],
+                    'mode' => 'payment',
+                    'success_url' => 'http://127.0.0.1:8000?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url' => 'http://127.0.0.1:8000?session_id={CHECKOUT_SESSION_ID}',
+                ]);
+                }catch (\Exception $e) {
+                    return redirect()->back()->with('error', 'Stripe error: ' . 'Payment could not be processed.!');
+                }
+                
+                return redirect()->away('$session->url');
+                // return back()->with('success', 'online payment!');
             }
         } else {
             return back()->with('error', 'Password is incorrect!');
         }
+    }
+
+    public function stripeCancel()
+    {
+        return redirect()->back()->with('error', 'Payment was cancelled. Your order has not been placed.');
     }
 
     public function orderDownload($orderid)
@@ -235,6 +267,64 @@ class CartController extends Controller
         return $pdf->download('Order_' . $orderid . '.pdf');
     }
 
+    public function initiateStripePayment(Request $request)
+    {
+        if (session('userloggedin') && session('userloggedin') == true) {
+            $userId = session('userId');
+        }
+
+        $user = UsersAdmin::find($userId);
+        do {
+            $orderId = 'O' . rand(1000, 9999); // 4-digit number
+            $exists = Order::where('orderid', $orderId)->exists();
+        } while ($exists);
+        session(['orderId' => $orderId]);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $totalFinalPrice = session('totalFinalPrice');
+        $amountInCents = $totalFinalPrice * 100; // Stripe uses cents
+
+        try {
+            $checkout_session = StripeSession::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'inr',
+                        'product_data' => [
+                            'name' => 'Pizza Order ' . $orderId,
+                        ],
+                        'unit_amount' => $amountInCents,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('stripe.cancel'),
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Stripe error: ' . $e->getMessage());
+        }
+        return redirect($checkout_session->url);
+    }
+
+    public function stripeSuccess(Request $request)
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+        $sessionId = $request->get('session_id');
+        try {
+            $session = StripeSession::retrieve($sessionId);
+            return redirect()->route('user.orders')->with('success', 'Payment successful! Your order has been placed.');
+        } catch (\Exception $e) {
+            return redirect()->route('user.index')->with('error', 'Stripe session error: ' . $e->getMessage());
+        }
+    }
+
+    public function setPaymentMethod(Request $request)
+    {
+        session(['paymentMethod' => $request->paymentMethod]);
+        return response()->json(['success' => true]);
+    }
 
     public function viewOrders()
     {

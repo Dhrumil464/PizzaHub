@@ -115,6 +115,8 @@ Route::post('/showCheckoutModal', [CartController::class, 'showCheckoutModal'])-
 
 Route::post('/checkout', [CartController::class, 'checkout'])->name('user.checkout'); // checkout
 
+Route::post('set-payment-method', [CartController::class, 'setPaymentMethod'])->name('set.payment.method');
+
 Route::get('/viewOrders', [CartController::class, 'viewOrders'])->name('user.viewOrder');
 
 Route::get('/admin/dashboard/manageOrders', [CartController::class, 'manageOrders'])->name('admin.manageOrders');
@@ -123,3 +125,8 @@ Route::put('/admin/dashboard/updateOrderStatus/{orderid}', [CartController::clas
 
 Route::put('/admin/dashboard/updateDeliveryBoy/{orderid}', [CartController::class, 'updateDeliveryBoy'])->name('admin.updateDeliveryBoy');
 
+Route::post('/initiate-stripe-payment', [CartController::class, 'initiateStripePayment'])->name('stripe.initiate');
+
+Route::get('/stripe/success', [CartController::class, 'stripeSuccess'])->name('stripe.success');
+
+Route::get('/stripe/cancel', [CartController::class, 'stripeCancel'])->name('stripe.cancel');

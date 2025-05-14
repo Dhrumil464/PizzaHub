@@ -33,7 +33,7 @@
                     <h1>My Cart</h1>
                 </div>
             </div>
-            <div class="container" id="cont">
+            <div class="container mb-5" id="cont">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="card wish-list mb-3">
@@ -179,14 +179,14 @@
                                     @csrf
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="paymentMethod"
-                                            id="flexRadioDefault1" value="1" checked>
+                                            id="flexRadioDefault1" value="1" {{ session('paymentMethod') == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="flexRadioDefault1">
                                             Cash On Delivery
                                         </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="paymentMethod"
-                                            id="flexRadioDefault2" value="2">
+                                            id="flexRadioDefault2" value="2" {{ session('paymentMethod') == 2 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="flexRadioDefault2">
                                             Online Payment
                                         </label>
@@ -194,24 +194,6 @@
                                     <button type="submit" id="checkoutBtn" class="btn btn-primary btn-block"
                                         data-toggle="modal" data-target="#checkoutModal">Checkout</button>
                                 </form>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="pt-4">
-                                <a class="dark-grey-text d-flex justify-content-between"
-                                    style="text-decoration: none; color: #050607;" data-toggle="collapse"
-                                    href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Add a discount code (optional)
-                                    <span><i class="fas fa-chevron-down pt-1"></i></span>
-                                </a>
-                                <div class="collapse" id="collapseExample">
-                                    <div class="mt-3">
-                                        <div class="md-form md-outline mb-0">
-                                            <input type="text" id="discount-code"
-                                                class="form-control font-weight-light" placeholder="Enter discount code">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -257,6 +239,27 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+
+            paymentMethodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Send AJAX request to store payment method in session
+                    fetch('{{ route('set.payment.method') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            paymentMethod: this.value
+                        })
+                    });
+                });
+            });
+        });
     </script>
 </body>
 

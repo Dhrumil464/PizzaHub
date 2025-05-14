@@ -68,7 +68,16 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" name="checkout" class="btn btn-primary">Order</button>
+                            @if (session('paymentMethod') == 2)
+                                {{-- <form method="POST" action="{{ route('stripe.initiate') }}"> --}}
+                                <form method="POST" action="{{ route('user.checkout') }}">
+                                    @csrf
+                                    <input type="hidden" name='_token' value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-success">Pay with Card (Stripe)</button>
+                                </form>
+                            @else
+                                <button type="submit" name="checkout" class="btn btn-success">Order</button>
+                            @endif
                         </div>
                     </form>
                 </div>

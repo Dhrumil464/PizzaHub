@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
     .dashboard-box {
@@ -45,6 +46,11 @@
     .row .col-md-3 {
         margin-bottom: 20px;
     }
+
+    .chart-container {
+        margin-top: 20px;
+        height: 300px;
+    }
 </style>
 <link rel = "icon" href ="/img/logo.jpg" type = "image/x-icon">
 
@@ -84,6 +90,17 @@
                     <p class="counter" data-target="{{ $users }}">0</p>
                 </div>
             </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6 chart-container">
+                    <h3 class="text-center mb-4">Data Distribution</h3>
+                    <canvas id="pieChart"></canvas>
+                </div>
+                <div class="col-md-6 chart-container">
+                    <h3 class="text-center mb-4">Daily Orders (Last 7 Days)</h3>
+                    <canvas id="orderLineChart"></canvas>
+                </div>
+            </div>
         </div>
     @endsection
     <script>
@@ -91,7 +108,11 @@
             $('.counter').each(function() {
                 var $this = $(this),
                     countTo = $this.attr('data-target');
-                $({ countNum: $this.text() }).animate({ countNum: countTo }, {
+                $({
+                    countNum: $this.text()
+                }).animate({
+                    countNum: countTo
+                }, {
                     duration: 1000,
                     easing: 'swing',
                     step: function() {
@@ -101,6 +122,190 @@
                         $this.text(this.countNum);
                     }
                 });
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script>
+        // Sample data for daily orders (last 7 days)
+        // In a real app, this would come from your backend
+        const orderData = {
+            dates: ['Apr 19', 'Apr 20', 'Apr 21', 'Apr 22', 'Apr 23', 'Apr 24', 'Apr 25'],
+            counts: [18, 25, 32, 15, 27, 23, 16]
+        };
+
+        // Counter animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.counter');
+
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = Math.ceil(target / 100);
+                let count = 0;
+
+                const updateCount = () => {
+                    if (count < target) {
+                        count += increment;
+                        if (count > target) count = target;
+                        counter.textContent = count;
+                        setTimeout(updateCount, 10);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                updateCount();
+            });
+
+            // Get values for pie chart
+            const values = [];
+            const labels = [];
+
+            document.querySelectorAll('.dashboard-box').forEach(box => {
+                const label = box.querySelector('h4').textContent;
+                const value = parseInt(box.querySelector('.counter').getAttribute('data-target'));
+
+                labels.push(label);
+                values.push(value);
+            });
+
+            // Create pie chart with plugin for displaying labels
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            const pieChart = new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const sum = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / sum) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        },
+                        // Simpler approach using the datalabels plugin concept
+                        datalabels: {
+                            color: '#fff',
+                            formatter: (value, ctx) => {
+                                const sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / sum) * 100);
+                                return value + ' (' + percentage + '%)';
+                            },
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'datalabels',
+                    afterDatasetsDraw: function(chart) {
+                        const ctx = chart.ctx;
+
+                        chart.data.datasets.forEach((dataset, datasetIndex) => {
+                            const meta = chart.getDatasetMeta(datasetIndex);
+                            if (!meta.hidden) {
+                                meta.data.forEach((element, index) => {
+                                    // Get the data value
+                                    const data = dataset.data[index];
+                                    const sum = dataset.data.reduce((a, b) =>
+                                        a + b, 0);
+                                    const percent = Math.round((data / sum) *
+                                        100);
+
+                                    // Don't render small slices
+                                    if (percent < 5) return;
+
+                                    // Get position and size
+                                    const {
+                                        x,
+                                        y
+                                    } = element.getCenterPoint();
+
+                                    // Draw the text
+                                    ctx.fillStyle = '#fff';
+                                    ctx.font = '12px Arial';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    ctx.fillText(`${data} (${percent}%)`, x, y);
+                                });
+                            }
+                        });
+                    }
+                }]
+            });
+
+            // Create line chart for daily orders
+            const ctxLine = document.getElementById('orderLineChart').getContext('2d');
+            const lineChart = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: orderData.dates,
+                    datasets: [{
+                        label: 'Number of Orders',
+                        data: orderData.counts,
+                        fill: false,
+                        borderColor: '#36A2EB',
+                        tension: 0.1,
+                        pointBackgroundColor: '#36A2EB',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Order Count'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Orders: ${context.raw}`;
+                                }
+                            }
+                        }
+                    }
+                }
             });
         });
     </script>
