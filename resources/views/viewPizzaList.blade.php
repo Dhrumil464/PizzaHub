@@ -104,7 +104,7 @@
                                             <h6 style="color: green">Rs.{{ $item->pizzaprice }}/-</h6>
                                         @endif
 
-                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 25) }}...</p>
                                         <div class="row justify-content-center">
                                             @if ($userloggedin)
                                                 @php
@@ -147,10 +147,10 @@
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 bcard">
                                 <div class="card">
                                     <img src="/pizzaimages/{{ $item->pizzaimage }}" class="card-img-top"
-                                        alt="image for this pizza">
+                                        alt="image for this pizza" height="250px">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ substr($item->pizzaname, 0, 15) }}...</h5>
-                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 29) }}...</p>
+                                        <p class="card-text">{{ substr($item->pizzadesc, 0, 25) }}...</p>
                                     </div>
                                 </div>
                             </div>
