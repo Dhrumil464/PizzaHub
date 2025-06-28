@@ -1,3 +1,84 @@
+# 🍕 PizzaHub - Laravel-based Pizza Ordering System
+
+**PizzaHub** is a dynamic web-based pizza ordering application built using **Laravel (MVC)**, **Tailwind CSS**, and **MySQL**. It features a complete pizza delivery solution with modules for customers and administrators. It supports online and cash payment methods including Stripe integration.
+
+## 🔧 Tech Stack
+
+- **Backend**: PHP (Laravel Framework)
+- **Frontend**: Tailwind CSS, Blade Templating Engine
+- **Database**: MySQL
+- **Package Manager**: Composer, NPM
+
+---
+
+## 📁 Project Structure
+
+/app -> Application logic (models, controllers, etc.)
+/bootstrap -> Application bootstrap files
+/config -> Configuration files
+/database -> Database factories, migrations, seeders
+/public -> Publicly accessible files (entry point index.php)
+/resources -> Views, assets, and language files
+/routes -> Web and API route definitions
+/storage -> Compiled views, logs, and other storage
+/tests -> PHPUnit test cases
+/vendor -> Composer dependencies (ignored in version control)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+    - git clone https://github.com/dhrumil0406/pizzahub.git
+    - cd pizzahub
+
+### 2. Install Dependencies
+    - composer install
+    - npm install
+
+### 3. Environment Setup
+    - Copy the .env.example to .env and update credentials:
+        cp .env.example .env
+
+### 4. Generate Application Key
+    - php artisan key:generate
+
+### 5. Migrate and Seed Database
+    - Import the pizzahub.sql file OR use Laravel migrations if available:
+        php artisan migrate --seed
+
+### 6. Build Frontend Assets
+    - npm run dev   # For development
+    - npm run build # For production
+
+### 7. Start the Server
+    - Server running on [http://127.0.0.1:8000]
+    - Read the routes/web.php for routes
+
+
+### Features ###
+
+- User Registration/Login (Customer)
+
+- Admin Dashboard
+
+- Pizza Listings & Cart System
+
+- Order Placement and Invoice Generation
+
+- Payment via Stripe or Cash on Delivery
+
+- Responsive UI with Tailwind CSS
+
+- Secure routes and role-based access
+
+### Data for Login
+- Admin -- admin -> admin1234
+- Users -- example@mail.com  ->  admin1234
+
+
+### Dates of created of files
+
 14/02/2025
 Admin Login Completed
 
